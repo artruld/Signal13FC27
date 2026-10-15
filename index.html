@@ -472,7 +472,20 @@ function localDB(){
       firebase.initializeApp(firebaseConfig);
       await firebase.auth().signInAnonymously();
       S.db = firebase.firestore();
-    }catch(e){ setMsg("เชื่อม Firebase ไม่สำเร็จ ตรวจ config และเปิด Anonymous sign-in ใน Firebase"); return; }
+    }catch(e){
+      const code = (e && (e.code || e.message)) || "unknown";
+      const hint = {
+        "auth/operation-not-allowed":"ยังไม่ได้เปิด Anonymous ใน Authentication → Sign-in method",
+        "auth/admin-restricted-operation":"ยังไม่ได้เปิด Anonymous ใน Authentication → Sign-in method",
+        "auth/unauthorized-domain":"ยังไม่ได้เพิ่มโดเมนนี้ใน Authentication → Settings → Authorized domains: " + location.hostname,
+        "auth/invalid-api-key":"apiKey ใน firebaseConfig ไม่ถูกต้อง",
+        "auth/api-key-not-valid.-please-pass-a-valid-api-key.":"apiKey ใน firebaseConfig ไม่ถูกต้อง",
+        "auth/configuration-not-found":"ยังไม่ได้กด Get started ในหน้า Authentication",
+        "auth/network-request-failed":"เน็ตหลุด ลองรีเฟรชอีกครั้ง"
+      }[code] || "ตรวจ firebaseConfig อีกครั้ง";
+      setMsg("เชื่อม Firebase ไม่สำเร็จ (" + code + ") · " + hint);
+      return;
+    }
   } else {
     S.db = localDB();
     $("mode").hidden = false;
