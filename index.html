@@ -347,6 +347,7 @@ function fillSelect(sel){
 }
 
 function render(){
+  const firstLoad = !S.restored && S.players.length > 0;
   S.players = [...S.players].sort((a,b) => a.name.localeCompare(b.name,"th"));
   const ps = S.players;
   ["pa","pb","ha","hb"].forEach(id => fillSelect($(id)));
@@ -374,6 +375,7 @@ function render(){
     : '<tr><td colspan="10" class="note" style="padding:24px">ตารางจะขึ้นเมื่อมีผู้เล่นและผลแมตช์</td></tr>';
 
   renderH2H(); renderHist(); updateSave();
+  if (firstLoad){ S.restored = true; restorePending(); }
 }
 
 function renderH2H(){
@@ -420,7 +422,7 @@ function updateSave(){
 function setMsg(t){ $("msg").textContent = t; }
 
 document.querySelectorAll(".step").forEach(btn => btn.addEventListener("click", () => {
-  const k = "g" + btn.dataset.s; S[k] = Math.max(0, Math.min(99, S[k] + Number(btn.dataset.d))); $(k).textContent = S[k];
+  const k = "g" + btn.dataset.s; S[k] = Math.max(0, Math.min(99, S[k] + Number(btn.dataset.d))); $(k).textContent = S[k]; savePending();
 }));
 ["pa","pb"].forEach(id => $(id).addEventListener("change", () => { if (S["t"+id[1]]) resetSide(id[1]); updateSave(); setMsg($("pa").value && $("pa").value === $("pb").value ? "เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน" : ""); }));
 ["ha","hb"].forEach(id => $(id).addEventListener("change", renderH2H));
@@ -459,6 +461,29 @@ function showTeam(side, t, rolling){
   box.querySelector("b").textContent = t.n; box.querySelector("span").textContent = rolling ? "กำลังสุ่ม..." : t.l + " · ระดับ " + t.r;
   box.classList.toggle("rolling", !!rolling); box.classList.toggle("done", !rolling);
 }
+const PKEY = "signal13-pending";
+function savePending(){
+  try{
+    if (!S.ta && !S.tb) { localStorage.removeItem(PKEY); return; }
+    localStorage.setItem(PKEY, JSON.stringify({pa:$("pa").value, pb:$("pb").value, ta:S.ta, tb:S.tb, ga:S.ga, gb:S.gb}));
+  }catch(e){}
+}
+function clearPending(){ try{ localStorage.removeItem(PKEY); }catch(e){} }
+function restorePending(){
+  let d = null;
+  try{ d = JSON.parse(localStorage.getItem(PKEY)); }catch(e){}
+  if (!d) return;
+  const has = id => S.players.some(p => p.id === id);
+  if (d.pa && has(d.pa)) $("pa").value = d.pa;
+  if (d.pb && has(d.pb)) $("pb").value = d.pb;
+  ["a","b"].forEach(side => {
+    const t = d["t"+side];
+    if (t && t.n && $("p"+side).value === d["p"+side]){ S["t"+side] = t; $("spin"+side).hidden = true; showTeam(side, t); }
+  });
+  S.ga = Number(d.ga) || 0; S.gb = Number(d.gb) || 0; $("ga").textContent = S.ga; $("gb").textContent = S.gb;
+  if (S.ta || S.tb) setMsg("กลับมาที่แมตช์ที่สุ่มทีมไว้แล้ว");
+  updateSave();
+}
 function spin(side){
   if (S["t"+side]) return;
   if (!$("p"+side).value){ setMsg("เลือกผู้เล่นฝั่งนี้ก่อนสุ่มทีม"); return; }
@@ -467,6 +492,7 @@ function spin(side){
   const pick = pool[Math.floor(Math.random() * pool.length)];
   const btn = $("spin"+side); btn.hidden = true;
   S["t"+side] = pick;
+  savePending();
   if (reduceMotion){ showTeam(side, pick); updateSave(); return; }
   let i = 0; const steps = 16;
   const tick = () => {
@@ -475,11 +501,11 @@ function spin(side){
   };
   tick();
 }
-function resetSide(side){ S["t"+side] = null; $("spin"+side).hidden = false; $("team"+side).hidden = true; }
+function resetSide(side){ S["t"+side] = null; $("spin"+side).hidden = false; $("team"+side).hidden = true; savePending(); }
 function cancelMatch(){
   resetSpins(); $("pa").value = ""; $("pb").value = "";
   S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0;
-  setMsg("ยกเลิกแมตช์แล้ว"); updateSave();
+  clearPending(); setMsg("ยกเลิกแมตช์แล้ว"); updateSave();
 }
 function resetSpins(){
   ["a","b"].forEach(side => { S["t"+side] = null; $("spin"+side).hidden = false; $("team"+side).hidden = true; });
@@ -509,7 +535,7 @@ $("cfYes").addEventListener("click", async () => {
   try{
     await S.db.collection("matches").add(rec);
     setMsg(`บันทึกแล้ว: ${nameOf(a)} ${rec.ga}–${rec.gb} ${nameOf(b)}`);
-    S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0; resetSpins();
+    S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0; resetSpins(); clearPending();
   }catch(err){ writeFail(err); }
   updateSave();
 });
