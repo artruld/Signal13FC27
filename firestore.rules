@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // รายชื่อผู้เล่น: ทุกคนอ่านได้ เพิ่มได้ แต่ลบไม่ได้ (กันเผลอลบแล้วสถิติหาย)
+    match /players/{id} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 24;
+      allow update, delete: if false;
+    }
+
+    // ผลแมตช์: ทุกคนอ่านได้ เพิ่มและลบได้ (ลบไว้แก้ผลที่กรอกผิด)
+    match /matches/{id} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.a is string
+        && request.resource.data.b is string
+        && request.resource.data.a != request.resource.data.b
+        && request.resource.data.ga is int && request.resource.data.ga >= 0 && request.resource.data.ga <= 99
+        && request.resource.data.gb is int && request.resource.data.gb >= 0 && request.resource.data.gb <= 99;
+      allow delete: if request.auth != null;
+      allow update: if false;
+    }
+  }
+}
