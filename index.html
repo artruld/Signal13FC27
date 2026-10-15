@@ -169,6 +169,24 @@ tr.top1 td.rank{color:var(--gold)}
 .ghost{border:1px solid var(--edge);background:transparent;padding:12px;font-family:var(--display);font-weight:700;border-radius:4px}
 .ghost:hover{border-color:var(--muted)}
 .cfbtns .save{font-size:16px}
+/* team spin + wipe */
+.spin{display:flex;flex-direction:column;gap:6px;min-height:58px}
+.spinbtn{border:1px dashed var(--volt);background:rgba(46,230,214,.08);color:var(--volt);padding:9px 8px;font-family:var(--display);font-weight:700;font-size:14px;border-radius:4px;letter-spacing:.04em}
+.spinbtn:hover:not(:disabled){background:rgba(46,230,214,.16)}
+.spinbtn[hidden]{display:none}
+.team{border:1px solid var(--edge);background:rgba(7,11,22,.6);border-radius:4px;padding:6px 10px;min-width:0}
+.team b{display:block;font-family:var(--display);font-weight:700;font-size:15px;line-height:1.2;overflow-wrap:anywhere}
+.team span{font-size:11px;letter-spacing:.08em;color:var(--muted)}
+.team.rolling b{color:var(--muted)}
+.team.done{border-color:var(--volt);box-shadow:inset 0 0 0 1px rgba(46,230,214,.25)}
+.lock{font-size:11px;color:var(--muted)}
+.ghost.cancel{padding:8px;font-size:13px;color:var(--muted);align-self:center;min-width:50%}
+.wipebtn{align-self:center;background:none;border:1px solid rgba(255,95,109,.5);color:var(--loss);padding:8px 16px;border-radius:4px;font-size:13px;font-weight:600}
+.wipebtn:hover{background:rgba(255,95,109,.08)}
+.pw{width:100%;border:1px solid var(--edge);background:var(--night);border-radius:4px;padding:11px 12px;text-align:center;font-family:var(--display);font-size:18px;letter-spacing:.1em}
+.danger{border:0;padding:12px;background:var(--loss);color:#1a0306;font-family:var(--display);font-weight:700;font-size:16px;border-radius:4px}
+.danger:disabled{opacity:.4;cursor:not-allowed}
+.err{color:var(--loss);font-size:13px;min-height:1.2em;margin:0}
 @media (max-width:420px){.score output{font-size:44px}.step{width:34px;height:34px}h1{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -202,17 +220,18 @@ tr.top1 td.rank{color:var(--gold)}
     <div class="sides">
       <div class="side">
         <select id="pa" aria-label="ผู้เล่นทีมเหย้า"></select>
-        <input id="ta" placeholder="ทีมที่ใช้ (ไม่บังคับ)" maxlength="40" aria-label="ทีมเหย้า">
+        <div class="spin"><button class="spinbtn" id="spina" data-side="a">สุ่มทีม</button><div class="team" id="teama" hidden><b></b><span></span></div></div>
         <div class="score"><button class="step" data-s="a" data-d="-1" aria-label="ลดประตูทีมเหย้า">−</button><output id="ga" class="num">0</output><button class="step" data-s="a" data-d="1" aria-label="เพิ่มประตูทีมเหย้า">+</button></div>
       </div>
       <div class="vs">VS</div>
       <div class="side">
         <select id="pb" aria-label="ผู้เล่นทีมเยือน"></select>
-        <input id="tb" placeholder="ทีมที่ใช้ (ไม่บังคับ)" maxlength="40" aria-label="ทีมเยือน">
+        <div class="spin"><button class="spinbtn" id="spinb" data-side="b">สุ่มทีม</button><div class="team" id="teamb" hidden><b></b><span></span></div></div>
         <div class="score"><button class="step" data-s="b" data-d="-1" aria-label="ลดประตูทีมเยือน">−</button><output id="gb" class="num">0</output><button class="step" data-s="b" data-d="1" aria-label="เพิ่มประตูทีมเยือน">+</button></div>
       </div>
     </div>
     <button class="save" id="save">บันทึกผล</button>
+    <button class="ghost cancel" id="cancelMatch">ยกเลิกแมตช์</button>
     <div class="msg" id="msg" role="status"></div>
   </section>
 
@@ -237,7 +256,7 @@ tr.top1 td.rank{color:var(--gold)}
       <thead><tr><th class="rank">#</th><th class="name">ผู้เล่น</th><th>นัด</th><th>ช</th><th>ส</th><th>พ</th><th>ได้-เสีย</th><th>แต้ม</th><th>เรต</th><th>ฟอร์ม</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table></div>
-    <p class="note">เรียงตามเรตติ้ง ทุกคนเริ่มที่ 1000 ชนะคนเรตสูงกว่าได้แต้มเยอะ ชนะคนเรตต่ำกว่าได้น้อย ป้าย "ยังไม่นิ่ง" คือเล่นไม่ถึง 5 นัด เรตยังเหวี่ยงได้ · แต้ม = ชนะ 3 เสมอ 1 แพ้ 0</p>
+    <p class="note">เรียงตามเรตติ้ง ทุกคนเริ่มที่ 1000 ชนะคนเรตสูงกว่าได้แต้มเยอะ ชนะคนเรตต่ำกว่าได้น้อย ได้ทีมระดับดีกว่าถูกนับเป็นต่อ (ระดับละ 75) ชนะได้น้อยลง แพ้เสียมากขึ้น ป้าย "ยังไม่นิ่ง" คือเล่นไม่ถึง 5 นัด เรตยังเหวี่ยงได้ · แต้ม = ชนะ 3 เสมอ 1 แพ้ 0</p>
   </section>
 
   <section class="panel" id="tab-h2h" hidden>
@@ -249,6 +268,7 @@ tr.top1 td.rank{color:var(--gold)}
 
   <section class="panel" id="tab-hist" hidden>
     <div class="list" id="hist"></div>
+    <button class="wipebtn" id="wipeOpen">ล้างประวัติทั้งหมด</button>
   </section>
 </div>
 
@@ -264,6 +284,16 @@ const firebaseConfig = {
   appId: "1:418768070429:web:4bf53fee6cfef762abe3f4"
 };
 </script>
+<div class="modal" id="wipe" hidden role="dialog" aria-modal="true" aria-labelledby="wpTitle">
+  <div class="sheet">
+    <div class="tag">เริ่มซีซั่นใหม่</div>
+    <div class="warn" id="wpTitle" style="color:var(--loss)">ล้างผลแมตช์ทั้งหมด?</div>
+    <p class="note">ผลทุกนัดและเรตติ้งจะกลับไปเริ่มที่ 1000 ชื่อผู้เล่นยังอยู่ ล้างแล้วกู้คืนไม่ได้</p>
+    <input class="pw" id="wpPass" type="password" placeholder="ใส่รหัสล้างประวัติ" autocomplete="off" aria-label="รหัสล้างประวัติ">
+    <p class="err" id="wpErr" role="status"></p>
+    <div class="cfbtns"><button class="ghost" id="wpNo">ยกเลิก</button><button class="danger" id="wpYes">ล้างทั้งหมด</button></div>
+  </div>
+</div>
 <div class="modal" id="confirm" hidden role="dialog" aria-modal="true" aria-labelledby="cfTitle">
   <div class="sheet">
     <div class="tag">ตรวจผลก่อนบันทึก</div>
@@ -275,7 +305,7 @@ const firebaseConfig = {
 </div>
 
 <script>
-const S = {players:[], matches:[], ga:0, gb:0, db:null, canWrite:true, armed:null};
+const S = {players:[], matches:[], ga:0, gb:0, ta:null, tb:null, db:null, canWrite:true, armed:null};
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const nameOf = id => (S.players.find(p => p.id === id) || {}).name || "?";
@@ -287,7 +317,7 @@ function fmtDate(t){
   try{ return new Date(t).toLocaleString("th-TH",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; }
 }
 
-const START = 1000, K = 32, SETTLED = 5;
+const START = 1000, K = 32, SETTLED = 5, TIER_GAP = 75;
 function stats(){
   const m = {};
   S.delta = {};
@@ -295,7 +325,8 @@ function stats(){
   const sorted = [...S.matches].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id)));
   for (const x of sorted){
     const a = m[x.a], b = m[x.b]; if (!a || !b) continue;
-    const ea = 1 / (1 + Math.pow(10, (b.elo - a.elo) / 400));
+    const adv = (x.ra && x.rb) ? (x.rb - x.ra) * TIER_GAP : 0;
+    const ea = 1 / (1 + Math.pow(10, (b.elo - a.elo - adv) / 400));
     const sa = x.ga > x.gb ? 1 : x.ga < x.gb ? 0 : 0.5;
     const da = K * (sa - ea);
     a.elo += da; b.elo -= da;
@@ -363,9 +394,9 @@ function renderH2H(){
 function matchRow(x){
   const aw = x.ga > x.gb, bw = x.gb > x.ga, armed = S.armed === x.id;
   return `<div class="m ${aw||bw?"dec":""}">
-    <div class="p ${aw?"won":""}">${esc(nameOf(x.a))}${x.ta?`<small>${esc(x.ta)}</small>`:""}</div>
+    <div class="p ${aw?"won":""}">${esc(nameOf(x.a))}${x.ta?`<small>${esc(x.ta)}${x.ra?" · ระดับ "+x.ra:""}</small>`:""}</div>
     <div class="sc num"><span>${x.ga} – ${x.gb}</span></div>
-    <div class="p r ${bw?"won":""}">${esc(nameOf(x.b))}${x.tb?`<small>${esc(x.tb)}</small>`:""}</div>
+    <div class="p r ${bw?"won":""}">${esc(nameOf(x.b))}${x.tb?`<small>${esc(x.tb)}${x.rb?" · ระดับ "+x.rb:""}</small>`:""}</div>
     <div class="meta"><span>${fmtDate(x.at)}${dl(x.id)}</span>${S.canWrite?`<button class="del ${armed?"arm":""}" data-del="${esc(x.id)}">${armed?"แตะอีกครั้งเพื่อลบ":"ลบ"}</button>`:""}</div>
   </div>`;
 }
@@ -377,19 +408,21 @@ function dl(id){
 }
 function renderHist(){
   const ms = [...S.matches].sort((x,y) => y.at - x.at);
+  $("wipeOpen").hidden = !ms.length || !S.canWrite;
   $("hist").innerHTML = ms.length ? ms.map(matchRow).join("") : '<div class="empty">ยังไม่มีแมตช์ บันทึกผลนัดแรกได้ที่สกอร์บอร์ดด้านบน</div>';
 }
 
 function updateSave(){
   const a = $("pa").value, b = $("pb").value;
-  $("save").disabled = !S.db || !S.canWrite || !a || !b || a === b;
+  $("save").disabled = !S.db || !S.canWrite || !a || !b || a === b || !S.ta || !S.tb;
+  $("save").textContent = (!S.ta || !S.tb) && a && b && a !== b ? "สุ่มทีมให้ครบทั้งสองฝั่งก่อน" : "บันทึกผล";
 }
 function setMsg(t){ $("msg").textContent = t; }
 
 document.querySelectorAll(".step").forEach(btn => btn.addEventListener("click", () => {
   const k = "g" + btn.dataset.s; S[k] = Math.max(0, Math.min(99, S[k] + Number(btn.dataset.d))); $(k).textContent = S[k];
 }));
-["pa","pb"].forEach(id => $(id).addEventListener("change", () => { updateSave(); setMsg($("pa").value && $("pa").value === $("pb").value ? "เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน" : ""); }));
+["pa","pb"].forEach(id => $(id).addEventListener("change", () => { if (S["t"+id[1]]) resetSide(id[1]); updateSave(); setMsg($("pa").value && $("pa").value === $("pb").value ? "เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน" : ""); }));
 ["ha","hb"].forEach(id => $(id).addEventListener("change", renderH2H));
 
 document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
@@ -408,9 +441,56 @@ document.addEventListener("click", async e => {
   try{ await S.db.collection("matches").doc(id).delete(); }catch(err){ setMsg("ลบไม่สำเร็จ ลองใหม่อีกครั้ง"); }
 });
 
+const LEAGUE = {};
+[["PREMIER LEAGUE",["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Chelsea","Coventry City","Crystal Palace","Everton","Fulham","Hull City","Ipswich Town","Leeds United","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham"]],
+ ["LALIGA",["Barcelona","Real Madrid","Villarreal","Atlético Madrid","Real Betis"]],
+ ["SERIE A",["Inter","Napoli","Roma","Como","AC Milan"]],
+ ["BUNDESLIGA",["Bayern","Dortmund","RB Leipzig","Stuttgart","Hoffenheim"]],
+ ["LIGUE 1",["PSG","Lens","Lille","Lyon","Marseille"]]].forEach(([l,ts]) => ts.forEach(t => LEAGUE[t] = l));
+const TIERS = {
+  1: ["Arsenal","Man City","Liverpool","Chelsea","Real Madrid","Barcelona","Atlético Madrid","Bayern","PSG","Inter"],
+  2: ["Man United","Newcastle","Tottenham","Aston Villa","Napoli","AC Milan","Roma","Dortmund","RB Leipzig","Stuttgart","Villarreal","Marseille","Lyon","Lille","Lens"],
+  3: ["Bournemouth","Brentford","Brighton","Crystal Palace","Everton","Fulham","Nottingham Forest","Leeds United","Sunderland","Coventry City","Hull City","Ipswich Town","Como","Hoffenheim","Real Betis"]
+};
+const POOL = Object.entries(TIERS).flatMap(([r,ts]) => ts.map(n => ({n, l:LEAGUE[n], r:Number(r)})));
+const reduceMotion = (() => { try{ return matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } })();
+function showTeam(side, t, rolling){
+  const box = $("team"+side); box.hidden = false;
+  box.querySelector("b").textContent = t.n; box.querySelector("span").textContent = rolling ? "กำลังสุ่ม..." : t.l + " · ระดับ " + t.r;
+  box.classList.toggle("rolling", !!rolling); box.classList.toggle("done", !rolling);
+}
+function spin(side){
+  if (S["t"+side]) return;
+  if (!$("p"+side).value){ setMsg("เลือกผู้เล่นฝั่งนี้ก่อนสุ่มทีม"); return; }
+  const other = S[side === "a" ? "tb" : "ta"];
+  const pool = POOL.filter(t => !other || t.n !== other.n);
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  const btn = $("spin"+side); btn.hidden = true;
+  S["t"+side] = pick;
+  if (reduceMotion){ showTeam(side, pick); updateSave(); return; }
+  let i = 0; const steps = 16;
+  const tick = () => {
+    if (i++ < steps){ showTeam(side, pool[Math.floor(Math.random()*pool.length)], true); setTimeout(tick, 40 + i*i*0.7); }
+    else { showTeam(side, pick); updateSave(); }
+  };
+  tick();
+}
+function resetSide(side){ S["t"+side] = null; $("spin"+side).hidden = false; $("team"+side).hidden = true; }
+function cancelMatch(){
+  resetSpins(); $("pa").value = ""; $("pb").value = "";
+  S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0;
+  setMsg("ยกเลิกแมตช์แล้ว"); updateSave();
+}
+function resetSpins(){
+  ["a","b"].forEach(side => { S["t"+side] = null; $("spin"+side).hidden = false; $("team"+side).hidden = true; });
+}
+$("spina").addEventListener("click", () => spin("a"));
+$("cancelMatch").addEventListener("click", cancelMatch);
+$("spinb").addEventListener("click", () => spin("b"));
+
 function openConfirm(){
-  const a = $("pa").value, b = $("pb").value; if (!a || !b || a === b) return;
-  const ta = $("ta").value.trim(), tb = $("tb").value.trim();
+  const a = $("pa").value, b = $("pb").value; if (!a || !b || a === b || !S.ta || !S.tb) return;
+  const ta = S.ta ? S.ta.n + " · ระดับ " + S.ta.r : "", tb = S.tb ? S.tb.n + " · ระดับ " + S.tb.r : "";
   $("cfScore").innerHTML = `<div class="nm">${esc(nameOf(a))}${ta?`<small>${esc(ta)}</small>`:""}</div>
     <div class="big num">${S.ga} – ${S.gb}</div>
     <div class="nm">${esc(nameOf(b))}${tb?`<small>${esc(tb)}</small>`:""}</div>`;
@@ -425,11 +505,11 @@ $("cfYes").addEventListener("click", async () => {
   $("confirm").hidden = true;
   const a = $("pa").value, b = $("pb").value; if (!a || !b || a === b) return;
   $("save").disabled = true;
-  const rec = {a, b, ga:S.ga, gb:S.gb, ta:$("ta").value.trim(), tb:$("tb").value.trim(), at:Date.now()};
+  const rec = {a, b, ga:S.ga, gb:S.gb, ta:S.ta.n, tb:S.tb.n, ra:S.ta.r, rb:S.tb.r, at:Date.now()};
   try{
     await S.db.collection("matches").add(rec);
     setMsg(`บันทึกแล้ว: ${nameOf(a)} ${rec.ga}–${rec.gb} ${nameOf(b)}`);
-    S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0; $("ta").value = ""; $("tb").value = "";
+    S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0; resetSpins();
   }catch(err){ writeFail(err); }
   updateSave();
 });
@@ -440,6 +520,33 @@ $("addp").addEventListener("submit", async e => {
   if (S.players.some(p => p.name.toLowerCase() === n.toLowerCase())){ setMsg(`มี ${n} อยู่แล้ว`); return; }
   try{ await S.db.collection("players").add({name:n, createdAt:Date.now()}); $("pname").value = ""; }
   catch(err){ writeFail(err); }
+});
+
+function closeWipe(){ $("wipe").hidden = true; $("wpPass").value = ""; $("wpErr").textContent = ""; }
+$("wipeOpen").addEventListener("click", () => { $("wipe").hidden = false; $("wpPass").focus(); });
+$("wpNo").addEventListener("click", closeWipe);
+$("wipe").addEventListener("click", e => { if (e.target.id === "wipe") closeWipe(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("wipe").hidden) closeWipe(); });
+$("wpPass").addEventListener("keydown", e => { if (e.key === "Enter") $("wpYes").click(); });
+$("wpYes").addEventListener("click", async () => {
+  if ($("wpPass").value.trim().toLowerCase() !== "signal13"){ $("wpErr").textContent = "รหัสไม่ถูกต้อง"; return; }
+  if (!S.db) return;
+  const ids = S.matches.map(m => m.id);
+  if (!ids.length){ closeWipe(); setMsg("ไม่มีประวัติให้ล้าง"); return; }
+  $("wpYes").disabled = true; $("wpErr").textContent = "กำลังล้าง " + ids.length + " นัด...";
+  try{
+    if (typeof S.db.batch === "function"){
+      for (let i = 0; i < ids.length; i += 400){
+        const b = S.db.batch();
+        ids.slice(i, i+400).forEach(id => b.delete(S.db.collection("matches").doc(id)));
+        await b.commit();
+      }
+    } else {
+      for (const id of ids) await S.db.collection("matches").doc(id).delete();
+    }
+    closeWipe(); setMsg("ล้างประวัติแล้ว เริ่มซีซั่นใหม่ได้เลย");
+  }catch(err){ $("wpErr").textContent = "ล้างไม่สำเร็จ ลองใหม่อีกครั้ง"; }
+  $("wpYes").disabled = false;
 });
 
 function writeFail(err){
