@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b16">
+<title>Signal13 League</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,700;1,700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<style>
+/* Layout: night-match broadcast — floodlit backdrop, angled score bug for entry, HUD-style tabs for table / head-to-head / history. Deliberately single dark theme. */
+:root{
+  color-scheme:dark;
+  --night:#070b16; --deck:#0e1526; --panel:#131c31; --edge:#24314f; --ink:#eef3ff; --muted:#8c99b8;
+  --volt:#2ee6d6; --volt-deep:#0fa8a0; --gold:#ffc94a; --win:#3fe08f; --draw:#ffc94a; --loss:#ff5f6d;
+  --display:"Chakra Petch","IBM Plex Sans Thai",system-ui,sans-serif;
+  --body:"IBM Plex Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --cut:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{padding-top:env(safe-area-inset-top,0px)}
+[hidden]{display:none!important}
+.mode{font-size:12px;color:var(--gold);border:1px dashed rgba(255,201,74,.5);padding:8px 12px;border-radius:4px}
+html{background:var(--night)}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;min-height:100%;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 12% -5%,rgba(46,230,214,.22),transparent 70%),
+    radial-gradient(ellipse 60% 40% at 88% -5%,rgba(120,140,255,.20),transparent 70%),
+    linear-gradient(180deg,#0b1222 0%,var(--night) 420px);
+  background-repeat:no-repeat}
+.wrap{max-width:660px;margin:0 auto;display:flex;flex-direction:column;gap:22px;position:relative}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+/* masthead */
+.mast{padding-top:26px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.crest{display:flex;align-items:center;gap:12px}
+.crest svg{flex:none}
+h1{margin:0;font-family:var(--display);font-style:italic;font-weight:700;font-size:30px;line-height:1;letter-spacing:.02em;text-transform:uppercase}
+h1 span{color:var(--volt)}
+.sub{font-size:13px;color:var(--muted);margin-top:4px}
+.live{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.14em;color:var(--night);background:var(--volt);padding:4px 10px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+
+/* score bug */
+.bug{position:relative;background:linear-gradient(160deg,#16213b,#0d1528);border:1px solid var(--edge);
+  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
+  padding:18px 16px 16px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
+.bug::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 40px,transparent 40px 80px)}
+.bug::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--volt),#7c8cff)}
+.bug > *{position:relative}
+.tag{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.16em;color:var(--volt);text-transform:uppercase}
+.sides{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:start}
+.side{display:flex;flex-direction:column;gap:8px;min-width:0}
+.side select,.side input{width:100%;min-width:0;border:1px solid var(--edge);background:rgba(7,11,22,.6);border-radius:4px;padding:9px 10px}
+.side select{font-family:var(--display);font-weight:700;font-size:16px}
+.side input{font-size:13px}
+.side input::placeholder{color:var(--muted)}
+.vs{font-family:var(--display);font-style:italic;font-weight:700;font-size:15px;color:var(--muted);padding-top:10px}
+.score{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+.score output{font-family:var(--display);font-weight:700;font-size:54px;min-width:1.3ch;text-align:center;line-height:1;text-shadow:0 0 24px rgba(46,230,214,.35)}
+.step{width:38px;height:38px;border:1px solid var(--edge);background:rgba(255,255,255,.04);font-size:20px;line-height:1;border-radius:4px;transform:skewX(-8deg)}
+.step:hover{border-color:var(--volt)}
+.step:active{background:rgba(46,230,214,.18)}
+.save{border:0;padding:14px;background:linear-gradient(90deg,var(--volt),#5fd0ff);color:#04131a;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.06em;text-transform:uppercase;
+  clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);transition:filter .15s}
+.save:hover:not(:disabled){filter:brightness(1.1)}
+.save:disabled{opacity:.35;cursor:not-allowed}
+.msg{font-size:13px;min-height:1.2em;text-align:center;color:var(--gold)}
+
+/* squad */
+.squad{display:flex;flex-direction:column;gap:12px}
+.addp{display:flex;gap:8px}
+.addp input{flex:1;min-width:0;border:1px solid var(--edge);background:var(--deck);border-radius:4px;padding:10px 12px}
+.addp input::placeholder{color:var(--muted)}
+.addp button{border:1px solid var(--volt);background:transparent;color:var(--volt);border-radius:4px;padding:0 14px;font-family:var(--display);font-weight:700;white-space:nowrap}
+.addp button:hover{background:rgba(46,230,214,.1)}
+.roster{display:flex;flex-wrap:wrap;gap:8px}
+.pl{display:flex;align-items:center;gap:8px;background:var(--deck);border:1px solid var(--edge);padding:4px 12px 4px 4px;border-radius:4px;font-weight:600;font-size:14px}
+.av{width:28px;height:28px;flex:none;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:13px;color:#04131a;
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.note{color:var(--muted);font-size:13px;margin:0}
+
+/* tabs */
+.tabs{display:flex;gap:6px}
+.tabs button{flex:1;background:var(--deck);border:1px solid var(--edge);padding:10px 4px;font-family:var(--display);font-weight:700;font-size:14px;color:var(--muted);
+  clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:color .15s,background .15s}
+.tabs button[aria-selected="true"]{background:var(--volt);color:#04131a;border-color:var(--volt)}
+.panel{display:flex;flex-direction:column;gap:14px}
+
+/* podium */
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:end}
+.pod{background:linear-gradient(180deg,var(--panel),var(--deck));border:1px solid var(--edge);padding:12px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;
+  clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%,0 10px)}
+.pod.p1{padding-top:20px;border-color:var(--gold);box-shadow:inset 0 3px 0 var(--gold)}
+.pod .av{width:44px;height:44px;font-size:18px}
+.pod .nm{font-weight:600;font-size:14px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod .pc{font-family:var(--display);font-weight:700;font-size:24px;line-height:1}
+.pod.p1 .pc{color:var(--gold)}
+.pod .pos{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.12em;color:var(--muted)}
+
+/* table */
+.tbl{overflow-x:auto;background:var(--deck);border:1px solid var(--edge);border-radius:4px}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:10px 8px;text-align:center;white-space:nowrap}
+th{font-family:var(--display);font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--edge);background:rgba(255,255,255,.02)}
+td{border-bottom:1px solid rgba(36,49,79,.6)}
+tr:last-child td{border-bottom:0}
+td.name,th.name{text-align:left}
+td.name .in{display:flex;align-items:center;gap:8px;font-weight:600}
+td.name .av{width:24px;height:24px;font-size:11px}
+td.rank{font-family:var(--display);font-weight:700;color:var(--muted);width:30px}
+tr.top1 td.rank{color:var(--gold)}
+.pct{font-family:var(--display);font-weight:700;color:var(--volt)}
+.form{display:inline-flex;gap:3px}
+.dot{width:18px;height:18px;font-size:10px;line-height:18px;color:#04131a;font-weight:700;text-align:center;transform:skewX(-8deg)}
+.dot.W{background:var(--win)}.dot.D{background:var(--draw)}.dot.L{background:var(--loss)}
+
+/* h2h */
+.pick{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
+.pick select{width:100%;min-width:0;border:1px solid var(--edge);background:var(--deck);border-radius:4px;padding:10px;font-family:var(--display);font-weight:700}
+.h2h{background:linear-gradient(160deg,#16213b,#0d1528);border:1px solid var(--edge);padding:18px 16px;display:flex;flex-direction:column;gap:14px;
+  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut))}
+.faces{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;text-align:center}
+.faces .av{width:52px;height:52px;font-size:20px;margin:0 auto 6px}
+.faces .nm{font-weight:600;overflow-wrap:anywhere}
+.faces .vs{padding:0}
+.tally{display:grid;grid-template-columns:1fr 1fr 1fr;text-align:center}
+.tally b{display:block;font-family:var(--display);font-size:40px;line-height:1.05}
+.tally .wa b{color:var(--win)} .tally .dr b{color:var(--draw)} .tally .wb b{color:var(--loss)}
+.tally span{font-size:12px;color:var(--muted)}
+.bar{display:flex;height:8px;overflow:hidden;background:var(--edge);transform:skewX(-12deg)}
+.bar i{display:block}
+
+/* history */
+.list{display:flex;flex-direction:column;gap:8px}
+.m{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;padding:12px 14px;background:var(--deck);border:1px solid var(--edge);border-left:3px solid var(--edge);border-radius:4px}
+.m.dec{border-left-color:var(--volt)}
+.m .p{min-width:0;overflow-wrap:anywhere;color:var(--muted)}
+.m .p.r{text-align:right}
+.m .p small{display:block;font-size:12px;opacity:.8}
+.m .p.won{color:var(--ink);font-weight:700}
+.m .sc{font-family:var(--display);font-weight:700;font-size:22px;background:var(--night);border:1px solid var(--edge);padding:2px 12px;transform:skewX(-8deg)}
+.m .sc span{display:inline-block;transform:skewX(8deg)}
+.m .meta{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+.del{background:none;border:0;color:var(--muted);font-size:12px;padding:2px 4px}
+.del.arm{color:var(--loss);font-weight:600}
+.empty{padding:24px;text-align:center;color:var(--muted);background:var(--deck);border:1px dashed var(--edge);border-radius:4px}
+/* rating + confirm */
+.prov{font-family:var(--body);font-size:10px;font-weight:500;color:var(--gold);border:1px solid rgba(255,201,74,.45);padding:0 5px;border-radius:3px;white-space:nowrap}
+.elo{font-family:var(--display);font-weight:700;color:var(--volt)}
+.dl{font-variant-numeric:tabular-nums}
+.dl.up{color:var(--win)} .dl.dn{color:var(--loss)}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(3,6,14,.78);backdrop-filter:blur(4px);display:grid;place-items:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet{width:min(420px,100%);background:linear-gradient(160deg,#18243f,#0d1528);border:1px solid var(--edge);padding:22px 18px 18px;display:flex;flex-direction:column;gap:14px;text-align:center;
+  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));animation:pop .18s ease-out}
+@keyframes pop{from{transform:scale(.94);opacity:.4}to{transform:none;opacity:1}}
+.warn{font-family:var(--display);font-weight:700;font-size:24px;color:var(--gold);line-height:1.2}
+.cfscore{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;background:var(--night);border:1px solid var(--edge);padding:14px 10px}
+.cfscore .nm{font-weight:600;overflow-wrap:anywhere}
+.cfscore .nm small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.cfscore .big{font-family:var(--display);font-weight:700;font-size:34px;line-height:1}
+.cfbtns{display:grid;grid-template-columns:1fr 1.4fr;gap:8px}
+.ghost{border:1px solid var(--edge);background:transparent;padding:12px;font-family:var(--display);font-weight:700;border-radius:4px}
+.ghost:hover{border-color:var(--muted)}
+.cfbtns .save{font-size:16px}
+@media (max-width:420px){.score output{font-size:44px}.step{width:34px;height:34px}h1{font-size:26px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="mast">
+    <div class="crest">
+      <svg width="44" height="50" viewBox="0 0 44 50" aria-hidden="true">
+        <path d="M22 1 L42 8 V26 C42 38 33 45 22 49 C11 45 2 38 2 26 V8 Z" fill="#0e1526" stroke="#2ee6d6" stroke-width="2"/>
+        <path d="M22 9 L34 13.5 V25 C34 33 28.5 37.5 22 40 C15.5 37.5 10 33 10 25 V13.5 Z" fill="#2ee6d6" opacity=".14"/>
+        <circle cx="22" cy="24" r="8" fill="none" stroke="#eef3ff" stroke-width="1.8"/>
+        <path d="M22 19 l4 3 -1.5 4.6 h-5 L18 22 Z" fill="#eef3ff"/>
+      </svg>
+      <div>
+        <h1>Signal<span>13</span> League</h1>
+        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม</div>
+      </div>
+    </div>
+    <div class="live">MATCH NIGHT</div>
+  </header>
+
+  <div class="mode" id="mode" hidden>โหมดเครื่องเดียว: ข้อมูลเก็บในเบราว์เซอร์นี้เท่านั้น ใส่ Firebase config ในไฟล์เพื่อให้เพื่อนทุกเครื่องเห็นตารางเดียวกัน</div>
+
+  <section class="bug" aria-label="บันทึกผลแมตช์">
+    <div class="tag">Full Time · บันทึกผล</div>
+    <div class="sides">
+      <div class="side">
+        <select id="pa" aria-label="ผู้เล่นทีมเหย้า"></select>
+        <input id="ta" placeholder="ทีมที่ใช้ (ไม่บังคับ)" maxlength="40" aria-label="ทีมเหย้า">
+        <div class="score"><button class="step" data-s="a" data-d="-1" aria-label="ลดประตูทีมเหย้า">−</button><output id="ga" class="num">0</output><button class="step" data-s="a" data-d="1" aria-label="เพิ่มประตูทีมเหย้า">+</button></div>
+      </div>
+      <div class="vs">VS</div>
+      <div class="side">
+        <select id="pb" aria-label="ผู้เล่นทีมเยือน"></select>
+        <input id="tb" placeholder="ทีมที่ใช้ (ไม่บังคับ)" maxlength="40" aria-label="ทีมเยือน">
+        <div class="score"><button class="step" data-s="b" data-d="-1" aria-label="ลดประตูทีมเยือน">−</button><output id="gb" class="num">0</output><button class="step" data-s="b" data-d="1" aria-label="เพิ่มประตูทีมเยือน">+</button></div>
+      </div>
+    </div>
+    <button class="save" id="save">บันทึกผล</button>
+    <div class="msg" id="msg" role="status"></div>
+  </section>
+
+  <section class="squad" aria-label="ผู้เล่น">
+    <div class="tag">Squad · รายชื่อผู้เล่น</div>
+    <form class="addp" id="addp">
+      <input id="pname" placeholder="ชื่อเพื่อนที่จะเพิ่ม" maxlength="24" autocomplete="off">
+      <button type="submit">+ เพิ่ม</button>
+    </form>
+    <div class="roster" id="chips"></div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="table">ตารางอันดับ</button>
+    <button role="tab" aria-selected="false" data-tab="h2h">ตัวต่อตัว</button>
+    <button role="tab" aria-selected="false" data-tab="hist">ประวัติ</button>
+  </div>
+
+  <section class="panel" id="tab-table">
+    <div class="podium" id="podium" hidden></div>
+    <div class="tbl"><table>
+      <thead><tr><th class="rank">#</th><th class="name">ผู้เล่น</th><th>นัด</th><th>ช</th><th>ส</th><th>พ</th><th>ได้-เสีย</th><th>แต้ม</th><th>เรต</th><th>ฟอร์ม</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+    <p class="note">เรียงตามเรตติ้ง ทุกคนเริ่มที่ 1000 ชนะคนเรตสูงกว่าได้แต้มเยอะ ชนะคนเรตต่ำกว่าได้น้อย ป้าย "ยังไม่นิ่ง" คือเล่นไม่ถึง 5 นัด เรตยังเหวี่ยงได้ · แต้ม = ชนะ 3 เสมอ 1 แพ้ 0</p>
+  </section>
+
+  <section class="panel" id="tab-h2h" hidden>
+    <div class="pick">
+      <select id="ha" aria-label="ผู้เล่นคนแรก"></select><span class="note">กับ</span><select id="hb" aria-label="ผู้เล่นคนที่สอง"></select>
+    </div>
+    <div id="h2hout"></div>
+  </section>
+
+  <section class="panel" id="tab-hist" hidden>
+    <div class="list" id="hist"></div>
+  </section>
+</div>
+
+<script>
+/* ===== ใส่ค่า Firebase ของคุณตรงนี้ (ดูวิธีใน README.md) =====
+   ถ้าเว้นว่างไว้ แอพจะทำงานแบบเครื่องเดียว เก็บข้อมูลในเบราว์เซอร์ */
+const firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  appId: ""
+};
+</script>
+<div class="modal" id="confirm" hidden role="dialog" aria-modal="true" aria-labelledby="cfTitle">
+  <div class="sheet">
+    <div class="tag">ตรวจผลก่อนบันทึก</div>
+    <div class="warn" id="cfTitle">ใส่ตามจริงนะจ๊ะ</div>
+    <div class="cfscore" id="cfScore"></div>
+    <p class="note">บันทึกแล้วเรตติ้งของทั้งคู่จะขยับทันที</p>
+    <div class="cfbtns"><button class="ghost" id="cfNo">กลับไปแก้</button><button class="save" id="cfYes">ยืนยัน บันทึกเลย</button></div>
+  </div>
+</div>
+
+<script>
+const S = {players:[], matches:[], ga:0, gb:0, db:null, canWrite:true, armed:null};
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const nameOf = id => (S.players.find(p => p.id === id) || {}).name || "?";
+const KIT = ["#2ee6d6","#ffc94a","#ff7a59","#8f9bff","#3fe08f","#ff6fb5","#5fd0ff","#d4f05a"];
+function kit(id){ let h = 0; for (const c of String(id)) h = (h*31 + c.charCodeAt(0)) >>> 0; return KIT[h % KIT.length]; }
+function av(id){ const n = nameOf(id); return `<span class="av" style="background:${kit(id)}">${esc([...n][0] || "?").toUpperCase()}</span>`; }
+
+function fmtDate(t){
+  try{ return new Date(t).toLocaleString("th-TH",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; }
+}
+
+const START = 1000, K = 32, SETTLED = 5;
+function stats(){
+  const m = {};
+  S.delta = {};
+  S.players.forEach(p => m[p.id] = {id:p.id,name:p.name,gp:0,w:0,d:0,l:0,gf:0,ga:0,form:[],elo:START});
+  const sorted = [...S.matches].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id)));
+  for (const x of sorted){
+    const a = m[x.a], b = m[x.b]; if (!a || !b) continue;
+    const ea = 1 / (1 + Math.pow(10, (b.elo - a.elo) / 400));
+    const sa = x.ga > x.gb ? 1 : x.ga < x.gb ? 0 : 0.5;
+    const da = K * (sa - ea);
+    a.elo += da; b.elo -= da;
+    S.delta[x.id] = Math.round(da);
+    a.gp++; b.gp++; a.gf += x.ga; a.ga += x.gb; b.gf += x.gb; b.ga += x.ga;
+    if (sa === 1){a.w++; b.l++; a.form.push("W"); b.form.push("L");}
+    else if (sa === 0){b.w++; a.l++; a.form.push("L"); b.form.push("W");}
+    else {a.d++; b.d++; a.form.push("D"); b.form.push("D");}
+  }
+  return Object.values(m).map(r => ({...r, elo: Math.round(r.elo), pts: 3*r.w + r.d, gd: r.gf - r.ga}))
+    .sort((x,y) => (y.gp>0) - (x.gp>0) || y.elo - x.elo || y.pts - x.pts || x.name.localeCompare(y.name,"th"));
+}
+
+function fillSelect(sel){
+  const v = sel.value;
+  sel.innerHTML = '<option value="">เลือกผู้เล่น</option>' + S.players.map(p => `<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");
+  if (S.players.some(p => p.id === v)) sel.value = v;
+}
+
+function render(){
+  S.players = [...S.players].sort((a,b) => a.name.localeCompare(b.name,"th"));
+  const ps = S.players;
+  ["pa","pb","ha","hb"].forEach(id => fillSelect($(id)));
+  if (!$("ha").value && ps[0]) $("ha").value = ps[0].id;
+  if (!$("hb").value && ps[1]) $("hb").value = ps[1].id;
+
+  $("chips").innerHTML = ps.length ? ps.map(p => `<span class="pl">${av(p.id)}${esc(p.name)}</span>`).join("")
+    : '<span class="note">ยังไม่มีผู้เล่น เพิ่มชื่อเพื่อนอย่างน้อย 2 คนเพื่อเริ่มจดผล</span>';
+
+  const rows = stats();
+  const played = rows.filter(r => r.gp);
+  const pod = $("podium");
+  if (played.length >= 3){
+    const order = [1,0,2];
+    pod.innerHTML = order.map(i => { const r = played[i]; return `<div class="pod p${i+1}">
+      <span class="pos">${["อันดับ 1","อันดับ 2","อันดับ 3"][i]}</span>${av(r.id)}<span class="nm">${esc(r.name)}</span>
+      <span class="pc num">${r.elo}</span><span class="note num">${r.w}-${r.d}-${r.l}</span></div>`; }).join("");
+    pod.hidden = false;
+  } else pod.hidden = true;
+
+  $("tbody").innerHTML = rows.length ? rows.map((r,i) => `<tr class="${r.gp && i===0 ? "top1" : ""}">
+    <td class="rank">${r.gp ? i+1 : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${r.gp && r.gp < SETTLED ? '<span class="prov">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
+    <td>${r.gd>0?"+":""}${r.gd}</td><td>${r.pts}</td><td class="elo">${r.gp ? r.elo : "–"}</td>
+    <td><span class="form">${r.form.slice(-5).map(f => `<span class="dot ${f}">${f==="W"?"ช":f==="D"?"ส":"พ"}</span>`).join("")}</span></td></tr>`).join("")
+    : '<tr><td colspan="10" class="note" style="padding:24px">ตารางจะขึ้นเมื่อมีผู้เล่นและผลแมตช์</td></tr>';
+
+  renderH2H(); renderHist(); updateSave();
+}
+
+function renderH2H(){
+  const a = $("ha").value, b = $("hb").value, out = $("h2hout");
+  if (!a || !b || a === b){ out.innerHTML = '<p class="note">เลือกผู้เล่นสองคนที่ต่างกันเพื่อดูสถิติเจอกัน</p>'; return; }
+  const ms = S.matches.filter(x => (x.a===a&&x.b===b)||(x.a===b&&x.b===a)).sort((x,y) => y.at - x.at);
+  let wa=0, wb=0, d=0, gfa=0, gfb=0;
+  ms.forEach(x => { const sa = x.a===a ? x.ga : x.gb, sb = x.a===a ? x.gb : x.ga; gfa+=sa; gfb+=sb; if(sa>sb)wa++; else if(sb>sa)wb++; else d++; });
+  const n = ms.length || 1;
+  out.innerHTML = `<div class="h2h">
+    <div class="faces"><div>${av(a)}<div class="nm">${esc(nameOf(a))}</div></div><div class="vs">VS</div><div>${av(b)}<div class="nm">${esc(nameOf(b))}</div></div></div>
+    <div class="tally num"><div class="wa"><b>${wa}</b><span>ชนะ</span></div><div class="dr"><b>${d}</b><span>เสมอ</span></div><div class="wb"><b>${wb}</b><span>ชนะ</span></div></div>
+    <div class="bar" aria-hidden="true"><i style="width:${wa/n*100}%;background:var(--win)"></i><i style="width:${d/n*100}%;background:var(--draw)"></i><i style="width:${wb/n*100}%;background:var(--loss)"></i></div>
+    <p class="note num" style="text-align:center">เจอกัน ${ms.length} นัด · ประตูรวม ${gfa} – ${gfb}</p>
+  </div>` + (ms.length ? `<div class="list">${ms.map(matchRow).join("")}</div>` : '<div class="empty">สองคนนี้ยังไม่เคยเจอกัน</div>');
+}
+
+function matchRow(x){
+  const aw = x.ga > x.gb, bw = x.gb > x.ga, armed = S.armed === x.id;
+  return `<div class="m ${aw||bw?"dec":""}">
+    <div class="p ${aw?"won":""}">${esc(nameOf(x.a))}${x.ta?`<small>${esc(x.ta)}</small>`:""}</div>
+    <div class="sc num"><span>${x.ga} – ${x.gb}</span></div>
+    <div class="p r ${bw?"won":""}">${esc(nameOf(x.b))}${x.tb?`<small>${esc(x.tb)}</small>`:""}</div>
+    <div class="meta"><span>${fmtDate(x.at)}${dl(x.id)}</span>${S.canWrite?`<button class="del ${armed?"arm":""}" data-del="${esc(x.id)}">${armed?"แตะอีกครั้งเพื่อลบ":"ลบ"}</button>`:""}</div>
+  </div>`;
+}
+
+function dl(id){
+  const d = S.delta && S.delta[id]; if (d === undefined) return "";
+  const f = v => `<span class="dl ${v>0?"up":v<0?"dn":""}">${v>0?"+":""}${v}</span>`;
+  return ` · เรต ${f(d)} / ${f(-d)}`;
+}
+function renderHist(){
+  const ms = [...S.matches].sort((x,y) => y.at - x.at);
+  $("hist").innerHTML = ms.length ? ms.map(matchRow).join("") : '<div class="empty">ยังไม่มีแมตช์ บันทึกผลนัดแรกได้ที่สกอร์บอร์ดด้านบน</div>';
+}
+
+function updateSave(){
+  const a = $("pa").value, b = $("pb").value;
+  $("save").disabled = !S.db || !S.canWrite || !a || !b || a === b;
+}
+function setMsg(t){ $("msg").textContent = t; }
+
+document.querySelectorAll(".step").forEach(btn => btn.addEventListener("click", () => {
+  const k = "g" + btn.dataset.s; S[k] = Math.max(0, Math.min(99, S[k] + Number(btn.dataset.d))); $(k).textContent = S[k];
+}));
+["pa","pb"].forEach(id => $(id).addEventListener("change", () => { updateSave(); setMsg($("pa").value && $("pa").value === $("pb").value ? "เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน" : ""); }));
+["ha","hb"].forEach(id => $(id).addEventListener("change", renderH2H));
+
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+  ["table","h2h","hist"].forEach(t => $("tab-"+t).hidden = t !== b.dataset.tab);
+  try{ localStorage.setItem("tab", b.dataset.tab); }catch(e){}
+}));
+try{ const t = localStorage.getItem("tab"); const b = t && document.querySelector(`.tabs button[data-tab="${t}"]`); if (b) b.click(); }catch(e){}
+
+document.addEventListener("click", async e => {
+  const d = e.target.closest("[data-del]");
+  if (!d){ if (S.armed){ S.armed = null; renderHist(); renderH2H(); } return; }
+  const id = d.dataset.del;
+  if (S.armed !== id){ S.armed = id; renderHist(); renderH2H(); return; }
+  S.armed = null;
+  try{ await S.db.collection("matches").doc(id).delete(); }catch(err){ setMsg("ลบไม่สำเร็จ ลองใหม่อีกครั้ง"); }
+});
+
+function openConfirm(){
+  const a = $("pa").value, b = $("pb").value; if (!a || !b || a === b) return;
+  const ta = $("ta").value.trim(), tb = $("tb").value.trim();
+  $("cfScore").innerHTML = `<div class="nm">${esc(nameOf(a))}${ta?`<small>${esc(ta)}</small>`:""}</div>
+    <div class="big num">${S.ga} – ${S.gb}</div>
+    <div class="nm">${esc(nameOf(b))}${tb?`<small>${esc(tb)}</small>`:""}</div>`;
+  $("confirm").hidden = false; $("cfYes").focus();
+}
+function closeConfirm(){ $("confirm").hidden = true; $("save").focus(); }
+$("save").addEventListener("click", openConfirm);
+$("cfNo").addEventListener("click", closeConfirm);
+$("confirm").addEventListener("click", e => { if (e.target.id === "confirm") closeConfirm(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("confirm").hidden) closeConfirm(); });
+$("cfYes").addEventListener("click", async () => {
+  $("confirm").hidden = true;
+  const a = $("pa").value, b = $("pb").value; if (!a || !b || a === b) return;
+  $("save").disabled = true;
+  const rec = {a, b, ga:S.ga, gb:S.gb, ta:$("ta").value.trim(), tb:$("tb").value.trim(), at:Date.now()};
+  try{
+    await S.db.collection("matches").add(rec);
+    setMsg(`บันทึกแล้ว: ${nameOf(a)} ${rec.ga}–${rec.gb} ${nameOf(b)}`);
+    S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0; $("ta").value = ""; $("tb").value = "";
+  }catch(err){ writeFail(err); }
+  updateSave();
+});
+
+$("addp").addEventListener("submit", async e => {
+  e.preventDefault();
+  const n = $("pname").value.trim(); if (!n || !S.db) return;
+  if (S.players.some(p => p.name.toLowerCase() === n.toLowerCase())){ setMsg(`มี ${n} อยู่แล้ว`); return; }
+  try{ await S.db.collection("players").add({name:n, createdAt:Date.now()}); $("pname").value = ""; }
+  catch(err){ writeFail(err); }
+});
+
+function writeFail(err){
+  if (err && err.code === "permission-denied"){ S.canWrite = false; setMsg("บันทึกไม่ได้ ตรวจ Firestore rules ใน Firebase"); render(); }
+  else if (err && err.code === "quota_exceeded") setMsg("พื้นที่เก็บข้อมูลเต็ม ลองลบแมตช์เก่าบางส่วน");
+  else setMsg("บันทึกไม่สำเร็จ ลองใหม่อีกครั้ง");
+}
+
+render();
+
+function localDB(){
+  const KEY = "sofa-league-v1";
+  let data = {};
+  try{ data = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+  data.players = data.players || {}; data.matches = data.matches || {};
+  const subs = {players:[], matches:[]};
+  const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){} };
+  const snap = c => ({docs: Object.entries(data[c]).map(([id,v]) => ({id, data: () => v}))});
+  const emit = c => subs[c].forEach(f => f(snap(c)));
+  return { collection(c){ return {
+    async add(v){ const id = Date.now().toString(36) + Math.random().toString(36).slice(2,7); data[c][id] = v; save(); emit(c); return {id}; },
+    doc(id){ return { async delete(){ delete data[c][id]; save(); emit(c); } }; },
+    onSnapshot(f){ subs[c].push(f); f(snap(c)); return () => {}; }
+  }; } };
+}
+
+(async () => {
+  if (firebaseConfig.apiKey && window.firebase){
+    try{
+      firebase.initializeApp(firebaseConfig);
+      await firebase.auth().signInAnonymously();
+      S.db = firebase.firestore();
+    }catch(e){ setMsg("เชื่อม Firebase ไม่สำเร็จ ตรวจ config และเปิด Anonymous sign-in ใน Firebase"); return; }
+  } else {
+    S.db = localDB();
+    $("mode").hidden = false;
+  }
+  S.db.collection("players").onSnapshot(s => { S.players = s.docs.map(d => ({id:d.id, ...d.data()})); render(); }, () => setMsg("โหลดรายชื่อไม่สำเร็จ ตรวจ Firestore rules"));
+  S.db.collection("matches").onSnapshot(s => { S.matches = s.docs.map(d => ({id:d.id, ...d.data()})); render(); }, () => setMsg("โหลดผลแมตช์ไม่สำเร็จ ตรวจ Firestore rules"));
+  updateSave();
+})();
+</script>
+</body>
+</html>
