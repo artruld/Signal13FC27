@@ -187,6 +187,24 @@ tr.top1 td.rank{color:var(--gold)}
 .danger{border:0;padding:12px;background:var(--loss);color:#1a0306;font-family:var(--display);font-weight:700;font-size:16px;border-radius:4px}
 .danger:disabled{opacity:.4;cursor:not-allowed}
 .err{color:var(--loss);font-size:13px;min-height:1.2em;margin:0}
+/* round 1 */
+.streak{font-size:12px;font-weight:700;white-space:nowrap}
+.streak.hot{color:#ff9a3d}.streak.cold{color:#7fd3ff}
+.suggest{display:flex;flex-direction:column;gap:10px}
+.sgs{display:flex;flex-direction:column;gap:8px}
+.sg{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;text-align:left;background:var(--deck);border:1px solid var(--edge);border-radius:4px;padding:10px 12px;min-width:0}
+.sg:hover{border-color:var(--volt)}
+.sg .vsn{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.sg .vsn i{font-style:normal;color:var(--muted);font-family:var(--display);font-size:12px;margin:0 6px}
+.sg small{display:block;color:var(--muted);font-size:12px}
+.sg .go{font-family:var(--display);font-weight:700;font-size:12px;color:var(--volt);white-space:nowrap}
+.sg .avs{display:flex}.sg .avs .av{width:26px;height:26px;font-size:12px}.sg .avs .av+.av{margin-left:-6px}
+.undo{align-self:center;border:1px solid var(--gold);background:rgba(255,201,74,.08);color:var(--gold);border-radius:4px;padding:8px 14px;font-size:13px;font-weight:600}
+.sharebtn{align-self:flex-end;border:1px solid var(--volt);background:rgba(46,230,214,.08);color:var(--volt);border-radius:4px;padding:8px 14px;font-family:var(--display);font-weight:700;font-size:13px}
+.sharebtn:hover{background:rgba(46,230,214,.16)}
+.sheet.share{max-height:100%;overflow:auto;gap:12px}
+.sheet.share img{width:100%;max-height:52vh;object-fit:contain;background:var(--night);border:1px solid var(--edge)}
+.sheet.share .del{align-self:center}
 @media (max-width:420px){.score output{font-size:44px}.step{width:34px;height:34px}h1{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -233,6 +251,12 @@ tr.top1 td.rank{color:var(--gold)}
     <button class="save" id="save">บันทึกผล</button>
     <button class="ghost cancel" id="cancelMatch">ยกเลิกแมตช์</button>
     <div class="msg" id="msg" role="status"></div>
+    <button class="undo" id="undoBtn" hidden>ยกเลิกผลที่เพิ่งบันทึก</button>
+  </section>
+
+  <section class="suggest" id="suggestBox" hidden aria-label="คู่แนะนำ">
+    <div class="tag" id="sgTitle">คู่ที่น่าเตะตอนนี้</div>
+    <div class="sgs" id="sgs"></div>
   </section>
 
   <section class="squad" aria-label="ผู้เล่น">
@@ -251,6 +275,7 @@ tr.top1 td.rank{color:var(--gold)}
   </div>
 
   <section class="panel" id="tab-table">
+    <button class="sharebtn" id="shareTable" hidden>แชร์ตารางเข้า LINE</button>
     <div class="podium" id="podium" hidden></div>
     <div class="tbl"><table>
       <thead><tr><th class="rank">#</th><th class="name">ผู้เล่น</th><th>นัด</th><th>ช</th><th>ส</th><th>พ</th><th>ได้-เสีย</th><th>แต้ม</th><th>เรต</th><th>ฟอร์ม</th></tr></thead>
@@ -294,6 +319,16 @@ const firebaseConfig = {
     <div class="cfbtns"><button class="ghost" id="wpNo">ยกเลิก</button><button class="danger" id="wpYes">ล้างทั้งหมด</button></div>
   </div>
 </div>
+<div class="modal" id="shareModal" hidden role="dialog" aria-modal="true" aria-labelledby="shTitle">
+  <div class="sheet share">
+    <div class="tag" id="shTitle">แชร์ผล</div>
+    <img id="shImg" alt="รูปสำหรับแชร์">
+    <p class="note" id="shNote"></p>
+    <div class="cfbtns"><button class="ghost" id="shSave">บันทึกรูป</button><button class="save" id="shGo">แชร์เข้า LINE</button></div>
+    <button class="ghost cancel" id="shClose">ปิด</button>
+    <button class="del" id="shUndo" hidden>บันทึกผิด? ยกเลิกผลนี้</button>
+  </div>
+</div>
 <div class="modal" id="confirm" hidden role="dialog" aria-modal="true" aria-labelledby="cfTitle">
   <div class="sheet">
     <div class="tag">ตรวจผลก่อนบันทึก</div>
@@ -311,18 +346,18 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 const nameOf = id => (S.players.find(p => p.id === id) || {}).name || "?";
 const KIT = ["#2ee6d6","#ffc94a","#ff7a59","#8f9bff","#3fe08f","#ff6fb5","#5fd0ff","#d4f05a"];
 function kit(id){ let h = 0; for (const c of String(id)) h = (h*31 + c.charCodeAt(0)) >>> 0; return KIT[h % KIT.length]; }
-function av(id){ const n = nameOf(id); return `<span class="av" style="background:${kit(id)}">${esc([...n][0] || "?").toUpperCase()}</span>`; }
+function initial(n){ const ch = [...String(n)]; const i = ch.findIndex(c => !/[เแโใไ]/.test(c)); return (ch[i >= 0 ? i : 0] || "?").toUpperCase(); }
+function av(id){ return `<span class="av" style="background:${kit(id)}">${esc(initial(nameOf(id)))}</span>`; }
 
 function fmtDate(t){
   try{ return new Date(t).toLocaleString("th-TH",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; }
 }
 
 const START = 1000, K = 32, SETTLED = 5, TIER_GAP = 75;
-function stats(){
-  const m = {};
-  S.delta = {};
+function statsOf(list){
+  const m = {}, delta = {};
   S.players.forEach(p => m[p.id] = {id:p.id,name:p.name,gp:0,w:0,d:0,l:0,gf:0,ga:0,form:[],elo:START});
-  const sorted = [...S.matches].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id)));
+  const sorted = [...list].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id)));
   for (const x of sorted){
     const a = m[x.a], b = m[x.b]; if (!a || !b) continue;
     const adv = (x.ra && x.rb) ? (x.rb - x.ra) * TIER_GAP : 0;
@@ -330,14 +365,27 @@ function stats(){
     const sa = x.ga > x.gb ? 1 : x.ga < x.gb ? 0 : 0.5;
     const da = K * (sa - ea);
     a.elo += da; b.elo -= da;
-    S.delta[x.id] = Math.round(da);
+    delta[x.id] = Math.round(da);
     a.gp++; b.gp++; a.gf += x.ga; a.ga += x.gb; b.gf += x.gb; b.ga += x.ga;
     if (sa === 1){a.w++; b.l++; a.form.push("W"); b.form.push("L");}
     else if (sa === 0){b.w++; a.l++; a.form.push("L"); b.form.push("W");}
     else {a.d++; b.d++; a.form.push("D"); b.form.push("D");}
   }
-  return Object.values(m).map(r => ({...r, elo: Math.round(r.elo), pts: 3*r.w + r.d, gd: r.gf - r.ga}))
+  const rows = Object.values(m).map(r => ({...r, elo: Math.round(r.elo), pts: 3*r.w + r.d, gd: r.gf - r.ga, st: streakOf(r.form)}))
     .sort((x,y) => (y.gp>0) - (x.gp>0) || y.elo - x.elo || y.pts - x.pts || x.name.localeCompare(y.name,"th"));
+  const rank = {}; rows.filter(r => r.gp).forEach((r,i) => rank[r.id] = i+1);
+  return {rows, delta, rank, by: m};
+}
+function stats(){ const r = statsOf(S.matches); S.delta = r.delta; S.rank = r.rank; S.rows = r.rows; return r.rows; }
+function streakOf(form){
+  if (!form.length) return {t:null,n:0};
+  const last = form[form.length-1]; if (last === "D") return {t:null,n:0};
+  let n = 0; for (let i = form.length-1; i >= 0 && form[i] === last; i--) n++;
+  return {t:last, n};
+}
+function stHtml(st){
+  if (!st || st.n < 3) return "";
+  return st.t === "W" ? `<span class="streak hot" title="ชนะติดกัน ${st.n} นัด">🔥${st.n}</span>` : `<span class="streak cold" title="แพ้ติดกัน ${st.n} นัด">🧊${st.n}</span>`;
 }
 
 function fillSelect(sel){
@@ -354,29 +402,65 @@ function render(){
   if (!$("ha").value && ps[0]) $("ha").value = ps[0].id;
   if (!$("hb").value && ps[1]) $("hb").value = ps[1].id;
 
-  $("chips").innerHTML = ps.length ? ps.map(p => `<span class="pl">${av(p.id)}${esc(p.name)}</span>`).join("")
-    : '<span class="note">ยังไม่มีผู้เล่น เพิ่มชื่อเพื่อนอย่างน้อย 2 คนเพื่อเริ่มจดผล</span>';
-
   const rows = stats();
+  const stOf = id => (rows.find(r => r.id === id) || {}).st;
+  $("chips").innerHTML = ps.length ? ps.map(p => `<span class="pl">${av(p.id)}${esc(p.name)}${stHtml(stOf(p.id))}</span>`).join("")
+    : '<span class="note">ยังไม่มีผู้เล่น เพิ่มชื่อเพื่อนอย่างน้อย 2 คนเพื่อเริ่มจดผล</span>';
+  $("shareTable").hidden = !rows.some(r => r.gp);
   const played = rows.filter(r => r.gp);
   const pod = $("podium");
   if (played.length >= 3){
     const order = [1,0,2];
     pod.innerHTML = order.map(i => { const r = played[i]; return `<div class="pod p${i+1}">
-      <span class="pos">${["อันดับ 1","อันดับ 2","อันดับ 3"][i]}</span>${av(r.id)}<span class="nm">${esc(r.name)}</span>
+      <span class="pos">${["อันดับ 1","อันดับ 2","อันดับ 3"][i]}</span>${av(r.id)}<span class="nm">${esc(r.name)} ${stHtml(r.st)}</span>
       <span class="pc num">${r.elo}</span><span class="note num">${r.w}-${r.d}-${r.l}</span></div>`; }).join("");
     pod.hidden = false;
   } else pod.hidden = true;
 
   $("tbody").innerHTML = rows.length ? rows.map((r,i) => `<tr class="${r.gp && i===0 ? "top1" : ""}">
-    <td class="rank">${r.gp ? i+1 : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${r.gp && r.gp < SETTLED ? '<span class="prov">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
+    <td class="rank">${r.gp ? i+1 : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${stHtml(r.st)}${r.gp && r.gp < SETTLED ? '<span class="prov">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
     <td>${r.gd>0?"+":""}${r.gd}</td><td>${r.pts}</td><td class="elo">${r.gp ? r.elo : "–"}</td>
     <td><span class="form">${r.form.slice(-5).map(f => `<span class="dot ${f}">${f==="W"?"ช":f==="D"?"ส":"พ"}</span>`).join("")}</span></td></tr>`).join("")
     : '<tr><td colspan="10" class="note" style="padding:24px">ตารางจะขึ้นเมื่อมีผู้เล่นและผลแมตช์</td></tr>';
 
-  renderH2H(); renderHist(); updateSave();
+  renderH2H(); renderHist(); updateSave(); renderSuggest();
   if (firstLoad){ S.restored = true; restorePending(); }
 }
+
+function meetCount(a, b){ return S.matches.filter(x => (x.a===a&&x.b===b)||(x.a===b&&x.b===a)).length; }
+function renderSuggest(){
+  const box = $("suggestBox"), ps = S.players;
+  if (ps.length < 2 || S.ta || S.tb || !S.canWrite){ box.hidden = true; return; }
+  const elo = {}; (S.rows || []).forEach(r => elo[r.id] = r.elo);
+  const pa = $("pa").value, pb = $("pb").value;
+  const fixed = pa && !pb ? pa : (!pa && pb ? pb : null);
+  if (pa && pb){ box.hidden = true; return; }
+  const pairs = [];
+  for (let i = 0; i < ps.length; i++) for (let j = i+1; j < ps.length; j++){
+    const a = ps[i].id, b = ps[j].id;
+    if (fixed && a !== fixed && b !== fixed) continue;
+    const n = meetCount(a, b), gap = Math.abs((elo[a] ?? START) - (elo[b] ?? START));
+    pairs.push({a, b, n, gap, score: n*30 + gap});
+  }
+  pairs.sort((x,y) => x.score - y.score);
+  const top = pairs.slice(0, 3);
+  $("sgTitle").textContent = fixed ? "คู่แข่งที่แนะนำให้ " + nameOf(fixed) : "คู่ที่น่าเตะตอนนี้";
+  $("sgs").innerHTML = top.map(p => {
+    let a = p.a, b = p.b; if (fixed && b === fixed){ [a, b] = [b, a]; }
+    return `<button class="sg" data-sa="${esc(a)}" data-sb="${esc(b)}">
+      <span class="avs">${av(a)}${av(b)}</span>
+      <span class="vsn">${esc(nameOf(a))}<i>VS</i>${esc(nameOf(b))}<small>${p.n ? "เจอกัน " + p.n + " นัด" : "ยังไม่เคยเจอกัน"} · เรตห่าง ${p.gap}</small></span>
+      <span class="go">เลือกคู่นี้</span></button>`;
+  }).join("");
+  box.hidden = !top.length;
+}
+document.addEventListener("click", e => {
+  const g = e.target.closest(".sg"); if (!g) return;
+  if (S.ta || S.tb) return;
+  $("pa").value = g.dataset.sa; $("pb").value = g.dataset.sb;
+  setMsg(""); updateSave(); renderSuggest();
+  $("pa").scrollIntoView({behavior: reduceMotion ? "auto" : "smooth", block: "center"});
+});
 
 function renderH2H(){
   const a = $("ha").value, b = $("hb").value, out = $("h2hout");
@@ -424,7 +508,7 @@ function setMsg(t){ $("msg").textContent = t; }
 document.querySelectorAll(".step").forEach(btn => btn.addEventListener("click", () => {
   const k = "g" + btn.dataset.s; S[k] = Math.max(0, Math.min(99, S[k] + Number(btn.dataset.d))); $(k).textContent = S[k]; savePending();
 }));
-["pa","pb"].forEach(id => $(id).addEventListener("change", () => { if (S["t"+id[1]]) resetSide(id[1]); updateSave(); setMsg($("pa").value && $("pa").value === $("pb").value ? "เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน" : ""); }));
+["pa","pb"].forEach(id => $(id).addEventListener("change", () => { if (S["t"+id[1]]) resetSide(id[1]); updateSave(); renderSuggest(); setMsg($("pa").value && $("pa").value === $("pb").value ? "เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน" : ""); }));
 ["ha","hb"].forEach(id => $(id).addEventListener("change", renderH2H));
 
 document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
@@ -492,7 +576,7 @@ function spin(side){
   const pick = pool[Math.floor(Math.random() * pool.length)];
   const btn = $("spin"+side); btn.hidden = true;
   S["t"+side] = pick;
-  savePending();
+  savePending(); renderSuggest();
   if (reduceMotion){ showTeam(side, pick); updateSave(); return; }
   let i = 0; const steps = 16;
   const tick = () => {
@@ -505,7 +589,7 @@ function resetSide(side){ S["t"+side] = null; $("spin"+side).hidden = false; $("
 function cancelMatch(){
   resetSpins(); $("pa").value = ""; $("pb").value = "";
   S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0;
-  clearPending(); setMsg("ยกเลิกแมตช์แล้ว"); updateSave();
+  clearPending(); setMsg("ยกเลิกแมตช์แล้ว"); updateSave(); renderSuggest();
 }
 function resetSpins(){
   ["a","b"].forEach(side => { S["t"+side] = null; $("spin"+side).hidden = false; $("team"+side).hidden = true; });
@@ -532,12 +616,17 @@ $("cfYes").addEventListener("click", async () => {
   const a = $("pa").value, b = $("pb").value; if (!a || !b || a === b) return;
   $("save").disabled = true;
   const rec = {a, b, ga:S.ga, gb:S.gb, ta:S.ta.n, tb:S.tb.n, ra:S.ta.r, rb:S.tb.r, at:Date.now()};
+  let ref = null;
   try{
-    await S.db.collection("matches").add(rec);
+    ref = await S.db.collection("matches").add(rec);
     setMsg(`บันทึกแล้ว: ${nameOf(a)} ${rec.ga}–${rec.gb} ${nameOf(b)}`);
     S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0; resetSpins(); clearPending();
   }catch(err){ writeFail(err); }
-  updateSave();
+  updateSave(); renderSuggest();
+  if (ref && ref.id){
+    startUndo(ref.id);
+    try{ await openResultShare({...rec, id: ref.id}); }catch(e){ console.warn(e); }
+  }
 });
 
 $("addp").addEventListener("submit", async e => {
@@ -574,6 +663,262 @@ $("wpYes").addEventListener("click", async () => {
   }catch(err){ $("wpErr").textContent = "ล้างไม่สำเร็จ ลองใหม่อีกครั้ง"; }
   $("wpYes").disabled = false;
 });
+
+/* ===== ยกเลิกผลล่าสุดภายใน 1 นาที ===== */
+let undoTimer = null;
+function startUndo(id){
+  S.undo = {id, until: Date.now() + 60000};
+  clearInterval(undoTimer);
+  const tick = () => {
+    const left = S.undo ? Math.ceil((S.undo.until - Date.now()) / 1000) : 0;
+    if (left <= 0){ stopUndo(); return; }
+    $("undoBtn").hidden = false; $("undoBtn").textContent = `ยกเลิกผลที่เพิ่งบันทึก (${left} วิ)`;
+    $("shUndo").textContent = `บันทึกผิด? ยกเลิกผลนี้ (${left} วิ)`;
+  };
+  tick(); undoTimer = setInterval(tick, 1000);
+}
+function stopUndo(){ S.undo = null; clearInterval(undoTimer); $("undoBtn").hidden = true; $("shUndo").hidden = true; }
+async function doUndo(){
+  if (!S.undo) return;
+  const id = S.undo.id; stopUndo();
+  try{ await S.db.collection("matches").doc(id).delete(); setMsg("ยกเลิกผลแล้ว ไม่นับในตาราง"); closeShare(); }
+  catch(err){ setMsg("ยกเลิกไม่สำเร็จ ลบจากแท็บประวัติแทนได้"); }
+}
+$("undoBtn").addEventListener("click", doUndo);
+$("shUndo").addEventListener("click", doUndo);
+
+/* ===== รูปแชร์ ===== */
+const FD = '"Chakra Petch","IBM Plex Sans Thai",sans-serif';
+const FB = '"IBM Plex Sans Thai","Chakra Petch",sans-serif';
+const C = {night:"#0a1020", ink:"#eef3ff", muted:"#8c99b8", volt:"#2ee6d6", gold:"#ffc94a", win:"#3fe08f", loss:"#ff5f6d", dark:"#04131a", edge:"#24314f"};
+const TIERC = {1:["#ffc94a","#241a00"], 2:["#8f9bff","#0b0f2a"], 3:["#5d6b8c","#eef3ff"]};
+async function fontsReady(){
+  try{
+    await Promise.all([
+      document.fonts.load('700 40px "Chakra Petch"', "ต้นABC"),
+      document.fonts.load('italic 700 40px "Chakra Petch"', "ABC"),
+      document.fonts.load('600 40px "IBM Plex Sans Thai"', "ต้น"),
+      document.fonts.load('400 40px "IBM Plex Sans Thai"', "ต้น")
+    ]);
+  }catch(e){}
+}
+function fit(ctx, text, font, size, maxW){
+  let s = size;
+  while (s > 14){ ctx.font = font.replace("{s}", s); if (ctx.measureText(text).width <= maxW) break; s -= 2; }
+  ctx.font = font.replace("{s}", s); return s;
+}
+function hex(ctx, x, y, w, h){
+  ctx.beginPath();
+  ctx.moveTo(x+w/2, y); ctx.lineTo(x+w, y+h/4); ctx.lineTo(x+w, y+3*h/4);
+  ctx.lineTo(x+w/2, y+h); ctx.lineTo(x, y+3*h/4); ctx.lineTo(x, y+h/4); ctx.closePath();
+}
+function avatar(ctx, id, x, y, size){
+  hex(ctx, x, y, size, size); ctx.fillStyle = kit(id); ctx.fill();
+  ctx.fillStyle = C.dark; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.font = `700 ${Math.round(size*0.42)}px ${FD}`;
+  ctx.fillText(initial(nameOf(id)), x+size/2, y+size/2+2);
+  ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+}
+function chip(ctx, tier, x, yMid, h){
+  if (!tier) return 0;
+  const [bg, fg] = TIERC[tier] || TIERC[3];
+  ctx.font = `600 ${Math.round(h*0.55)}px ${FB}`;
+  const t = "ระดับ " + tier, w = ctx.measureText(t).width + h*0.8;
+  ctx.fillStyle = bg; roundRect(ctx, x, yMid-h/2, w, h, 6); ctx.fill();
+  ctx.fillStyle = fg; ctx.textBaseline = "middle"; ctx.fillText(t, x + h*0.4, yMid+1); ctx.textBaseline = "alphabetic";
+  return w;
+}
+function roundRect(ctx, x, y, w, h, r){
+  ctx.beginPath(); ctx.moveTo(x+r, y); ctx.arcTo(x+w, y, x+w, y+h, r); ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r); ctx.arcTo(x, y, x+w, y, r); ctx.closePath();
+}
+function backdrop(ctx, W, H, slabY){
+  ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H);
+  const g = ctx.createLinearGradient(0, 0, W*0.6, slabY*0.6);
+  g.addColorStop(0, "#0fd3c3"); g.addColorStop(1, "#2ee6d6");
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(slabY, 0); ctx.lineTo(0, slabY); ctx.closePath(); ctx.fillStyle = g; ctx.fill();
+  ctx.save(); ctx.strokeStyle = "rgba(255,255,255,.035)"; ctx.lineWidth = 25;
+  for (let k = -H; k < W + H; k += 51){ ctx.beginPath(); ctx.moveTo(k, 0); ctx.lineTo(k - H, H); ctx.stroke(); }
+  ctx.restore();
+}
+function topTag(ctx, sub){
+  ctx.fillStyle = C.dark; ctx.font = `italic 700 31px ${FD}`; ctx.fillText("SIGNAL13 LEAGUE", 60, 92);
+  const w = ctx.measureText("SIGNAL13 LEAGUE").width;
+  ctx.globalAlpha = .65; ctx.font = `500 28px ${FD}`; ctx.fillText(sub, 60 + w + 18, 92); ctx.globalAlpha = 1;
+}
+function kicker(ctx, text, rightX, y){
+  ctx.font = `700 38px ${FD}`;
+  const w = ctx.measureText(text).width + 56, h = 74;
+  ctx.save(); ctx.translate(rightX - w, y); ctx.transform(1, 0, -0.18, 1, 0, 0);
+  ctx.fillStyle = C.gold; ctx.fillRect(0, 0, w, h); ctx.restore();
+  ctx.fillStyle = "#241a00"; ctx.textAlign = "right"; ctx.fillText(text, rightX - 28 - 6, y + 50); ctx.textAlign = "left";
+}
+function linkText(){ return (location.host + location.pathname).replace(/index\.html$/, "").replace(/\/$/, "") || "Signal13 League"; }
+function shortDate(t){ try{ return new Date(t).toLocaleString("th-TH",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; } }
+function nightStart(){ const now = new Date(), c = new Date(now); c.setHours(6,0,0,0); if (now < c) c.setDate(c.getDate()-1); return c.getTime(); }
+
+function headlineOf(o){
+  if (o.draw){
+    return o.gw === 0 ? {k:"แบ่งแต้ม", l:["ยิงกันไม่เข้า", "เสมอ 0–0"]} : {k:"แบ่งแต้ม", l:["สูสีไม่มีใครยอม", `เสมอ ${o.gw}–${o.gl}`]};
+  }
+  if (o.rw && o.rl && o.rw > o.rl) return {k:"ช็อก!", l:[`ทีมระดับ ${o.rw}`, `ล้มยักษ์ระดับ ${o.rl}`]};
+  if (o.loserRankBefore === 1) return {k:"ล้มจ่าฝูง!", l:["โค่นอันดับ 1", "ได้สำเร็จ"]};
+  if (o.rankAfter === 1 && o.rankBefore !== 1) return {k:"ขึ้นจ่าฝูง!", l:["ยึดอันดับ 1", "ของลีก"]};
+  if (o.streak >= 3) return {k:"ไฟลุก 🔥", l:["ชนะติดกัน", `${o.streak} นัดแล้ว`]};
+  if (o.gw - o.gl >= 3) return {k:"ถล่มยับ!", l:["ชนะขาด", `ห่าง ${o.gw - o.gl} ลูก`]};
+  return {k:"FULL TIME", l:["เก็บชัยชนะ", `เรตขึ้น +${o.dw}`]};
+}
+
+function drawResult(m){
+  const before = statsOf(S.matches.filter(x => x.id !== m.id));
+  const after = statsOf([...S.matches.filter(x => x.id !== m.id), m]);
+  const da = after.delta[m.id] || 0;
+  const draw = m.ga === m.gb;
+  const aHero = draw ? da >= 0 : m.ga > m.gb;
+  const H = aHero ? {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da} : {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:-da};
+  const L = aHero ? {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:-da} : {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da};
+  const o = {draw, gw:H.g, gl:L.g, rw:H.r, rl:L.r, dw:H.d,
+    loserRankBefore: before.rank[L.id], rankBefore: before.rank[H.id], rankAfter: after.rank[H.id],
+    streak: after.by[H.id] ? streakOf(after.by[H.id].form).t === "W" ? streakOf(after.by[H.id].form).n : 0 : 0};
+  const hl = headlineOf(o);
+
+  const W = 1080, Ht = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = Ht;
+  const ctx = cv.getContext("2d");
+  backdrop(ctx, W, Ht, 925);
+  topTag(ctx, shortDate(m.at));
+  kicker(ctx, hl.k, 1020, 214);
+  ctx.fillStyle = C.ink; ctx.textAlign = "right";
+  fit(ctx, hl.l[0], `700 {s}px ${FD}`, 84, 900); ctx.fillText(hl.l[0], 1020, 384);
+  fit(ctx, hl.l[1], `700 {s}px ${FD}`, 84, 900); ctx.fillText(hl.l[1], 1020, 476);
+  ctx.textAlign = "left";
+
+  avatar(ctx, H.id, 60, 590, 192);
+  ctx.fillStyle = draw ? C.gold : C.win; ctx.fillRect(288, 568, draw ? 140 : 178, 46);
+  ctx.fillStyle = draw ? "#241a00" : C.dark; ctx.font = `700 28px ${FD}`; ctx.fillText(draw ? "DRAW" : "WINNER", 304, 601);
+  ctx.fillStyle = C.ink; fit(ctx, nameOf(H.id), `700 {s}px ${FD}`, 118, 730); ctx.fillText(nameOf(H.id), 288, 728);
+  ctx.fillStyle = C.volt; fit(ctx, H.t || "", `700 {s}px ${FD}`, 38, 520); ctx.fillText(H.t || "", 288, 798);
+  chip(ctx, H.r, 288 + ctx.measureText(H.t || "").width + 20, 785, 44);
+
+  const sc = `${H.g}–${L.g}`;
+  ctx.font = `700 132px ${FD}`; const sw = Math.max(300, ctx.measureText(sc).width + 90);
+  ctx.fillStyle = C.ink; ctx.fillRect(60, 856, sw, 184);
+  ctx.strokeStyle = C.ink; ctx.lineWidth = 4; ctx.strokeRect(62, 858, 956, 180);
+  ctx.fillStyle = C.night; ctx.textAlign = "center"; ctx.fillText(sc, 60 + sw/2, 995); ctx.textAlign = "left";
+  const ox = 60 + sw + 36, ow = 1000 - ox;
+  ctx.fillStyle = C.ink; fit(ctx, (draw ? "เสมอ " : "ชนะ ") + nameOf(L.id), `600 {s}px ${FB}`, 46, ow); ctx.fillText((draw ? "เสมอ " : "ชนะ ") + nameOf(L.id), ox, 942);
+  ctx.fillStyle = C.muted; fit(ctx, L.t || "", `500 {s}px ${FD}`, 32, ow - 130); ctx.fillText(L.t || "", ox, 997);
+  chip(ctx, L.r, ox + ctx.measureText(L.t || "").width + 16, 986, 36);
+
+  const rb = o.rankBefore, ra = o.rankAfter;
+  const rankTxt = ra ? (rb && ra < rb ? `ขึ้นอันดับ ${ra} ▲${rb - ra}` : rb && ra > rb ? `อันดับ ${ra} ▼${ra - rb}` : `อันดับ ${ra}`) : "";
+  ctx.fillStyle = C.muted; ctx.font = `500 30px ${FB}`; ctx.fillText(rankTxt, 60, 1240);
+  fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 520); ctx.fillText(linkText(), 60, 1290);
+  const eloNow = after.by[H.id] ? Math.round(after.by[H.id].elo) : START;
+  const dTxt = (H.d > 0 ? "+" : H.d < 0 ? "−" : "±") + Math.abs(H.d);
+  ctx.textAlign = "right";
+  ctx.font = `700 40px ${FD}`; ctx.fillStyle = H.d >= 0 ? C.win : C.loss; ctx.fillText(dTxt, 1020, 1284);
+  const dw = ctx.measureText(dTxt).width;
+  ctx.fillStyle = C.ink; ctx.font = `700 40px ${FD}`; ctx.fillText(String(eloNow), 1020 - dw - 14, 1284);
+  const ew = ctx.measureText(String(eloNow)).width;
+  ctx.font = `600 34px ${FB}`; ctx.fillText("เรต", 1020 - dw - 14 - ew - 12, 1284);
+  ctx.textAlign = "left";
+  return {cv, text: `${nameOf(m.a)} ${m.ga}–${m.gb} ${nameOf(m.b)} · Signal13 League`};
+}
+
+function drawTable(){
+  const all = statsOf(S.matches), rows = all.rows.filter(r => r.gp).slice(0, 10);
+  const cut = nightStart();
+  const tonight = S.matches.filter(x => x.at >= cut);
+  const before = statsOf(S.matches.filter(x => x.at < cut));
+  const gain = {}; tonight.forEach(x => { const d = all.delta[x.id] || 0; gain[x.a] = (gain[x.a]||0) + d; gain[x.b] = (gain[x.b]||0) - d; });
+  const mvp = Object.entries(gain).sort((a,b) => b[1]-a[1])[0];
+
+  const W = 1080, rowH = 74, top = 750, Ht = Math.max(1350, top + rows.length*rowH + 170);
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = Ht; const ctx = cv.getContext("2d");
+  backdrop(ctx, W, Ht, 760);
+  topTag(ctx, shortDate(Date.now()));
+  kicker(ctx, "ตารางคะแนน", 1020, 150);
+  ctx.fillStyle = C.ink; ctx.textAlign = "right"; ctx.font = `700 40px ${FB}`;
+  ctx.fillText(`เล่นไปแล้ว ${S.matches.length} นัด`, 1020, 290); ctx.textAlign = "left";
+
+  const L = rows[0];
+  if (L){
+    ctx.font = "64px sans-serif"; ctx.textAlign = "center"; ctx.fillText("👑", 156, 392); ctx.textAlign = "left";
+    avatar(ctx, L.id, 72, 404, 168);
+    ctx.fillStyle = C.gold; ctx.fillRect(280, 396, 150, 46);
+    ctx.fillStyle = "#241a00"; ctx.font = `700 28px ${FB}`; ctx.fillText("จ่าฝูง", 300, 429);
+    ctx.fillStyle = C.ink; fit(ctx, L.name, `700 {s}px ${FD}`, 104, 720); ctx.fillText(L.name, 280, 540);
+    ctx.fillStyle = C.volt; ctx.font = `700 36px ${FD}`;
+    ctx.fillText(`เรต ${L.elo} · ${L.w}-${L.d}-${L.l}${L.st.n >= 3 && L.st.t === "W" ? "  🔥" + L.st.n : ""}`, 280, 600);
+  }
+  if (mvp && mvp[1] > 0){
+    ctx.fillStyle = "rgba(255,201,74,.14)"; roundRect(ctx, 60, 626, 960, 52, 8); ctx.fill();
+    ctx.fillStyle = C.gold; ctx.font = `600 28px ${FB}`;
+    ctx.fillText(`MVP คืนนี้: ${nameOf(mvp[0])}  เรต +${mvp[1]}`, 84, 662);
+  }
+
+  ctx.font = `500 22px ${FD}`; ctx.fillStyle = C.muted;
+  rows.forEach((r, i) => {
+    const y = top + i*rowH;
+    if (i % 2 === 0){ ctx.fillStyle = "rgba(255,255,255,.04)"; ctx.fillRect(60, y, 960, rowH - 6); }
+    if (i === 0){ ctx.fillStyle = C.gold; ctx.fillRect(60, y, 6, rowH - 6); }
+    const mid = y + (rowH - 6)/2;
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = i === 0 ? C.gold : C.muted; ctx.font = `700 34px ${FD}`; ctx.textAlign = "center"; ctx.fillText(String(i+1), 112, mid+2); ctx.textAlign = "left";
+    avatar(ctx, r.id, 150, mid - 22, 44); ctx.textBaseline = "middle";
+    ctx.fillStyle = C.ink; fit(ctx, r.name, `600 {s}px ${FB}`, 34, 330); ctx.fillText(r.name, 212, mid+2);
+    let nx = 212 + ctx.measureText(r.name).width + 10;
+    if (r.st.n >= 3){ ctx.font = `700 26px ${FD}`; ctx.fillStyle = r.st.t === "W" ? "#ff9a3d" : "#7fd3ff"; ctx.fillText((r.st.t === "W" ? "🔥" : "🧊") + r.st.n, nx, mid+2); }
+    ctx.fillStyle = C.muted; ctx.font = `500 28px ${FD}`; ctx.fillText(`${r.w}-${r.d}-${r.l}`, 600, mid+2);
+    ctx.fillStyle = C.volt; ctx.font = `700 36px ${FD}`; ctx.textAlign = "right"; ctx.fillText(String(r.elo), 900, mid+2);
+    const rb = before.rank[r.id], ra = i+1;
+    let mv = "–", mc = C.muted;
+    if (tonight.length && rb && ra < rb){ mv = "▲" + (rb - ra); mc = C.win; }
+    else if (tonight.length && rb && ra > rb){ mv = "▼" + (ra - rb); mc = C.loss; }
+    else if (tonight.length && !rb){ mv = "ใหม่"; mc = C.gold; }
+    ctx.fillStyle = mc; ctx.font = `700 28px ${FD}`; ctx.fillText(mv, 1000, mid+2); ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+  });
+  ctx.fillStyle = C.muted; ctx.font = `500 22px ${FD}`;
+  ctx.fillText("ชนะ-เสมอ-แพ้", 600, top - 16); ctx.textAlign = "right"; ctx.fillText("เรต", 900, top - 16); ctx.fillText("คืนนี้", 1000, top - 16); ctx.textAlign = "left";
+  fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 900); ctx.fillText(linkText(), 60, Ht - 60);
+  return {cv, text: "ตารางคะแนน Signal13 League"};
+}
+
+let shareFile = null, shareUrl = null, shareText = "";
+function closeShare(){ $("shareModal").hidden = true; }
+async function openShareCanvas(cv, filename, title, text, withUndo){
+  const blob = await new Promise(res => cv.toBlob(res, "image/png"));
+  if (!blob) throw new Error("no blob");
+  if (shareUrl) URL.revokeObjectURL(shareUrl);
+  shareUrl = URL.createObjectURL(blob); shareText = text;
+  shareFile = new File([blob], filename, {type: "image/png"});
+  $("shImg").src = shareUrl; $("shTitle").textContent = title;
+  let can = false; try{ can = !!(navigator.canShare && navigator.canShare({files:[shareFile]})); }catch(e){}
+  $("shGo").hidden = !can;
+  $("shNote").textContent = can ? "กดแชร์แล้วเลือก LINE กับกลุ่มของแก๊ง ไม่แชร์ก็กดปิดได้" : "เครื่องนี้แชร์รูปตรงไม่ได้ กดบันทึกรูป หรือกดค้างที่รูป แล้วส่งใน LINE เอง";
+  $("shUndo").hidden = !(withUndo && S.undo);
+  $("shareModal").hidden = false;
+}
+async function openResultShare(m){ await fontsReady(); const r = drawResult(m); await openShareCanvas(r.cv, "signal13-result.png", "แชร์ผลแมตช์", r.text, true); }
+$("shareTable").addEventListener("click", async () => {
+  try{ await fontsReady(); const r = drawTable(); await openShareCanvas(r.cv, "signal13-table.png", "แชร์ตารางคะแนน", r.text, false); }
+  catch(e){ setMsg("สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง"); }
+});
+$("shGo").addEventListener("click", async () => {
+  if (!shareFile) return;
+  try{ await navigator.share({files:[shareFile], text: shareText}); closeShare(); }
+  catch(e){ if (e && e.name !== "AbortError") $("shNote").textContent = "แชร์ไม่สำเร็จ ลองกดบันทึกรูปแล้วส่งใน LINE เอง"; }
+});
+$("shSave").addEventListener("click", () => {
+  if (!shareUrl) return;
+  const a = document.createElement("a"); a.href = shareUrl; a.download = shareFile ? shareFile.name : "signal13.png";
+  document.body.appendChild(a); a.click(); a.remove();
+  $("shNote").textContent = "บันทึกรูปแล้ว ถ้าไม่เห็นไฟล์ ให้กดค้างที่รูปแล้วเลือกบันทึก";
+});
+$("shClose").addEventListener("click", closeShare);
+$("shareModal").addEventListener("click", e => { if (e.target.id === "shareModal") closeShare(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("shareModal").hidden) closeShare(); });
 
 function writeFail(err){
   if (err && err.code === "permission-denied"){ S.canWrite = false; setMsg("บันทึกไม่ได้ ตรวจ Firestore rules ใน Firebase"); render(); }
