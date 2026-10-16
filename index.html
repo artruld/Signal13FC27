@@ -51,7 +51,23 @@ h1 span{color:var(--volt)}
   padding:18px 16px 16px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
 .bug::before{content:"";position:absolute;inset:0;pointer-events:none;
   background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 40px,transparent 40px 80px)}
-.bug::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--volt),#7c8cff)}
+.bug::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--ga),var(--gb2))}
+.bug{--ga:var(--volt);--gb2:#7c8cff;--gtint:rgba(46,230,214,0)}
+.bug[data-g="epl"]{--ga:#3fe08f;--gb2:#a77bff;--gtint:rgba(143,91,255,.16)}
+.bug[data-g="nat"]{--ga:#ffc94a;--gb2:#ff5f6d;--gtint:rgba(255,95,109,.13)}
+.bug[data-g="ucl"]{--ga:#cfe0ff;--gb2:#4f7cff;--gtint:rgba(79,124,255,.18)}
+.bug{background:radial-gradient(ellipse 80% 60% at 100% 0,var(--gtint),transparent 70%),linear-gradient(160deg,#16213b,#0d1528)}
+.bug[data-g="ucl"]::before{background:radial-gradient(circle at 12% 18%,rgba(255,255,255,.5) 0 1.2px,transparent 2px),radial-gradient(circle at 78% 12%,rgba(255,255,255,.45) 0 1px,transparent 1.8px),radial-gradient(circle at 92% 46%,rgba(255,255,255,.4) 0 1.3px,transparent 2px),radial-gradient(circle at 40% 8%,rgba(255,255,255,.35) 0 1px,transparent 1.6px),radial-gradient(circle at 60% 30%,rgba(255,255,255,.3) 0 .9px,transparent 1.5px),repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 40px,transparent 40px 80px)}
+.bug .tag{color:var(--ga)}
+.bug .spinbtn{border-color:var(--ga);color:var(--ga);background:color-mix(in srgb,var(--ga) 9%,transparent)}
+.bug .team.done{border-color:var(--ga)}
+.bug .save{background:linear-gradient(90deg,var(--ga),var(--gb2))}
+.gwrap{display:flex;flex-direction:column;gap:6px}
+.gbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.gbar button{border:1px solid var(--edge);background:rgba(7,11,22,.6);border-radius:4px;padding:8px 2px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbar button[aria-pressed="true"]{border-color:var(--ga);color:var(--ink);background:color-mix(in srgb,var(--ga) 16%,transparent);box-shadow:inset 0 -2px 0 var(--ga)}
+.gbar button:disabled{opacity:.3;cursor:not-allowed}
+.gnote{font-size:11px;color:var(--muted);text-align:center}
 .bug > *{position:relative}
 .tag{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.16em;color:var(--volt);text-transform:uppercase}
 .sides{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:start}
@@ -102,8 +118,9 @@ h1 span{color:var(--volt)}
 .pod .ring{padding:4px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:var(--silver)}
 .pod.p1 .ring{background:var(--gold);filter:drop-shadow(0 0 14px rgba(255,201,74,.7))}
 .pod.p3 .ring{background:var(--bronze)}
-.pod .av{width:58px;height:58px;font-size:24px}
-.pod.p1 .av{width:82px;height:82px;font-size:34px}
+.pod .av{width:min(80px,20vw);height:min(80px,20vw);font-size:30px}
+.pod.p1 .av{width:min(110px,27vw);height:min(110px,27vw);font-size:44px}
+.pod .mv{font-size:11px;min-height:14px;line-height:1.2}
 .pod .nm{font-weight:700;font-size:15px;margin-top:6px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pod.p1 .nm{font-size:18px}
 .pod .badges{font-size:13px;min-height:18px;white-space:nowrap;max-width:100%;overflow:hidden}
@@ -353,15 +370,50 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
 .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .pc{position:relative;overflow:hidden;aspect-ratio:5/6;max-width:100%;border-radius:6px;background:#0a1020;border:1px solid var(--edge);text-align:left;padding:10px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;color:var(--ink);min-width:0}
 .pc .slab{position:absolute;inset:0;background:linear-gradient(135deg,var(--ac) 0 42%,transparent 42.4%)}
-.pc .wm{position:absolute;right:-14px;bottom:8px;font-size:84px;opacity:.14;transform:rotate(-12deg);line-height:1}
+.pc .wm{position:absolute;right:10px;top:30px;font-size:clamp(40px,12vw,54px);transform:rotate(-10deg);line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
 .pc > span:not(.slab):not(.wm){position:relative}
 .pc .ptop{position:absolute!important;top:8px;right:8px;font-size:10px;font-weight:700;background:#111;color:var(--ac);padding:1px 6px;border-radius:3px}
 .pc .pt{align-self:flex-start;background:var(--ac);color:#141005;font-weight:700;font-size:12px;padding:2px 8px;transform:skewX(-10deg);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .pc .pcap{font-size:11px;color:var(--ac);line-height:1.3;overflow-wrap:anywhere}
-.pc.lock{cursor:default;filter:grayscale(1);opacity:.45}
+.pc.lock{filter:grayscale(1);opacity:.45}
 .pc.lock .pcap{color:var(--muted)}
 .pc:not(.lock):hover{border-color:var(--ac)}
 .cardsnote{font-size:12px;color:var(--muted);margin:0}
+/* v4.1 */
+.mv{font-family:var(--display);font-weight:700;font-size:10px;color:var(--muted);display:block;line-height:1;margin-top:2px;white-space:nowrap}
+.mv.up{color:var(--win)}.mv.dn{color:var(--loss)}.mv.nw{color:var(--gold)}
+[data-tip]{cursor:help}
+.tipbox{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:90;max-width:min(360px,calc(100% - 32px));
+  background:#1b2742;border:1px solid var(--volt);color:var(--ink);border-radius:8px;padding:10px 14px;font-size:14px;line-height:1.4;box-shadow:0 8px 30px rgba(0,0,0,.5);text-align:center;animation:pop .15s ease-out}
+.tipbox b{color:var(--gold)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted);margin:0}
+.legend span{white-space:nowrap}
+#cardInfo{z-index:55}
+.sheet.ci{max-height:100%;overflow:auto;gap:12px}
+.sheet.ci > *{flex-shrink:0}
+.cihead{position:relative;overflow:hidden;border-radius:8px;padding:18px 16px;text-align:left;background:linear-gradient(135deg,var(--ac) 0 24%,#0a1020 24.4%);border:1px solid var(--edge);min-height:140px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px}
+.cihead.lock{--ac:#6b7385}
+.cihead .wm{position:absolute;right:16px;top:14px;font-size:76px;line-height:1;transform:rotate(-10deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+.cihead.lock .wm{opacity:.45;filter:grayscale(1)}
+.cihead .k{align-self:flex-start;background:#111;color:var(--ac);font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px}
+.cihead .t{font-family:var(--display);font-weight:700;font-size:24px;line-height:1.15}
+.cihead .c{font-size:14px;color:var(--ac);font-weight:600}
+.cirow{background:var(--deck);border:1px solid var(--edge);border-radius:6px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:4px}
+.cirow small{font-size:11px;color:var(--muted)}
+.cirow b{font-size:15px}
+.stars{font-size:22px;letter-spacing:2px;color:var(--gold)}
+.stars i{font-style:normal;color:var(--edge)}
+.cirow .why{font-size:13px;color:var(--muted);line-height:1.45}
+.cflate{display:flex;flex-direction:column;gap:6px}
+.cflate:empty{display:none}
+.cflate small{font-size:12px;color:var(--muted)}
+.cflate .opts{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.cflate button{border:1px solid var(--edge);background:var(--deck);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cflate button[aria-pressed="true"]{border-color:#ff8fc7;color:#ff8fc7;background:rgba(255,143,199,.1)}
+.updbar{position:fixed;top:0;left:0;right:0;z-index:95;border:0;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:linear-gradient(90deg,var(--gold),#ff9a3d);color:#1a1000;font-weight:700;font-size:14px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.updbar b{font-family:var(--display)}
+#whatsNew{z-index:80}
+.wnlist{text-align:left;margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.45}
 .ver{text-align:center;font-size:11px;color:var(--muted);font-family:var(--display);letter-spacing:.08em;padding-top:8px}
 @media (max-width:420px){.score output{font-size:44px}.step{width:34px;height:34px}h1{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -383,7 +435,7 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
       </svg>
       <div>
         <h1>Signal<span>13</span> League</h1>
-        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v4.0</span></div>
+        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v4.1</span></div>
       </div>
     </div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><div class="live">MATCH NIGHT</div><button class="mechip none" id="meChip">👤 เลือกตัวเอง</button></div>
@@ -406,6 +458,7 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
         <div class="score"><button class="step" data-s="b" data-d="-1" aria-label="ลดประตูทีมเยือน">−</button><output id="gb" class="num">0</output><button class="step" data-s="b" data-d="1" aria-label="เพิ่มประตูทีมเยือน">+</button></div>
       </div>
     </div>
+    <div class="gwrap"><div class="gbar" id="gbar" role="group" aria-label="กลุ่มทีมที่จะสุ่ม"></div><div class="gnote" id="gnote"></div></div>
     <button class="spinbtn spinall" id="spinAll">สุ่มทีมทั้งสองฝั่ง</button>
     <button class="save" id="save">บันทึกผล</button>
     <button class="ghost cancel" id="cancelMatch">ยกเลิกแมตช์</button>
@@ -441,6 +494,7 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
       <thead><tr><th class="rank">#</th><th class="name">ผู้เล่น</th><th>นัด</th><th>ช</th><th>ส</th><th>พ</th><th>ได้-เสีย</th><th>แต้ม</th><th>เรต</th><th>ฟอร์ม</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table></div>
+    <p class="legend"><span>🏆 แชมป์</span><span>👋 ตบแชมป์</span><span>🧱 เหนียวจัด</span><span>💥 ยิงกระจุย</span><span>🥲 ชนะบ้างนะ</span><span>🐔 ไก่</span><span>🔥 ชนะติด</span><span>🧊 แพ้ติด</span><span>▲▼ อันดับเทียบก่อน 10 นัดล่าสุด</span><span>· แตะอิโมจิเพื่อดูความหมาย</span></p>
     <p class="note">เรียงตามเรตติ้ง ทุกคนเริ่มที่ 1000 ชนะคนเรตสูงกว่าได้แต้มเยอะ ชนะคนเรตต่ำกว่าได้น้อย ได้ทีมระดับดีกว่าถูกนับเป็นต่อ (ระดับละ 75) ชนะได้น้อยลง แพ้เสียมากขึ้น ป้าย "ยังไม่นิ่ง" คือเล่นไม่ถึง 5 นัด เรตยังเหวี่ยงได้ · แต้ม = ชนะ 3 เสมอ 1 แพ้ 0</p>
   </section>
 
@@ -475,7 +529,7 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
     <div class="list" id="hist"></div>
     <button class="wipebtn" id="wipeOpen">ล้างประวัติทั้งหมด</button>
   </section>
-  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">4.0</span></div>
+  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">4.1</span></div>
 </div>
 
 <script>
@@ -537,18 +591,30 @@ const firebaseConfig = {
 <div class="modal" id="prof" hidden role="dialog" aria-modal="true" aria-labelledby="pfName">
   <div class="sheet prof" id="profBody"></div>
 </div>
+<div class="modal" id="cardInfo" hidden role="dialog" aria-modal="true" aria-labelledby="ciName">
+  <div class="sheet ci" id="ciBody"></div>
+</div>
+<div class="modal" id="whatsNew" hidden role="dialog" aria-modal="true" aria-labelledby="wnTitle">
+  <div class="sheet">
+    <div class="tag">มีอะไรใหม่</div>
+    <div class="warn" id="wnTitle" style="color:var(--volt)"></div>
+    <ul class="wnlist" id="wnList"></ul>
+    <button class="save" id="wnOk">โอเค ไปเล่นกัน!</button>
+  </div>
+</div>
 <div class="modal" id="confirm" hidden role="dialog" aria-modal="true" aria-labelledby="cfTitle">
   <div class="sheet">
     <div class="tag">ตรวจผลก่อนบันทึก</div>
     <div class="warn" id="cfTitle">ใส่ตามจริงนะจ๊ะ</div>
     <div class="cfscore" id="cfScore"></div>
+    <div class="cflate" id="cfLate"></div>
     <p class="note">บันทึกแล้วเรตติ้งของทั้งคู่จะขยับทันที</p>
     <div class="cfbtns"><button class="ghost" id="cfNo">กลับไปแก้</button><button class="save" id="cfYes">ยืนยัน บันทึกเลย</button></div>
   </div>
 </div>
 
 <script>
-const APP_VERSION = "4.0";
+const APP_VERSION = "4.1";
 const S = {bigCache:{}, imgCache:{}, players:[], matches:[], ga:0, gb:0, ta:null, tb:null, db:null, canWrite:true, armed:null};
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -577,7 +643,7 @@ function statsOf(list){
   const slap = {}, champBeat = {};
   let curLeader = null, reign = 0, reignStart = null;
   S.players.forEach(p => m[p.id] = {id:p.id,name:p.name,gp:0,w:0,d:0,l:0,gf:0,ga:0,form:[],elo:START,hist:[],
-    winRun:0, maxWin:0, runs5:0, fire5At:null, thrash:[], shock:[], gp50At:null, reigns:0, maxReign:0, firstChampAt:null});
+    winRun:0, maxWin:0, runs5:0, fire5At:null, thrash:[], shock:[], gp50At:null, reigns:0, maxReign:0, firstChampAt:null, cs:[], csRun:0, maxCs:0, late:[]});
   const sorted = [...list].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id)));
   for (const x of sorted){
     const a = m[x.a], b = m[x.b]; if (!a || !b) continue;
@@ -609,6 +675,10 @@ function statsOf(list){
       const wr = win === a ? x.ra : x.rb, lr = win === a ? x.rb : x.ra;
       if (wr === 3 && lr === 1) win.shock.push({x});
     } else { a.winRun = 0; b.winRun = 0; }
+    const csW = win && (win === a ? x.gb : x.ga) === 0 ? win : null;
+    [a, b].forEach(p => { if (p === csW){ p.cs.push({x}); p.csRun++; if (p.csRun > p.maxCs) p.maxCs = p.csRun; } else p.csRun = 0; });
+    if (x.late === "a" && x.ga >= x.gb) a.late.push({x});
+    if (x.late === "b" && x.gb >= x.ga) b.late.push({x});
     [a, b].forEach(p => { if (p.gp === 50) p.gp50At = x.at; });
     let la = null;
     for (const id in m){ const r = m[id]; if (r.gp && (!la || r.elo > la.elo)) la = r; }
@@ -631,7 +701,7 @@ const TITLES = {
   slap:    {e:"👋", n:"ตบแชมป์",        d:"ชนะแชมป์ได้ ถือฉายาจนตัวเองลงเล่นนัดถัดไป"},
   wall:    {e:"🧱", n:"เหนียวจัด",       d:"เสียประตูเฉลี่ยต่อนัดน้อยสุด"},
   boom:    {e:"💥", n:"ยิงกระจุย",       d:"ยิงประตูเฉลี่ยต่อนัดมากสุด"},
-  pls:     {e:"🥲", n:"ชนะบ้างนะ",       d:"ไม่ได้ชนะติดต่อกันนานสุดตอนนี้ (3 นัดขึ้นไป)"},
+  pls:     {e:"🥲", n:"ชนะบ้างนะ",       d:"ไม่ได้ชนะติดต่อกัน 5 นัดขึ้นไป (ได้พร้อมกันหลายคน)"},
   chicken: {e:"🐔", n:"ไก่",             d:"เรตต่ำสุดในลีก"}
 };
 const TITLE_MIN = 5;
@@ -655,14 +725,14 @@ function titlesOf(res){
     const w = best(q, r => r.ga / r.gp, -1); if (w) give(w.r.id, "wall");
     const bm = best(q, r => r.gf / r.gp, 1); if (bm && bm.v > 0) give(bm.r.id, "boom");
   }
-  const pl = best(q.filter(r => winless(r.form) >= 3), r => winless(r.form), 1); if (pl) give(pl.r.id, "pls");
+  played.filter(r => winless(r.form) >= 5).forEach(r => give(r.id, "pls"));
   if (q.length >= 3){ const c = best(q, r => r.elo, -1); if (c && !(T[c.r.id] || []).includes("champ")) give(c.r.id, "chicken"); }
   return {T, holder};
 }
 function ttlOf(id){ return (S.titles && S.titles.T[id]) || []; }
 function ttlHtml(id){
   const t = ttlOf(id); if (!t.length) return "";
-  return `<span class="ttl" title="${esc(t.map(k => TITLES[k].n).join(", "))}">${t.map(k => TITLES[k].e).join("")}</span>`;
+  return `<span class="ttl">${t.map(k => `<span data-tip="${esc(TITLES[k].e + " " + TITLES[k].n + "|" + TITLES[k].d)}">${TITLES[k].e}</span>`).join("")}</span>`;
 }
 function streakOf(form){
   if (!form.length) return {t:null,n:0};
@@ -672,7 +742,7 @@ function streakOf(form){
 }
 function stHtml(st){
   if (!st || st.n < 3) return "";
-  return st.t === "W" ? `<span class="streak hot" title="ชนะติดกัน ${st.n} นัด">🔥${st.n}</span>` : `<span class="streak cold" title="แพ้ติดกัน ${st.n} นัด">🧊${st.n}</span>`;
+  return st.t === "W" ? `<span class="streak hot" data-tip="🔥 ไฟลุก|ชนะติดกัน ${st.n} นัด">🔥${st.n}</span>` : `<span class="streak cold" data-tip="🧊 เย็นเฉียบ|แพ้ติดกัน ${st.n} นัด">🧊${st.n}</span>`;
 }
 
 function fillSelect(sel){
@@ -697,6 +767,15 @@ function render(){
     : '<span class="note">ยังไม่มีผู้เล่น เพิ่มชื่อเพื่อนอย่างน้อย 2 คนเพื่อเริ่มจดผล</span>';
   $("shareTable").hidden = !rows.some(r => r.gp);
   const played = rows.filter(r => r.gp);
+  const ri = recentInfo(), beforeRank = ri.older.length ? statsOf(ri.older).rank : null;
+  const mvHtml = (id, ra) => {
+    if (!beforeRank) return `<span class="mv" data-tip="อันดับขยับ|ยังมีไม่ถึง 10 นัด เลยยังไม่มีอะไรให้เทียบ">–</span>`;
+    const rb = beforeRank[id];
+    if (!rb) return `<span class="mv nw" data-tip="ใหม่|เพิ่งลงเล่นใน 10 นัดล่าสุด">ใหม่</span>`;
+    if (ra < rb) return `<span class="mv up" data-tip="อันดับขึ้น|จากอันดับ ${rb} ก่อน 10 นัดล่าสุด ขึ้นมา ${rb - ra} อันดับ">▲${rb - ra}</span>`;
+    if (ra > rb) return `<span class="mv dn" data-tip="อันดับลง|จากอันดับ ${rb} ก่อน 10 นัดล่าสุด ลงไป ${ra - rb} อันดับ">▼${ra - rb}</span>`;
+    return `<span class="mv" data-tip="อันดับเท่าเดิม|อันดับเดียวกับก่อน 10 นัดล่าสุด">–</span>`;
+  };
   const pod = $("podium");
   if (played.length >= 3){
     const order = [1,0,2];
@@ -705,7 +784,7 @@ function render(){
       const reign = i === 0 && ch && ch.id === r.id ? ` · ครอง ${ch.reign} นัด` : "";
       return `<div class="pod p${i+1}" data-prof="${esc(r.id)}" aria-label="อันดับ ${i+1} ${esc(r.name)}">
       ${i === 0 ? '<span class="crown">👑</span>' : ""}<div class="ring">${av(r.id)}</div>
-      <span class="nm">${esc(r.name)}</span><span class="badges">${stHtml(r.st)}${ttlHtml(r.id) || "&nbsp;"}</span>
+      <span class="nm">${esc(r.name)}</span>${mvHtml(r.id, i+1)}<span class="badges">${stHtml(r.st)}${ttlHtml(r.id) || "&nbsp;"}</span>
       <span class="pelo num">${r.elo}</span>
       <span class="fm">${r.form.slice(-5).map(f => `<i class="${f}"></i>`).join("")}</span>
       <div class="step"><b>${i+1}</b><span class="num">${r.w}-${r.d}-${r.l}${reign}</span></div></div>`; }).join("");
@@ -713,7 +792,7 @@ function render(){
   } else pod.hidden = true;
 
   $("tbody").innerHTML = rows.length ? rows.map((r,i) => `<tr class="${r.gp && i===0 ? "top1" : ""} ${r.id === meId() ? "me" : ""}" data-prof="${esc(r.id)}">
-    <td class="rank">${r.gp ? i+1 : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${r.id === meId() ? '<span class="you">คุณ</span>' : ""}${stHtml(r.st)}${ttlHtml(r.id)}${r.gp && r.gp < SETTLED ? '<span class="prov">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
+    <td class="rank">${r.gp ? (i+1) + mvHtml(r.id, i+1) : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${r.id === meId() ? '<span class="you">คุณ</span>' : ""}${stHtml(r.st)}${ttlHtml(r.id)}${r.gp && r.gp < SETTLED ? '<span class="prov" data-tip="ยังไม่นิ่ง|เล่นไม่ถึง 5 นัด เรตยังเหวี่ยงได้เยอะ">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
     <td>${r.gd>0?"+":""}${r.gd}</td><td>${r.pts}</td><td class="elo">${r.gp ? r.elo : "–"}</td>
     <td><span class="form">${r.form.slice(-5).map(f => `<span class="dot ${f}">${f==="W"?"ช":f==="D"?"ส":"พ"}</span>`).join("")}</span></td></tr>`).join("")
     : '<tr><td colspan="10" class="note" style="padding:24px">ตารางจะขึ้นเมื่อมีผู้เล่นและผลแมตช์</td></tr>';
@@ -776,10 +855,10 @@ function renderH2H(){
 function matchRow(x){
   const aw = x.ga > x.gb, bw = x.gb > x.ga, armed = S.armed === x.id;
   return `<div class="m ${aw||bw?"dec":""}">
-    <div class="p ${aw?"won":""}">${esc(nameOf(x.a))}${x.ta?`<small>${esc(teamName(x.ta))}${x.ra?" · ระดับ "+x.ra:""}</small>`:""}</div>
+    <div class="p ${aw?"won":""}">${esc(nameOf(x.a))}${x.late === "a" ? ' <span data-tip="⏱️ นาทีบาป|ยิงประตูสำคัญในนาทีบาป">⏱️</span>' : ""}${x.ta?`<small>${esc(teamName(x.ta))}${x.ra?" · ระดับ "+x.ra:""}</small>`:""}</div>
     <div class="sc num"><span>${x.ga} – ${x.gb}</span></div>
-    <div class="p r ${bw?"won":""}">${esc(nameOf(x.b))}${x.tb?`<small>${esc(teamName(x.tb))}${x.rb?" · ระดับ "+x.rb:""}</small>`:""}</div>
-    <div class="meta"><span>${fmtDate(x.at)}${dl(x.id)}</span>${S.canWrite?`<button class="del ${armed?"arm":""}" data-del="${esc(x.id)}">${armed?"แตะอีกครั้งเพื่อลบ":"ลบ"}</button>`:""}</div>
+    <div class="p r ${bw?"won":""}">${x.late === "b" ? '<span data-tip="⏱️ นาทีบาป|ยิงประตูสำคัญในนาทีบาป">⏱️</span> ' : ""}${esc(nameOf(x.b))}${x.tb?`<small>${esc(teamName(x.tb))}${x.rb?" · ระดับ "+x.rb:""}</small>`:""}</div>
+    <div class="meta"><span>${x.g && GROUPS[x.g] ? `<span data-tip="${esc(GROUPS[x.g].e + " สุ่มจากกลุ่ม" + GROUPS[x.g].n)}">${GROUPS[x.g].e}</span> ` : ""}${fmtDate(x.at)}${dl(x.id)}</span>${S.canWrite?`<button class="del ${armed?"arm":""}" data-del="${esc(x.id)}">${armed?"แตะอีกครั้งเพื่อลบ":"ลบ"}</button>`:""}</div>
   </div>`;
 }
 
@@ -800,6 +879,7 @@ function updateSave(){
   $("save").textContent = (!S.ta || !S.tb) && a && b && a !== b ? "สุ่มทีมก่อนบันทึกผล" : "บันทึกผล";
   $("spinAll").hidden = !!(S.ta || S.tb);
   $("spinAll").disabled = !S.canWrite || !a || !b || a === b;
+  renderGroups();
 }
 function setMsg(t){ $("msg").textContent = t; }
 
@@ -825,6 +905,20 @@ document.addEventListener("click", async e => {
   try{ await S.db.collection("matches").doc(id).delete(); }catch(err){ setMsg("ลบไม่สำเร็จ ลองใหม่อีกครั้ง"); }
 });
 
+/* แตะอิโมจิ/ป้ายเพื่อดูความหมาย */
+let tipTimer = null;
+function showTip(txt){
+  let el = document.querySelector(".tipbox");
+  if (!el){ el = document.createElement("div"); el.className = "tipbox"; el.setAttribute("role", "status"); document.body.appendChild(el); }
+  const [h, d] = String(txt).split("|");
+  el.innerHTML = d ? `<b>${esc(h)}</b><br>${esc(d)}` : esc(h);
+  el.hidden = false; clearTimeout(tipTimer); tipTimer = setTimeout(() => { el.hidden = true; }, 2600);
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest && e.target.closest("[data-tip]"); if (!t) return;
+  e.stopPropagation(); e.preventDefault(); showTip(t.dataset.tip);
+}, true);
+
 const LEAGUE = {};
 [["PREMIER LEAGUE",["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Chelsea","Coventry City","Crystal Palace","Everton","Fulham","Hull City","Ipswich Town","Leeds United","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham"]],
  ["LALIGA",["Barcelona","Real Madrid","Villarreal","Atlético Madrid","Real Betis"]],
@@ -839,6 +933,40 @@ const TIERS = {
 const TEAM_ALIAS = {"Lille":"LOSC Lille"};
 const teamName = n => TEAM_ALIAS[n] || n;
 const POOL = Object.entries(TIERS).flatMap(([r,ts]) => ts.map(n => ({n, l:LEAGUE[n], r:Number(r)})));
+/* ===== กลุ่มทีมสุ่ม (v4.1) ===== */
+const GROUPS = {
+  eu:  {e:"🌍", n:"ลีกยุโรป", s:"ยุโรป", tiers: TIERS, lab: n => LEAGUE[n] || ""},
+  epl: {e:"⚽", n:"พรีเมียร์ลีก", s:"พรีเมียร์", lab: () => "PREMIER LEAGUE", tiers: {
+    1: ["Arsenal","Man City","Liverpool","Chelsea","Newcastle"],
+    2: ["Man United","Tottenham","Aston Villa","Brighton","Crystal Palace","Nottingham Forest","Bournemouth","Brentford"],
+    3: ["Everton","Fulham","Leeds United","Sunderland","Coventry City","Hull City","Ipswich Town"]}},
+  nat: {e:"🚩", n:"ทีมชาติ", s:"ทีมชาติ", lab: () => "ทีมชาติ", tiers: {
+    1: ["France","Spain","England","Argentina","Brazil","Portugal","Germany","Netherlands"],
+    2: ["Italy","Belgium","Croatia","Uruguay","Colombia","Morocco","USA","Mexico","Japan","Denmark","Switzerland"],
+    3: ["Norway","Türkiye","Senegal","Korea Republic","Ecuador","Austria","Poland","Wales","Scotland","Australia","Canada","Republic of Ireland"]}},
+  ucl: {e:"⭐", n:"UCL", s:"UCL", lab: () => "UCL 26/27", tiers: {
+    1: ["Arsenal","Man City","Bayern","PSG","Liverpool","Inter","Real Madrid","Barcelona","Atlético Madrid"],
+    2: ["Aston Villa","Man United","Dortmund","Roma","Napoli","RB Leipzig","Villarreal","Sporting CP","Porto","PSV","Real Betis","Stuttgart","LOSC Lille","Lens","Como","Galatasaray","Fenerbahçe"],
+    3: ["Club Brugge","Feyenoord","Bodø/Glimt","Shakhtar Donetsk","Sabah","LASK","Slavia Prague","AEK Athens","Viking","Slovan Bratislava"]}}
+};
+const GKEY = "signal13-group";
+const gOf = g => GROUPS[g] ? g : "eu";
+const POOLS = {};
+Object.entries(GROUPS).forEach(([g, d]) => POOLS[g] = Object.entries(d.tiers).flatMap(([r, ts]) => ts.map(n => ({n, l: d.lab(n), r: Number(r)}))));
+function groupPool(g){ return POOLS[gOf(g)]; }
+S.group = (() => { try{ return gOf(localStorage.getItem(GKEY)); }catch(e){ return "eu"; } })();
+function renderGroups(){
+  const locked = !!(S.ta || S.tb);
+  $("gbar").innerHTML = Object.entries(GROUPS).map(([g, d]) =>
+    `<button type="button" data-g="${g}" aria-pressed="${S.group === g}" ${locked && S.group !== g ? "disabled" : ""} aria-label="${esc(d.n)}">${d.e} ${esc(d.s)}</button>`).join("");
+  document.querySelector(".bug").dataset.g = S.group;
+  $("gnote").textContent = locked ? "สุ่มแล้ว เปลี่ยนกลุ่มไม่ได้ (กดยกเลิกแมตช์เพื่อเริ่มใหม่)" : `${groupPool(S.group).length} ทีม · ระดับ 1/2/3 = ${[1,2,3].map(r => groupPool(S.group).filter(t => t.r === r).length).join("/")} ทีม`;
+}
+function setGroup(g){
+  if (S.ta || S.tb || S.rolling) return;
+  S.group = gOf(g); try{ localStorage.setItem(GKEY, S.group); }catch(e){}
+  renderGroups();
+}
 const reduceMotion = (() => { try{ return matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } })();
 function showTeam(side, t, rolling){
   const box = $("team"+side); box.hidden = false;
@@ -849,7 +977,7 @@ const PKEY = "signal13-pending";
 function savePending(){
   try{
     if (!S.ta && !S.tb) { localStorage.removeItem(PKEY); return; }
-    localStorage.setItem(PKEY, JSON.stringify({pa:$("pa").value, pb:$("pb").value, ta:S.ta, tb:S.tb, ga:S.ga, gb:S.gb}));
+    localStorage.setItem(PKEY, JSON.stringify({pa:$("pa").value, pb:$("pb").value, ta:S.ta, tb:S.tb, ga:S.ga, gb:S.gb, g:S.group}));
   }catch(e){}
 }
 function clearPending(){ try{ localStorage.removeItem(PKEY); }catch(e){} }
@@ -861,7 +989,8 @@ function restorePending(){
   if (d.pa && has(d.pa)) $("pa").value = d.pa;
   if (d.pb && has(d.pb)) $("pb").value = d.pb;
   if (d.ta && d.tb && d.ta.n && d.tb.n && $("pa").value === d.pa && $("pb").value === d.pb){
-    const fix = t => { const n = teamName(t.n); const f = POOL.find(x => x.n === n); return f || {...t, n}; };
+    if (d.g) S.group = gOf(d.g);
+    const fix = t => { const n = teamName(t.n); const f = groupPool(S.group).find(x => x.n === n); return f || {...t, n}; };
     S.ta = fix(d.ta); S.tb = fix(d.tb); showTeam("a", S.ta); showTeam("b", S.tb);
   }
   S.ga = Number(d.ga) || 0; S.gb = Number(d.gb) || 0; $("ga").textContent = S.ga; $("gb").textContent = S.gb;
@@ -877,8 +1006,9 @@ function spinBoth(){
   const a = $("pa").value, b = $("pb").value;
   if (!a || !b){ setMsg("เลือกผู้เล่นให้ครบสองฝั่งก่อนสุ่มทีม"); return; }
   if (a === b){ setMsg("เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน"); return; }
-  const pickA = POOL[Math.floor(Math.random() * POOL.length)];
-  const restB = POOL.filter(t => t.n !== pickA.n);
+  const pool = groupPool(S.group);
+  const pickA = pool[Math.floor(Math.random() * pool.length)];
+  const restB = pool.filter(t => t.n !== pickA.n);
   const pickB = restB[Math.floor(Math.random() * restB.length)];
   S.ta = pickA; S.tb = pickB; S.rolling = true;
   savePending(); renderSuggest(); setMsg("");
@@ -886,7 +1016,7 @@ function spinBoth(){
   updateSave();
   /* แสดงรายชื่อวิ่งทุกเครื่อง (เป็นแค่ข้อความเปลี่ยน ไม่ใช่ภาพเคลื่อนไหว) */
   let i = 0; const stopA = 15, stopB = 20;
-  const rnd = () => POOL[Math.floor(Math.random() * POOL.length)];
+  const rnd = () => pool[Math.floor(Math.random() * pool.length)];
   const tick = () => {
     i++;
     if (i < stopA) showTeam("a", rnd(), true); else if (i === stopA) showTeam("a", pickA);
@@ -907,6 +1037,7 @@ function resetSpins(){
   ["a","b"].forEach(emptyTeam); updateSave();
 }
 $("spinAll").addEventListener("click", spinBoth);
+$("gbar").addEventListener("click", e => { const b = e.target.closest("[data-g]"); if (b && !b.disabled) setGroup(b.dataset.g); });
 $("cancelMatch").addEventListener("click", cancelMatch);
 
 function openConfirm(){
@@ -915,6 +1046,17 @@ function openConfirm(){
   $("cfScore").innerHTML = `<div class="nm">${esc(nameOf(a))}${ta?`<small>${esc(ta)}</small>`:""}</div>
     <div class="big num">${S.ga} – ${S.gb}</div>
     <div class="nm">${esc(nameOf(b))}${tb?`<small>${esc(tb)}</small>`:""}</div>`;
+  S.late = "";
+  const sides = [];
+  if (S.ga + S.gb > 0){ if (S.ga >= S.gb) sides.push(["a", a]); if (S.gb >= S.ga) sides.push(["b", b]); }
+  const lateBox = $("cfLate");
+  if (sides.length){
+    lateBox.innerHTML = `<small>⏱️ มีประตู${S.ga === S.gb ? "ตีเสมอ" : "ชนะ"}ในนาทีบาป (ทดเจ็บ) ไหม?</small><div class="opts">
+      <button type="button" data-late="" aria-pressed="true">ไม่มี</button>${sides.map(([k, id]) => `<button type="button" data-late="${k}" aria-pressed="false">⏱️ ${esc(nameOf(id))}</button>`).join("")}</div>`;
+    lateBox.querySelectorAll("[data-late]").forEach(btn => btn.addEventListener("click", () => {
+      S.late = btn.dataset.late; lateBox.querySelectorAll("[data-late]").forEach(x => x.setAttribute("aria-pressed", x === btn));
+    }));
+  } else lateBox.innerHTML = "";
   $("confirm").hidden = false; $("cfYes").focus();
 }
 function closeConfirm(){ $("confirm").hidden = true; $("save").focus(); }
@@ -926,7 +1068,8 @@ $("cfYes").addEventListener("click", async () => {
   $("confirm").hidden = true;
   const a = $("pa").value, b = $("pb").value; if (!a || !b || a === b) return;
   $("save").disabled = true;
-  const rec = {a, b, ga:S.ga, gb:S.gb, ta:S.ta.n, tb:S.tb.n, ra:S.ta.r, rb:S.tb.r, at:Date.now()};
+  const rec = {a, b, ga:S.ga, gb:S.gb, ta:S.ta.n, tb:S.tb.n, ra:S.ta.r, rb:S.tb.r, at:Date.now(), g:S.group || "eu"};
+  if (S.late === "a" || S.late === "b") rec.late = S.late;
   let ref = null;
   try{
     ref = await S.db.collection("matches").add(rec);
@@ -1057,6 +1200,15 @@ function backdrop(ctx, W, H, slabY, c1, c2){
   for (let k = -H; k < W + H; k += 51){ ctx.beginPath(); ctx.moveTo(k, 0); ctx.lineTo(k - H, H); ctx.stroke(); }
   ctx.restore();
 }
+const GTHEME = {eu:["#0fd3c3","#2ee6d6"], epl:["#3fe08f","#8f5bff"], nat:["#ffc94a","#ff5f6d"], ucl:["#dfe6f5","#4f7cff"]};
+function starsOn(ctx, slabY){
+  ctx.save(); ctx.fillStyle = "rgba(255,255,255,.75)";
+  const pts = [[150,190,14],[300,120,10],[420,240,16],[210,380,11],[560,150,12],[90,520,13],[360,470,9],[700,150,10],[480,330,12],[120,300,8]];
+  pts.forEach(([x, y, r]) => { if (x + y > slabY - 30) return; ctx.beginPath();
+    for (let i = 0; i < 10; i++){ const a = -Math.PI/2 + i*Math.PI/5, rr = i % 2 ? r*.45 : r; ctx.lineTo(x + Math.cos(a)*rr, y + Math.sin(a)*rr); }
+    ctx.closePath(); ctx.fill(); });
+  ctx.restore();
+}
 function topTag(ctx, sub){
   ctx.fillStyle = C.dark; ctx.font = `italic 700 31px ${FD}`; ctx.fillText("SIGNAL13 LEAGUE", 60, 92);
   const w = ctx.measureText("SIGNAL13 LEAGUE").width;
@@ -1081,9 +1233,11 @@ function sessionStart(){
 
 function headlineOf(o){
   if (o.draw){
+    if (o.late) return {k:"นาทีบาป! ⏱️", l:["ตีเสมอนาทีบาป", `รอดตาย ${o.gw}–${o.gl}`]};
     return o.gw === 0 ? {k:"แบ่งแต้ม", l:["ยิงกันไม่เข้า", "เสมอ 0–0"]} : {k:"แบ่งแต้ม", l:["สูสีไม่มีใครยอม", `เสมอ ${o.gw}–${o.gl}`]};
   }
   if (o.champBeat) return {k:"ตบแชมป์! 👋", l:["ล้มแชมป์อ่ะครับ!!", "ได้สำเร็จ"]};
+  if (o.late) return {k:"นาทีบาป! ⏱️", l:["ยิงนาทีบาป", `เชือดคาที่ ${o.gw}–${o.gl}`]};
   if (o.rw && o.rl && o.rw > o.rl) return {k:"ช็อก!", l:[`ทีมระดับ ${o.rw}`, `ล้มยักษ์ระดับ ${o.rl}`]};
   if (o.rankAfter === 1 && o.rankBefore !== 1) return {k:"ขึ้นแชมป์!", l:["ยึดบัลลังก์", "แชมป์อ่ะครับ!!"]};
   if (o.streak >= 3) return {k:"ไฟลุก 🔥", l:["ชนะติดกัน", `${o.streak} นัดแล้ว`]};
@@ -1096,18 +1250,20 @@ function drawResult(m){
   const after = statsOf([...S.matches.filter(x => x.id !== m.id), m]);
   const da = after.delta[m.id] || 0;
   const draw = m.ga === m.gb;
-  const aHero = draw ? da >= 0 : m.ga > m.gb;
+  const aHero = draw ? (m.late === "a" ? true : m.late === "b" ? false : da >= 0) : m.ga > m.gb;
   const H = aHero ? {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da} : {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:-da};
   const L = aHero ? {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:-da} : {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da};
-  const o = {draw, gw:H.g, gl:L.g, rw:H.r, rl:L.r, dw:H.d,
+  const o = {draw, gw:H.g, gl:L.g, rw:H.r, rl:L.r, dw:H.d, late: (m.late === "a" || m.late === "b") && (m.late === "a") === aHero,
     champBeat: !!after.champBeat[m.id], rankBefore: before.rank[H.id], rankAfter: after.rank[H.id],
     streak: after.by[H.id] ? streakOf(after.by[H.id].form).t === "W" ? streakOf(after.by[H.id].form).n : 0 : 0};
   const hl = headlineOf(o);
 
   const W = 1080, Ht = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = Ht;
   const ctx = cv.getContext("2d");
-  backdrop(ctx, W, Ht, 925);
-  topTag(ctx, shortDate(m.at));
+  const gt = GTHEME[gOf(m.g)];
+  backdrop(ctx, W, Ht, 925, gt[0], gt[1]);
+  if (gOf(m.g) === "ucl") starsOn(ctx, 925);
+  topTag(ctx, shortDate(m.at) + (m.g && GROUPS[m.g] ? " · " + GROUPS[m.g].n : ""));
   kicker(ctx, hl.k, 1020, 214);
   ctx.fillStyle = C.ink;
   fit(ctx, hl.l[0], `700 {s}px ${FD}`, 84, 900); fillR(ctx, hl.l[0], 1020, 384);
@@ -1180,8 +1336,9 @@ function drawTable(){
     ctx.fillStyle = "#241a00"; ctx.fillText("แชมป์อ่ะครับ!!", 300, 429);
     ctx.fillStyle = C.ink; fit(ctx, L.name, `700 {s}px ${FD}`, 104, 720); ctx.fillText(L.name, 280, 540);
     ctx.fillStyle = C.volt; ctx.font = `700 36px ${FD}`;
-    ctx.fillText(`เรต ${L.elo} · ${L.w}-${L.d}-${L.l}`, 280, 600);
-    const lw = ctx.measureText(`เรต ${L.elo} · ${L.w}-${L.d}-${L.l}`).width;
+    const lt = `เรต ${L.elo} · ${L.gp} นัด · ${L.w}-${L.d}-${L.l}`;
+    ctx.fillText(lt, 280, 600);
+    const lw = ctx.measureText(lt).width;
     const le = emojiLine(L.id, L.st).replace("🏆", ""); if (le){ ctx.font = "32px sans-serif"; ctx.fillText(le, 280 + lw + 16, 600); }
   }
   if (info.mvp){
@@ -1197,11 +1354,12 @@ function drawTable(){
     ctx.textBaseline = "middle";
     ctx.fillStyle = i === 0 ? C.gold : C.muted; ctx.font = `700 34px ${FD}`; fillC(ctx, String(i+1), 112, mid+2);
     avatar(ctx, r.id, 150, mid - 22, 44); ctx.textBaseline = "middle";
-    ctx.fillStyle = C.ink; fit(ctx, r.name, `600 {s}px ${FB}`, 34, 250); ctx.fillText(r.name, 212, mid+2);
+    ctx.fillStyle = C.ink; fit(ctx, r.name, `600 {s}px ${FB}`, 34, 220); ctx.fillText(r.name, 212, mid+2);
     const nx = 212 + ctx.measureText(r.name).width + 10;
     const em = emojiLine(r.id, r.st);
     if (em){ ctx.font = "26px sans-serif"; ctx.fillText(em, nx, mid+2); }
-    ctx.fillStyle = C.muted; ctx.font = `500 28px ${FD}`; ctx.fillText(`${r.w}-${r.d}-${r.l}`, 600, mid+2);
+    ctx.fillStyle = C.ink; ctx.font = `700 30px ${FD}`; fillR(ctx, String(r.gp), 585, mid+2);
+    ctx.fillStyle = C.muted; ctx.font = `500 28px ${FD}`; ctx.fillText(`${r.w}-${r.d}-${r.l}`, 625, mid+2);
     ctx.fillStyle = C.volt; ctx.font = `700 36px ${FD}`; fillR(ctx, String(r.elo), 860, mid+2);
     const rb = before.rank[r.id], ra = i+1;
     let mv = "–", mc = C.muted;
@@ -1214,7 +1372,7 @@ function drawTable(){
     ctx.textBaseline = "alphabetic";
   });
   ctx.fillStyle = C.muted; ctx.font = `500 22px ${FD}`;
-  ctx.fillText("ชนะ-เสมอ-แพ้", 600, top - 16); fillR(ctx, "เรต", 860, top - 16); fillR(ctx, "10 นัดล่าสุด", 1005, top - 16);
+  fillR(ctx, "นัด", 585, top - 16); ctx.fillText("ชนะ-เสมอ-แพ้", 625, top - 16); fillR(ctx, "เรต", 860, top - 16); fillR(ctx, "10 นัดล่าสุด", 1005, top - 16);
   fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 900); ctx.fillText(linkText(), 60, Ht - 60);
   return {cv, text: "ตารางคะแนน Signal13 League"};
 }
@@ -1277,18 +1435,18 @@ function drawSummary(){
 /* ===== แท็บสถิติ ===== */
 function teamStats(){
   const t = {};
-  const add = (name, tier, gf, ga) => {
-    if (!name) return; const n = teamName(name);
-    const r = t[n] = t[n] || {n, r: tier, gp:0, w:0, d:0, l:0};
+  const add = (name, tier, gf, ga, g) => {
+    if (!name) return; const n = teamName(name), gk = gOf(g), key = gk + "|" + n;
+    const r = t[key] = t[key] || {n, g: gk, r: tier, gp:0, w:0, d:0, l:0};
     r.gp++; if (gf > ga) r.w++; else if (gf < ga) r.l++; else r.d++;
     if (tier) r.r = tier;
   };
-  S.matches.forEach(x => { add(x.ta, x.ra, x.ga, x.gb); add(x.tb, x.rb, x.gb, x.ga); });
-  return Object.values(t).filter(r => r.gp >= 2).map(r => ({...r, wr: r.w / r.gp, l1: LEAGUE[r.n] || ""}));
+  S.matches.forEach(x => { add(x.ta, x.ra, x.ga, x.gb, x.g); add(x.tb, x.rb, x.gb, x.ga, x.g); });
+  return Object.values(t).filter(r => r.gp >= 2).map(r => ({...r, wr: r.w / r.gp, l1: r.g === "eu" ? (LEAGUE[r.n] || "") : GROUPS[r.g].n}));
 }
 function teamRow(r){
   return `<div class="trow"><span class="e">${r.wr >= .5 ? "🍀" : "🪦"}</span>
-    <span><b>${esc(r.n)}</b><small>${esc(r.l1)}${r.r ? " · ระดับ " + r.r : ""} · ${r.w}-${r.d}-${r.l}</small></span>
+    <span><b>${esc(r.n)}</b><small>${GROUPS[r.g].e} ${esc(r.l1)}${r.r ? " · ระดับ " + r.r : ""} · ${r.w}-${r.d}-${r.l}</small></span>
     <span class="who num">${Math.round(r.wr*100)}%</span></div>`;
 }
 function renderStats(){
@@ -1366,11 +1524,11 @@ function renderProfile(id){
       <div class="ctop"><button class="back" id="pfBack" aria-label="กลับไปโปรไฟล์">‹</button><h2 id="pfName">การ์ดสะสมของ${esc(nameOf(id))}</h2><span class="ct num">${haveN}/${cards.length}</span></div>
       <p class="pfnote" id="pfNote" role="status">${esc(S.pfNote || "")}</p>
       <div class="cards">${cards.map(cardHtml).join("")}</div>
-      <p class="cardsnote">การ์ดฉายาหายเมื่อเสียฉายา การ์ดถาวรเก็บตลอดไป แตะการ์ดที่มีเพื่อแชร์เข้า LINE</p>
+      <p class="cardsnote">การ์ดฉายาหายเมื่อเสียฉายา การ์ดถาวรเก็บตลอดไป แตะการ์ดเพื่อดูรายละเอียด ความยาก และแชร์</p>
       <button class="ghost cancel" id="pfClose">ปิด</button>`;
     $("pfBack").addEventListener("click", () => { S.profView = "main"; S.pfNote = ""; renderProfile(id); $("profBody").scrollTop = 0; });
     $("pfClose").addEventListener("click", closeProfile);
-    document.querySelectorAll("#profBody [data-card]").forEach(b => b.addEventListener("click", () => shareCard(id, b.dataset.card)));
+    document.querySelectorAll("#profBody [data-card]").forEach(b => b.addEventListener("click", () => openCardInfo(id, b.dataset.card)));
     return;
   }
   $("profBody").innerHTML = `
@@ -1416,7 +1574,7 @@ function renderProfile(id){
   if ($("pfCancel")) $("pfCancel").addEventListener("click", () => { S.editingName = null; renderProfile(id); });
   if ($("pfSave")) $("pfSave").addEventListener("click", () => saveName(id));
   if ($("pfInput")) $("pfInput").addEventListener("keydown", e => { if (e.key === "Enter") saveName(id); if (e.key === "Escape"){ e.stopPropagation(); S.editingName = null; renderProfile(id); } });
-  document.querySelectorAll("#profBody [data-card]").forEach(b => b.addEventListener("click", () => shareCard(id, b.dataset.card)));
+  document.querySelectorAll("#profBody [data-card]").forEach(b => b.addEventListener("click", () => openCardInfo(id, b.dataset.card)));
 }
 async function saveName(id){
   const n = ($("pfInput").value || "").trim();
@@ -1441,7 +1599,7 @@ document.addEventListener("click", e => {
   openProfile(t.dataset.prof);
 });
 $("prof").addEventListener("click", e => { if (e.target.id === "prof") closeProfile(); });
-document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("prof").hidden) closeProfile(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("prof").hidden && $("cardInfo").hidden && $("shareModal").hidden) closeProfile(); });
 
 /* ===== การ์ด ===== */
 const CARDS = {
@@ -1455,6 +1613,8 @@ const CARDS = {
   fire5:     {e:"🔥", n:"ไฟลุก 5",         kind:"p", c:"#ff9a3d", c2:"#ff7d1a", how:"ชนะติดกัน 5 นัด"},
   thrash:    {e:"💣", n:"ถล่ม",            kind:"p", c:"#ff5f6d", c2:"#ff3d4f", how:"ชนะห่าง 5 ลูกขึ้นไป"},
   shock:     {e:"⚡", n:"ช็อกโลก",          kind:"p", c:"#7fe3ff", c2:"#4fd2ff", how:"ใช้ทีมระดับ 3 ชนะทีมระดับ 1"},
+  cs:        {e:"🧤", n:"คลีนชีท",         kind:"p", c:"#5fe0a8", c2:"#36c98a", how:"ชนะโดยไม่เสียประตู (ไม่นับ 0–0)"},
+  late:      {e:"⏱️", n:"นาทีบาป",         kind:"p", c:"#ff8fc7", c2:"#ff6fb5", how:"ยิงประตูชนะหรือตีเสมอในนาทีบาป (ทดเจ็บ)"},
   vet:       {e:"🎖️", n:"ทหารผ่านศึก",     kind:"p", c:"#a7c27a", c2:"#8fae5c", how:"ลงเล่นครบ 50 นัด"}
 };
 function cardsOf(id){
@@ -1480,12 +1640,16 @@ function cardsOf(id){
   p("thrash", !!bt, bt ? wsc(bt.x) : "", bt && bt.x.at, r.thrash.length);
   const sk = r.shock[r.shock.length - 1];
   p("shock", !!sk, sk ? (() => { const x = sk.x, me = x.a === id; return `${teamName(me ? x.ta : x.tb)} ล้ม ${teamName(me ? x.tb : x.ta)} ${me ? x.ga : x.gb}–${me ? x.gb : x.ga}`; })() : "", sk && sk.x.at, r.shock.length);
+  p("cs", r.cs.length > 0, `คลีนชีท ${r.cs.length} นัด · ติดกันสูงสุด ${r.maxCs} นัด`, r.cs[0] && r.cs[0].x.at, r.cs.length);
+  const lt = r.late[r.late.length - 1];
+  p("late", !!lt, lt ? (() => { const x = lt.x, me = x.a === id, f = me ? x.ga : x.gb, g = me ? x.gb : x.ga;
+    return `${f > g ? "เชือด" : "ตีเสมอ"} ${nameOf(me ? x.b : x.a)} นาทีบาป ${f}–${g}`; })() : "", r.late[0] && r.late[0].x.at, r.late.length);
   p("vet", r.gp >= 50, `ลงสนามแล้ว ${r.gp} นัด`, r.gp50At);
   return out.sort((a,b) => b.have - a.have);
 }
 function cardHtml(c){
   const d = CARDS[c.k];
-  return `<button type="button" class="pc ${c.have ? "" : "lock"}" ${c.have ? `data-card="${c.k}"` : "disabled"} style="--ac:${d.c}" aria-label="การ์ด${esc(d.n)}${c.have ? "" : " (ยังไม่ได้)"}">
+  return `<button type="button" class="pc ${c.have ? "" : "lock"}" data-card="${c.k}" style="--ac:${d.c}" aria-label="การ์ด${esc(d.n)}${c.have ? "" : " (ยังไม่ได้)"}">
     <span class="slab"></span><span class="wm">${d.e}</span>
     <span class="ptop">${d.kind === "t" ? "ฉายา" : "ถาวร"}${c.count > 1 ? " ×" + c.count : ""}</span>
     <span class="pt">${d.e} ${esc(d.n)}</span>
@@ -1497,7 +1661,8 @@ function drawCard(id, c){
   const d = CARDS[c.k], res = S.res || statsOf(S.matches), r = res.by[id];
   const W = 1080, Ht = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = Ht; const ctx = cv.getContext("2d");
   backdrop(ctx, W, Ht, 1020, d.c2, d.c);
-  ctx.save(); ctx.translate(800, 1020); ctx.rotate(-0.21); ctx.globalAlpha = .13; ctx.font = "560px sans-serif"; ctx.textBaseline = "middle"; fillC(ctx, d.e, 0, 0); ctx.restore();
+  ctx.save(); ctx.translate(810, 360); ctx.rotate(-0.17); ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 16;
+  ctx.font = "300px sans-serif"; ctx.textBaseline = "middle"; fillC(ctx, d.e, 0, 0); ctx.restore();
   ctx.textBaseline = "alphabetic";
   topTag(ctx, d.kind === "t" ? "การ์ดฉายา" : "การ์ดถาวร");
   if (c.count > 1){
@@ -1519,6 +1684,112 @@ function drawCard(id, c){
   fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 900); ctx.fillText(linkText(), 60, 1290);
   return {cv, text: `การ์ด${d.n} ของ ${nameOf(id)} · Signal13 League`};
 }
+/* ===== ความยากการ์ด (เฉพาะตัว) ===== */
+function leagueRates(){
+  const ms = S.matches, n = ms.length;
+  let dr = 0, th = 0, z = 0, lt = 0;
+  ms.forEach(x => { if (x.ga === x.gb) dr++; if (Math.abs(x.ga - x.gb) >= 5) th++; if (x.ga === 0) z++; if (x.gb === 0) z++; if (x.late === "a" || x.late === "b") lt++; });
+  return {n, pD: n ? Math.max(.08, dr / n) : .2, th: n ? th / n : 0, p0: n ? z / (2*n) : .2, lt: n ? lt / n : 0};
+}
+const winP = (a, b) => 1 / (1 + Math.pow(10, (b - a) / 400));
+function difficultyOf(id, k){
+  const res = S.res || statsOf(S.matches), r = res.by[id], L = leagueRates();
+  if (!r) return null;
+  const me = Math.round(r.elo), played = res.rows.filter(x => x.gp), others = played.filter(x => x.id !== id);
+  const opp = others.length ? others : [{elo: START}];
+  const pw = opp.reduce((s, o) => s + winP(me, o.elo), 0) / opp.length * (1 - L.pD);
+  const pct = v => v >= .995 ? "เกือบแน่นอน" : v < .005 ? "ต่ำกว่า 1%" : `ราว ${Math.round(v*100)}%`;
+  const need5 = r.gp < TITLE_MIN ? `ต้องเล่นครบ ${TITLE_MIN} นัดก่อน (อีก ${TITLE_MIN - r.gp} นัด) · ` : "";
+  const holderOf = t => (S.titles && S.titles.holder[t] || []).filter(h => h !== id);
+  const leader = played[0];
+  const climb = () => {
+    if (!leader || leader.id === id) return {p: 1, why: "ตอนนี้คุณคือแชมป์อยู่แล้ว"};
+    const gap = Math.max(1, leader.elo - me), n = Math.max(1, Math.ceil(gap / 16));
+    const pp = Math.pow(Math.max(.05, pw), n);
+    return {p: pp, why: `ตามแชมป์ (${nameOf(leader.id)}) อยู่ ${gap} เรต ต้องชนะราว ${n} นัดโดยไม่พลาด · โอกาส${pct(pp)}`};
+  };
+  let p = .5, why = "";
+  if (k === "champ" || k === "everChamp") ({p, why} = climb());
+  else if (k === "slap"){
+    if (!leader || leader.id === id) return {st: 0, why: "คุณคือแชมป์ ตบตัวเองไม่ได้ ต้องเสียบัลลังก์ก่อนแล้วค่อยกลับมาตบ 😅"};
+    else { p = winP(me, leader.elo) * (1 - L.pD); why = `ต้องชนะแชมป์ ${nameOf(leader.id)} (เรต ${leader.elo}) · โอกาสชนะต่อนัด${pct(p)}`; }
+  }
+  else if (k === "wall" || k === "boom"){
+    const h = holderOf(k)[0], hr = h && res.by[h], f = x => k === "wall" ? x.ga / Math.max(1, x.gp) : x.gf / Math.max(1, x.gp);
+    const mine = r.gp ? f(r) : (k === "wall" ? 2 : 0);
+    if (!hr){ p = .4; why = need5 + "ยังไม่มีใครถือฉายานี้ เล่นครบแล้วลุ้นได้เลย"; }
+    else {
+      const hv = f(hr), ratio = k === "wall" ? (hv + .15) / (mine + .15) : (mine + .15) / (hv + .15);
+      p = Math.min(.9, Math.pow(ratio, 3)) * (r.gp < TITLE_MIN ? .8 : 1);
+      why = need5 + `ต้อง${k === "wall" ? "เสีย" : "ยิง"}เฉลี่ย${k === "wall" ? "ต่ำ" : "สูง"}กว่า ${nameOf(h)} (${hv.toFixed(2)} ลูกต่อนัด) · ตอนนี้คุณ ${r.gp ? mine.toFixed(2) : "–"}`;
+    }
+  }
+  else if (k === "pls"){
+    const w = winless(r.form), need = Math.max(1, 5 - w); p = Math.pow(1 - pw, need);
+    why = `ต้องไม่ชนะติดกันอีก ${need} นัด (ตอนนี้ไม่ชนะมา ${w} นัด) · โอกาส${pct(p)} · การ์ดที่ไม่มีใครอยากได้ 🥲`;
+  }
+  else if (k === "chicken"){
+    const low = played.filter(x => x.gp >= TITLE_MIN && x.id !== id).sort((a,b) => a.elo - b.elo)[0];
+    if (!low){ p = .3; why = need5 + "ยังมีคนเล่นครบน้อยไป"; }
+    else { const gap = Math.max(0, me - low.elo), n = Math.max(1, Math.ceil((gap + 1) / 16)); p = Math.pow(1 - pw, n);
+      why = need5 + `ห่างจากบ๊วย (${nameOf(low.id)}) ${gap} เรต ต้องแพ้ราว ${n} นัด · โอกาส${pct(p)}`; }
+  }
+  else if (k === "fire5"){
+    const need = Math.max(1, 5 - r.winRun); p = Math.pow(pw, need);
+    why = `ต้องชนะติดกันอีก ${need} นัด (ตอนนี้ชนะติด ${r.winRun}) · โอกาสชนะต่อนัด${pct(pw)} → รวม${pct(p)}`;
+  }
+  else if (k === "thrash"){
+    const base = L.n >= 10 ? L.th : .03; p = Math.min(.9, base * 2 * (pw / Math.max(.15, 1 - L.pD)));
+    why = `ต้องชนะห่าง 5 ลูก · ทั้งลีกเกิดแค่ ${Math.round(L.th*1000)/10}% ของนัดทั้งหมด · ต่อนัดสำหรับคุณ${pct(p)}`;
+  }
+  else if (k === "shock"){
+    const pool = groupPool(S.group), n = pool.length || 1;
+    const t3 = pool.filter(t => t.r === 3).length / n, t1 = pool.filter(t => t.r === 1).length / n;
+    const pwin = (opp.reduce((s, o) => s + winP(me - 2*TIER_GAP, o.elo), 0) / opp.length) * (1 - L.pD);
+    p = t3 * t1 * pwin;
+    why = `ต้องสุ่มได้ทีมระดับ 3 เจอระดับ 1 (โอกาส${pct(t3*t1)}) แล้วชนะให้ได้ (${pct(pwin)}) · รวมต่อนัด${pct(p)}`;
+  }
+  else if (k === "cs"){
+    p = pw * (L.n >= 10 ? L.p0 : .2) * 1.3;
+    why = `ต้องชนะโดยคู่แข่งยิงไม่ได้ · ทั้งลีกมีฝั่งที่ยิงไม่ได้ ${Math.round(L.p0*100)}% · ต่อนัดสำหรับคุณ${pct(p)}`;
+  }
+  else if (k === "late"){
+    p = Math.max(.02, L.lt) * .5;
+    why = L.lt ? `ทั้งลีกมีประตูนาทีบาป ${Math.round(L.lt*100)}% ของนัด · ต้องเป็นคนยิงเอง ลุ้นต่อนัด${pct(p)}` : "ยังไม่มีใครเคยได้เลย เป็นคนแรกสิ! ต้องยิงชนะหรือตีเสมอตอนทดเจ็บ";
+  }
+  else if (k === "vet"){
+    const left = Math.max(0, 50 - r.gp);
+    const st = left <= 5 ? 1 : left <= 15 ? 2 : left <= 30 ? 3 : left <= 45 ? 4 : 5;
+    return {st, why: `อีก ${left} นัดก็ได้แล้ว ไม่ต้องเก่ง แค่ต้องมาเล่นบ่อยๆ`};
+  }
+  const st = p >= .5 ? 1 : p >= .25 ? 2 : p >= .1 ? 3 : p >= .03 ? 4 : 5;
+  return {st, why, p};
+}
+function starsHtml(n){ return `<span class="stars" aria-label="ความยาก ${n} จาก 5">${"★".repeat(n)}<i>${"★".repeat(5 - n)}</i></span>`; }
+const STAR_TXT = ["", "ง่าย", "พอได้", "ยาก", "ยากมาก", "โหดสุด"];
+function openCardInfo(id, k){
+  const c = cardsOf(id).find(x => x.k === k), d = CARDS[k]; if (!c) return;
+  const df = c.have ? null : difficultyOf(id, k);
+  $("ciBody").innerHTML = `
+    <div class="cihead ${c.have ? "" : "lock"}" style="--ac:${d.c}">
+      <span class="wm">${d.e}</span>
+      <span class="k">${d.kind === "t" ? "การ์ดฉายา · หายเมื่อเสียฉายา" : "การ์ดถาวร · เก็บตลอดไป"}${c.count > 1 ? " · ×" + c.count : ""}</span>
+      <span class="t" id="ciName">${d.e} ${esc(d.n)}</span>
+      <span class="c">${c.have ? esc(c.cap || "") : "🔒 ยังไม่ได้"}</span>
+    </div>
+    <div class="cirow"><small>วิธีได้การ์ด</small><b>${esc(c.how || "")}</b></div>
+    ${c.have
+      ? `<div class="cirow"><small>${esc(nameOf(id))} ได้การ์ดนี้แล้ว</small><b>${c.at ? "ได้เมื่อ " + esc(shortDay(c.at)) : "ถือฉายาอยู่ตอนนี้"}${c.count > 1 ? ` · ได้มาแล้ว ${c.count} ครั้ง` : ""}</b></div>
+         <button class="save" id="ciShare">แชร์การ์ดเข้า LINE</button>`
+      : df ? `<div class="cirow"><small>ความยากสำหรับ${esc(nameOf(id))}</small><b>${df.st ? starsHtml(df.st) + " " + STAR_TXT[df.st] : "— ยังลุ้นไม่ได้ตอนนี้"}</b><span class="why">${esc(df.why)}</span></div>` : ""}
+    <button class="ghost cancel" id="ciClose">ปิด</button>`;
+  $("cardInfo").hidden = false;
+  $("ciClose").addEventListener("click", closeCardInfo);
+  if ($("ciShare")) $("ciShare").addEventListener("click", () => shareCard(id, k));
+}
+function closeCardInfo(){ $("cardInfo").hidden = true; }
+$("cardInfo").addEventListener("click", e => { if (e.target.id === "cardInfo") closeCardInfo(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("cardInfo").hidden && $("shareModal").hidden) closeCardInfo(); });
 async function shareCard(id, k){
   const c = cardsOf(id).find(x => x.k === k && x.have); if (!c) return;
   try{ await prepShare([id]); const r = drawCard(id, c); await openShareCanvas(r.cv, `signal13-card-${k}.png`, "แชร์การ์ด" + CARDS[k].n, r.text, false); }
@@ -1771,6 +2042,53 @@ function localDB(){
     onSnapshot(f){ subs[c].push(f); f(snap(c)); return () => {}; }
   }; } };
 }
+
+/* ===== แจ้งอัปเดต (v4.1) ===== */
+const SEEN_KEY = "signal13-seen";
+const CHANGES = [
+  "▲▼ ลูกศรอันดับขึ้นลงในตารางและโพเดียม (เทียบก่อน 10 นัดล่าสุด)",
+  "รูปบนโพเดียมใหญ่ขึ้น · แตะอิโมจิเพื่อดูความหมาย",
+  "เลือกกลุ่มทีมก่อนสุ่ม: 🌍 ลีกยุโรป ⚽ พรีเมียร์ลีก 🚩 ทีมชาติ ⭐ UCL พร้อมธีมสีของแต่ละกลุ่ม",
+  "การ์ดใหม่ 🧤 คลีนชีท และ ⏱️ นาทีบาป (เลือกตอนยืนยันผล)",
+  "แตะการ์ดเพื่อดูความยาก ★ เฉพาะตัว · อิโมจิบนการ์ดชัดขึ้น",
+  "🥲 ชนะบ้างนะ ได้พร้อมกันหลายคน (ไม่ชนะ 5 นัดขึ้นไป)",
+  "รูปแชร์ตารางมีจำนวนนัดที่เล่น · แจ้งเตือนเมื่อมีเวอร์ชันใหม่"
+];
+function verCmp(a, b){ const x = String(a).split(".").map(Number), y = String(b).split(".").map(Number);
+  for (let i = 0; i < Math.max(x.length, y.length); i++){ const d = (x[i] || 0) - (y[i] || 0); if (d) return d; } return 0; }
+function showUpdateBar(v){
+  if ($("updBar")) { $("updBar").querySelector("b").textContent = "v" + v; return; }
+  const b = document.createElement("button"); b.id = "updBar"; b.className = "updbar"; b.type = "button";
+  b.innerHTML = `🔄 มีเวอร์ชันใหม่ <b>v${esc(v)}</b> · แตะเพื่ออัปเดต`;
+  b.addEventListener("click", () => { savePending(); location.reload(); });
+  document.body.appendChild(b);
+}
+async function checkUpdate(){
+  if (!/^https?:$/.test(location.protocol)) return;
+  try{
+    const r = await fetch(location.pathname + "?v=" + Date.now(), {cache: "no-store"}); if (!r.ok) return;
+    const m = (await r.text()).match(/APP_VERSION\s*=\s*"([\d.]+)"/);
+    if (m && verCmp(m[1], APP_VERSION) > 0) showUpdateBar(m[1]);
+  }catch(e){}
+}
+setInterval(checkUpdate, 5 * 60 * 1000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") checkUpdate(); });
+setTimeout(checkUpdate, 8000);
+function maybeWhatsNew(){
+  let seen = null, old = false;
+  try{ seen = localStorage.getItem(SEEN_KEY); old = !!(localStorage.getItem(ME_KEY) || localStorage.getItem(SKIP_KEY) || localStorage.getItem("tab")); }catch(e){ return; }
+  if (seen === APP_VERSION) return;
+  if (!old){ try{ localStorage.setItem(SEEN_KEY, APP_VERSION); }catch(e){} return; }
+  if (!$("who").hidden || !$("confirm").hidden){ setTimeout(maybeWhatsNew, 1500); return; }
+  try{ localStorage.setItem(SEEN_KEY, APP_VERSION); }catch(e){}
+  $("wnTitle").textContent = `🎉 อัปเดตเป็น v${APP_VERSION} แล้ว!`;
+  $("wnList").innerHTML = CHANGES.map(c => `<li>${esc(c)}</li>`).join("");
+  $("whatsNew").hidden = false;
+}
+$("wnOk").addEventListener("click", () => { $("whatsNew").hidden = true; });
+$("whatsNew").addEventListener("click", e => { if (e.target.id === "whatsNew") $("whatsNew").hidden = true; });
+renderGroups();
+setTimeout(maybeWhatsNew, 1200);
 
 (async () => {
   if (firebaseConfig.apiKey && window.firebase){
