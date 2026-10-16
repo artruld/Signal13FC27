@@ -258,6 +258,32 @@ tbody tr[data-prof]:hover td{background:rgba(255,255,255,.03)}
 .trow small{display:block;font-size:12px;color:var(--muted)}
 .trow .who{font-family:var(--display);font-weight:700;color:var(--volt);text-align:right;overflow-wrap:anywhere;max-width:42vw}
 .trow .who.none{color:var(--muted);font-weight:500}
+/* round 3 */
+#shareModal{z-index:60}
+.ph .avw{position:relative;flex:none}
+.cam{position:absolute;right:-6px;bottom:-4px;width:28px;height:28px;border-radius:50%;border:1px solid var(--edge);background:var(--panel);font-size:14px;line-height:1;display:grid;place-items:center}
+.cam:hover{border-color:var(--volt)}
+.edit{background:none;border:0;color:var(--muted);font-size:15px;padding:2px 6px;vertical-align:4px}
+.edit:hover{color:var(--volt)}
+.nedit{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.nedit input{flex:1;min-width:0;border:1px solid var(--volt);background:var(--night);border-radius:4px;padding:8px 10px;font-family:var(--display);font-weight:700;font-size:18px}
+.nedit button{border:1px solid var(--edge);background:var(--deck);border-radius:4px;padding:8px 12px;font-weight:600;font-size:13px}
+.nedit .ok{border-color:var(--volt);color:var(--volt)}
+.pfnote{font-size:13px;color:var(--gold);min-height:0;margin:0}
+.pfnote:empty{display:none}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pc{position:relative;overflow:hidden;aspect-ratio:5/6;max-width:100%;border-radius:6px;background:#0a1020;border:1px solid var(--edge);text-align:left;padding:10px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;color:var(--ink);min-width:0}
+.pc .slab{position:absolute;inset:0;background:linear-gradient(135deg,var(--ac) 0 42%,transparent 42.4%)}
+.pc .wm{position:absolute;right:-14px;bottom:8px;font-size:84px;opacity:.14;transform:rotate(-12deg);line-height:1}
+.pc > span:not(.slab):not(.wm){position:relative}
+.pc .ptop{position:absolute!important;top:8px;right:8px;font-size:10px;font-weight:700;background:#111;color:var(--ac);padding:1px 6px;border-radius:3px}
+.pc .pt{align-self:flex-start;background:var(--ac);color:#141005;font-weight:700;font-size:12px;padding:2px 8px;transform:skewX(-10deg);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.pc .pcap{font-size:11px;color:var(--ac);line-height:1.3;overflow-wrap:anywhere}
+.pc.lock{cursor:default;filter:grayscale(1);opacity:.45}
+.pc.lock .pcap{color:var(--muted)}
+.pc:not(.lock):hover{border-color:var(--ac)}
+.cardsnote{font-size:12px;color:var(--muted);margin:0}
+.ver{text-align:center;font-size:11px;color:var(--muted);font-family:var(--display);letter-spacing:.08em;padding-top:8px}
 @media (max-width:420px){.score output{font-size:44px}.step{width:34px;height:34px}h1{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -278,7 +304,7 @@ tbody tr[data-prof]:hover td{background:rgba(255,255,255,.03)}
       </svg>
       <div>
         <h1>Signal<span>13</span> League</h1>
-        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม</div>
+        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v3.1</span></div>
       </div>
     </div>
     <div class="live">MATCH NIGHT</div>
@@ -370,6 +396,7 @@ tbody tr[data-prof]:hover td{background:rgba(255,255,255,.03)}
     <div class="list" id="hist"></div>
     <button class="wipebtn" id="wipeOpen">ล้างประวัติทั้งหมด</button>
   </section>
+  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">3.1</span></div>
 </div>
 
 <script>
@@ -418,6 +445,7 @@ const firebaseConfig = {
 </div>
 
 <script>
+const APP_VERSION = "3.1";
 const S = {players:[], matches:[], ga:0, gb:0, ta:null, tb:null, db:null, canWrite:true, armed:null};
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -435,7 +463,9 @@ const START = 1000, K = 32, SETTLED = 5, TIER_GAP = 75;
 function statsOf(list){
   const m = {}, delta = {};
   const slap = {}, champBeat = {};
-  S.players.forEach(p => m[p.id] = {id:p.id,name:p.name,gp:0,w:0,d:0,l:0,gf:0,ga:0,form:[],elo:START,hist:[]});
+  let curLeader = null, reign = 0, reignStart = null;
+  S.players.forEach(p => m[p.id] = {id:p.id,name:p.name,gp:0,w:0,d:0,l:0,gf:0,ga:0,form:[],elo:START,hist:[],
+    winRun:0, maxWin:0, runs5:0, fire5At:null, thrash:[], shock:[], gp50At:null, reigns:0, maxReign:0, firstChampAt:null});
   const sorted = [...list].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id)));
   for (const x of sorted){
     const a = m[x.a], b = m[x.b]; if (!a || !b) continue;
@@ -457,11 +487,29 @@ function statsOf(list){
     champBeat[x.id] = beat;
     delete slap[a.id]; delete slap[b.id];
     if (beat) slap[win.id] = x.id;
+    /* สถิติสำหรับการ์ดถาวร */
+    if (win){
+      win.winRun++; if (win.winRun > win.maxWin) win.maxWin = win.winRun;
+      if (win.winRun === 5){ win.runs5++; if (!win.fire5At) win.fire5At = x.at; }
+      lose.winRun = 0;
+      const mg = Math.abs(x.ga - x.gb);
+      if (mg >= 5) win.thrash.push({x, mg});
+      const wr = win === a ? x.ra : x.rb, lr = win === a ? x.rb : x.ra;
+      if (wr === 3 && lr === 1) win.shock.push({x});
+    } else { a.winRun = 0; b.winRun = 0; }
+    [a, b].forEach(p => { if (p.gp === 50) p.gp50At = x.at; });
+    let la = null;
+    for (const id in m){ const r = m[id]; if (r.gp && (!la || r.elo > la.elo)) la = r; }
+    if (la){
+      if (la.id !== curLeader){ curLeader = la.id; reign = 1; reignStart = x.at; la.reigns++; if (!la.firstChampAt) la.firstChampAt = x.at; }
+      else reign++;
+      if (reign > la.maxReign) la.maxReign = reign;
+    }
   }
   const rows = Object.values(m).map(r => ({...r, elo: Math.round(r.elo), pts: 3*r.w + r.d, gd: r.gf - r.ga, st: streakOf(r.form)}))
     .sort((x,y) => (y.gp>0) - (x.gp>0) || y.elo - x.elo || y.pts - x.pts || x.name.localeCompare(y.name,"th"));
   const rank = {}; rows.filter(r => r.gp).forEach((r,i) => rank[r.id] = i+1);
-  return {rows, delta, rank, by: m, slap, champBeat};
+  return {rows, delta, rank, by: m, slap, champBeat, champ: {id: curLeader, reign, since: reignStart}};
 }
 function stats(){ const r = statsOf(S.matches); S.res = r; S.delta = r.delta; S.rank = r.rank; S.rows = r.rows; S.titles = titlesOf(r); return r.rows; }
 
@@ -522,6 +570,7 @@ function fillSelect(sel){
 }
 
 function render(){
+  $("ver").textContent = "v" + APP_VERSION; $("ver2").textContent = APP_VERSION;
   const firstLoad = !S.restored && S.players.length > 0;
   S.players = [...S.players].sort((a,b) => a.name.localeCompare(b.name,"th"));
   const ps = S.players;
@@ -551,7 +600,7 @@ function render(){
     : '<tr><td colspan="10" class="note" style="padding:24px">ตารางจะขึ้นเมื่อมีผู้เล่นและผลแมตช์</td></tr>';
 
   renderH2H(); renderHist(); updateSave(); renderSuggest(); renderStats();
-  if (S.profId && !$("prof").hidden) renderProfile(S.profId);
+  if (S.profId && !$("prof").hidden && !S.editingName) renderProfile(S.profId);
   if (firstLoad){ S.restored = true; restorePending(); }
 }
 
@@ -878,10 +927,10 @@ function roundRect(ctx, x, y, w, h, r){
   ctx.beginPath(); ctx.moveTo(x+r, y); ctx.arcTo(x+w, y, x+w, y+h, r); ctx.arcTo(x+w, y+h, x, y+h, r);
   ctx.arcTo(x, y+h, x, y, r); ctx.arcTo(x, y, x+w, y, r); ctx.closePath();
 }
-function backdrop(ctx, W, H, slabY){
+function backdrop(ctx, W, H, slabY, c1, c2){
   ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H);
   const g = ctx.createLinearGradient(0, 0, W*0.6, slabY*0.6);
-  g.addColorStop(0, "#0fd3c3"); g.addColorStop(1, "#2ee6d6");
+  g.addColorStop(0, c1 || "#0fd3c3"); g.addColorStop(1, c2 || c1 || "#2ee6d6");
   ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(slabY, 0); ctx.lineTo(0, slabY); ctx.closePath(); ctx.fillStyle = g; ctx.fill();
   ctx.save(); ctx.strokeStyle = "rgba(255,255,255,.035)"; ctx.lineWidth = 25;
   for (let k = -H; k < W + H; k += 51){ ctx.beginPath(); ctx.moveTo(k, 0); ctx.lineTo(k - H, H); ctx.stroke(); }
@@ -1190,9 +1239,16 @@ function renderProfile(id){
   const pts = [START, ...r.hist.map(h => h.elo)];
   const last5 = [...mine].reverse().slice(0, 5);
   $("profBody").innerHTML = `
-    <div class="ph">${av(id)}<div><div class="nm" id="pfName">${esc(nameOf(id))} ${stHtml(row.st)}</div>
+    <div class="ph"><div class="avw">${av(id)}<button class="cam" id="pfCam" aria-label="เพิ่มรูปโปรไฟล์">📷</button></div><div style="min-width:0;flex:1">
+      ${S.editingName === id
+        ? `<div class="nedit"><input id="pfInput" maxlength="24" value="${esc(nameOf(id))}" aria-label="ชื่อใหม่"><button class="ok" id="pfSave">บันทึก</button><button id="pfCancel">ยกเลิก</button></div>`
+        : `<div class="nm" id="pfName">${esc(nameOf(id))} ${stHtml(row.st)}<button class="edit" id="pfEdit" aria-label="แก้ชื่อ">✏️</button></div>`}
       <div class="sub">${rank ? "อันดับ " + rank + " · " : ""}เรต ${Math.round(r.elo)}${gp && gp < SETTLED ? " · ยังไม่นิ่ง" : ""}</div></div></div>
     ${t.length ? `<div class="tchips">${t.map(k => `<span class="tchip">${TITLES[k].e} ${esc(TITLES[k].n)}</span>`).join("")}</div>` : ""}
+    <p class="pfnote" id="pfNote" role="status">${esc(S.pfNote || "")}</p>
+    <div class="lbl">การ์ด</div>
+    <div class="cards">${cardsOf(id).map(cardHtml).join("")}</div>
+    <p class="cardsnote">การ์ดฉายาหายเมื่อเสียฉายา การ์ดถาวรเก็บตลอดไป แตะการ์ดเพื่อแชร์</p>
     <div class="kv num">
       <div><b>${gp}</b><span>นัด</span></div>
       <div><b>${r.w}-${r.d}-${r.l}</b><span>ชนะ-เสมอ-แพ้</span></div>
@@ -1215,15 +1271,119 @@ function renderProfile(id){
     }).join("") : '<div class="empty">ยังไม่มีแมตช์</div>'}</div>
     <button class="ghost cancel" id="pfClose">ปิด</button>`;
   $("pfClose").addEventListener("click", closeProfile);
+  $("pfCam").addEventListener("click", () => { S.pfNote = "📷 ฟีเจอร์รูปโปรไฟล์กำลังมา รออัปเดตนะ"; $("pfNote").textContent = S.pfNote; });
+  if ($("pfEdit")) $("pfEdit").addEventListener("click", () => { S.editingName = id; S.pfNote = ""; renderProfile(id); const i = $("pfInput"); i.focus(); i.select(); });
+  if ($("pfCancel")) $("pfCancel").addEventListener("click", () => { S.editingName = null; renderProfile(id); });
+  if ($("pfSave")) $("pfSave").addEventListener("click", () => saveName(id));
+  if ($("pfInput")) $("pfInput").addEventListener("keydown", e => { if (e.key === "Enter") saveName(id); if (e.key === "Escape"){ e.stopPropagation(); S.editingName = null; renderProfile(id); } });
+  document.querySelectorAll("#profBody [data-card]").forEach(b => b.addEventListener("click", () => shareCard(id, b.dataset.card)));
 }
-function openProfile(id){ renderProfile(id); $("prof").hidden = false; $("profBody").scrollTop = 0; }
-function closeProfile(){ $("prof").hidden = true; S.profId = null; }
+async function saveName(id){
+  const n = ($("pfInput").value || "").trim();
+  const say = t => { S.pfNote = t; $("pfNote").textContent = t; };
+  if (!n){ say("ใส่ชื่ออย่างน้อย 1 ตัวอักษร"); return; }
+  if (n.length > 24){ say("ชื่อยาวได้ไม่เกิน 24 ตัวอักษร"); return; }
+  if (n === nameOf(id)){ S.editingName = null; renderProfile(id); return; }
+  if (S.players.some(p => p.id !== id && p.name.toLowerCase() === n.toLowerCase())){ say(`มีคนใช้ชื่อ ${n} แล้ว`); return; }
+  $("pfSave").disabled = true;
+  try{
+    await S.db.collection("players").doc(id).update({name: n});
+    S.editingName = null; S.pfNote = "เปลี่ยนชื่อแล้ว"; renderProfile(id);
+  }catch(err){
+    $("pfSave").disabled = false;
+    say(err && err.code === "permission-denied" ? "บันทึกไม่ได้ ต้องอัปเดตกฎ Firestore ชุดใหม่ก่อน (ดูไฟล์ firestore.rules)" : "บันทึกไม่สำเร็จ ลองใหม่อีกครั้ง");
+  }
+}
+function openProfile(id){ S.editingName = null; S.pfNote = ""; renderProfile(id); $("prof").hidden = false; $("profBody").scrollTop = 0; }
+function closeProfile(){ $("prof").hidden = true; S.profId = null; S.editingName = null; }
 document.addEventListener("click", e => {
   const t = e.target.closest("[data-prof]"); if (!t) return;
   openProfile(t.dataset.prof);
 });
 $("prof").addEventListener("click", e => { if (e.target.id === "prof") closeProfile(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("prof").hidden) closeProfile(); });
+
+/* ===== การ์ด ===== */
+const CARDS = {
+  champ:     {e:"🏆", n:"แชมป์อ่ะครับ!!", kind:"t", c:"#ffc94a", c2:"#ffb020"},
+  slap:      {e:"👋", n:"ตบแชมป์",        kind:"t", c:"#b48cff", c2:"#9a6bff"},
+  wall:      {e:"🧱", n:"เหนียวจัด",       kind:"t", c:"#e0805a", c2:"#c9643c"},
+  boom:      {e:"💥", n:"ยิงกระจุย",       kind:"t", c:"#ff6b3d", c2:"#ff4f2e"},
+  pls:       {e:"🥲", n:"ชนะบ้างนะ",       kind:"t", c:"#9fb4cc", c2:"#8098b5"},
+  chicken:   {e:"🐔", n:"ไก่",             kind:"t", c:"#ffe08a", c2:"#ffd15c"},
+  everChamp: {e:"👑", n:"เคยครองแชมป์",    kind:"p", c:"#e8d79a", c2:"#cdbb7a", how:"ขึ้นอันดับ 1 ได้สักครั้ง"},
+  fire5:     {e:"🔥", n:"ไฟลุก 5",         kind:"p", c:"#ff9a3d", c2:"#ff7d1a", how:"ชนะติดกัน 5 นัด"},
+  thrash:    {e:"💣", n:"ถล่ม",            kind:"p", c:"#ff5f6d", c2:"#ff3d4f", how:"ชนะห่าง 5 ลูกขึ้นไป"},
+  shock:     {e:"⚡", n:"ช็อกโลก",          kind:"p", c:"#7fe3ff", c2:"#4fd2ff", how:"ใช้ทีมระดับ 3 ชนะทีมระดับ 1"},
+  vet:       {e:"🎖️", n:"ทหารผ่านศึก",     kind:"p", c:"#a7c27a", c2:"#8fae5c", how:"ลงเล่นครบ 50 นัด"}
+};
+function cardsOf(id){
+  const res = S.res || statsOf(S.matches), r = res.by[id]; if (!r) return [];
+  const held = ttlOf(id), out = [];
+  ["champ","slap","wall","boom","pls","chicken"].forEach(k => {
+    const c = {k, have: held.includes(k), how: TITLES[k].d};
+    if (c.have){
+      if (k === "champ"){ c.cap = `ครองแชมป์มา ${res.champ.reign} นัด`; c.at = res.champ.since; }
+      if (k === "slap"){ const x = S.matches.find(mm => mm.id === res.slap[id]); if (x){ const op = x.a === id ? x.b : x.a; c.cap = `ตบ ${nameOf(op)} ร่วงบัลลังก์`; c.at = x.at; } else c.cap = "ล้มแชมป์ได้สำเร็จ"; }
+      if (k === "wall") c.cap = `เสียเฉลี่ยแค่ ${(r.ga / r.gp).toFixed(1)} ลูกต่อนัด`;
+      if (k === "boom") c.cap = `ยิงเฉลี่ย ${(r.gf / r.gp).toFixed(1)} ลูกต่อนัด`;
+      if (k === "pls") c.cap = `ไม่ได้ชนะมา ${winless(r.form)} นัดแล้ว สู้ๆ`;
+      if (k === "chicken") c.cap = "เรตต่ำสุดในลีก กุ๊กๆ";
+    }
+    out.push(c);
+  });
+  const p = (k, have, cap, at, count) => out.push({k, have, cap, at, count, how: CARDS[k].how});
+  p("everChamp", r.reigns > 0, `ครองแชมป์ ${r.reigns} ครั้ง นานสุด ${r.maxReign} นัด`, r.firstChampAt);
+  p("fire5", r.runs5 > 0, `ชนะติดกันสูงสุด ${r.maxWin} นัด`, r.fire5At, r.runs5);
+  const bt = [...r.thrash].sort((a,b) => b.mg - a.mg || b.x.at - a.x.at)[0];
+  const wsc = x => { const me = x.a === id; return `${nameOf(id)} ${me ? x.ga : x.gb}–${me ? x.gb : x.ga} ${nameOf(me ? x.b : x.a)}`; };
+  p("thrash", !!bt, bt ? wsc(bt.x) : "", bt && bt.x.at, r.thrash.length);
+  const sk = r.shock[r.shock.length - 1];
+  p("shock", !!sk, sk ? (() => { const x = sk.x, me = x.a === id; return `${teamName(me ? x.ta : x.tb)} ล้ม ${teamName(me ? x.tb : x.ta)} ${me ? x.ga : x.gb}–${me ? x.gb : x.ga}`; })() : "", sk && sk.x.at, r.shock.length);
+  p("vet", r.gp >= 50, `ลงสนามแล้ว ${r.gp} นัด`, r.gp50At);
+  return out.sort((a,b) => b.have - a.have);
+}
+function cardHtml(c){
+  const d = CARDS[c.k];
+  return `<button type="button" class="pc ${c.have ? "" : "lock"}" ${c.have ? `data-card="${c.k}"` : "disabled"} style="--ac:${d.c}" aria-label="การ์ด${esc(d.n)}${c.have ? "" : " (ยังไม่ได้)"}">
+    <span class="slab"></span><span class="wm">${d.e}</span>
+    <span class="ptop">${d.kind === "t" ? "ฉายา" : "ถาวร"}${c.count > 1 ? " ×" + c.count : ""}</span>
+    <span class="pt">${d.e} ${esc(d.n)}</span>
+    <span class="pcap">${c.have ? esc(c.cap || "") : "🔒 " + esc(c.how || "")}</span>
+  </button>`;
+}
+function shortDay(t){ try{ return new Date(t).toLocaleDateString("th-TH",{day:"numeric",month:"short"}); }catch(e){ return ""; } }
+function drawCard(id, c){
+  const d = CARDS[c.k], res = S.res || statsOf(S.matches), r = res.by[id];
+  const W = 1080, Ht = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = Ht; const ctx = cv.getContext("2d");
+  backdrop(ctx, W, Ht, 1020, d.c2, d.c);
+  ctx.save(); ctx.translate(800, 1020); ctx.rotate(-0.21); ctx.globalAlpha = .13; ctx.font = "560px sans-serif"; ctx.textBaseline = "middle"; fillC(ctx, d.e, 0, 0); ctx.restore();
+  ctx.textBaseline = "alphabetic";
+  topTag(ctx, d.kind === "t" ? "การ์ดฉายา" : "การ์ดถาวร");
+  if (c.count > 1){
+    ctx.font = `700 34px ${FD}`; const t = "×" + c.count, w = ctx.measureText(t).width + 36;
+    ctx.fillStyle = "#111"; roundRect(ctx, 1020 - w, 52, w, 56, 8); ctx.fill();
+    ctx.fillStyle = d.c; fillR(ctx, t, 1020 - 18, 92);
+  }
+  avatar(ctx, id, 60, 190, 300);
+  const pill = `${d.e} ${d.n}`;
+  ctx.font = `700 50px ${FD}`; const pw = ctx.measureText(pill).width + 60;
+  ctx.save(); ctx.translate(60, 730); ctx.transform(1, 0, -0.18, 1, 0, 0); ctx.fillStyle = d.c; ctx.fillRect(14, 0, pw, 82); ctx.restore();
+  ctx.fillStyle = "#141005"; ctx.fillText(pill, 88, 788);
+  ctx.fillStyle = C.ink; fit(ctx, nameOf(id), `700 {s}px ${FD}`, 160, 960); ctx.fillText(nameOf(id), 60, 970);
+  ctx.fillStyle = d.c; fit(ctx, c.cap || "", `700 {s}px ${FD}`, 54, 960); ctx.fillText(c.cap || "", 60, 1060);
+  ctx.fillStyle = "rgba(255,255,255,.12)"; ctx.fillRect(60, 1150, 960, 2);
+  ctx.fillStyle = C.muted; ctx.font = `500 32px ${FD}`;
+  ctx.fillText(r ? `เรต ${Math.round(r.elo)} · ${r.w}-${r.d}-${r.l}` : "", 60, 1214);
+  fillR(ctx, c.at ? "ได้เมื่อ " + shortDay(c.at) : "ถือฉายาอยู่ตอนนี้", 1020, 1214);
+  fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 900); ctx.fillText(linkText(), 60, 1290);
+  return {cv, text: `การ์ด${d.n} ของ ${nameOf(id)} · Signal13 League`};
+}
+async function shareCard(id, k){
+  const c = cardsOf(id).find(x => x.k === k && x.have); if (!c) return;
+  try{ await fontsReady(); const r = drawCard(id, c); await openShareCanvas(r.cv, `signal13-card-${k}.png`, "แชร์การ์ด" + CARDS[k].n, r.text, false); }
+  catch(e){ S.pfNote = "สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง"; $("pfNote").textContent = S.pfNote; }
+}
 
 let shareFile = null, shareUrl = null, shareText = "";
 function closeShare(){ $("shareModal").hidden = true; }
@@ -1279,7 +1439,7 @@ function localDB(){
   const emit = c => subs[c].forEach(f => f(snap(c)));
   return { collection(c){ return {
     async add(v){ const id = Date.now().toString(36) + Math.random().toString(36).slice(2,7); data[c][id] = v; save(); emit(c); return {id}; },
-    doc(id){ return { async delete(){ delete data[c][id]; save(); emit(c); } }; },
+    doc(id){ return { async delete(){ delete data[c][id]; save(); emit(c); }, async update(v){ data[c][id] = {...data[c][id], ...v}; save(); emit(c); } }; },
     onSnapshot(f){ subs[c].push(f); f(snap(c)); return () => {}; }
   }; } };
 }
