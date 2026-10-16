@@ -276,17 +276,49 @@ tbody tr[data-prof]:hover td{background:rgba(255,255,255,.03)}
 .trow small{display:block;font-size:12px;color:var(--muted)}
 .trow .who{font-family:var(--display);font-weight:700;color:var(--volt);text-align:right;overflow-wrap:anywhere;max-width:42vw}
 .trow .who.none{color:var(--muted);font-weight:500}
+/* v4.0 photo + me */
+.av.ph{background-size:cover!important;background-position:center!important;color:transparent!important}
+#crop,#who{z-index:70}
+.mechip{display:flex;align-items:center;gap:8px;background:var(--deck);border:1px solid var(--edge);border-radius:999px;padding:4px 14px 4px 4px;font-weight:600;font-size:14px;max-width:190px;color:var(--ink)}
+.mechip:hover{border-color:var(--volt)}
+.mechip .av{width:30px;height:30px;font-size:13px;flex:none}
+.mechip .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mechip.none{padding:7px 14px;color:var(--volt);border-color:var(--volt)}
+tbody tr.me td{background:rgba(46,230,214,.07)}
+tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
+.you{font-size:10px;font-weight:700;background:var(--volt);color:#04131a;padding:1px 6px;border-radius:3px;white-space:nowrap}
+.mebtn{border:1px solid var(--edge);background:var(--deck);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600;color:var(--muted)}
+.mebtn:hover{border-color:var(--volt);color:var(--volt)}
+.mebtn.set{border-color:var(--volt);color:var(--volt)}
+.sheet.who{max-height:100%;overflow:auto;gap:12px}
+.whos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:42vh;overflow:auto;text-align:left}
+.whob{display:flex;align-items:center;gap:8px;background:var(--deck);border:1px solid var(--edge);border-radius:6px;padding:8px 10px;font-weight:600;min-width:0;color:var(--ink)}
+.whob:hover{border-color:var(--volt)}
+.whob .av{width:32px;height:32px;font-size:14px;flex:none}
+.whob .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet.crop{max-height:100%;overflow:auto;gap:12px;text-align:left}
+.sheet.crop > *, .sheet.who > *{flex-shrink:0}
+.stage{position:relative;width:100%;aspect-ratio:1;max-width:100%;border-radius:6px;overflow:hidden;background:#000;touch-action:none;cursor:grab}
+.stage:active{cursor:grabbing}
+.stage canvas{width:100%;height:100%;display:block}
+.stage .hint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:rgba(0,0,0,.6);font-size:12px;padding:4px 10px;border-radius:999px;color:#dfe6f5;white-space:nowrap;pointer-events:none}
+.stage .pickme{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:14px;background:var(--deck);border:0;width:100%}
+.zoom{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:18px}
+.zoom input{flex:1;accent-color:var(--volt);min-width:0}
+.prev{display:flex;align-items:center;gap:12px;background:var(--deck);border:1px solid var(--edge);border-radius:6px;padding:10px 12px;font-size:12px;color:var(--muted)}
+#crP1{width:54px;height:54px}#crP2{width:30px;height:30px}
+.crop .del{align-self:center;color:var(--loss);font-size:13px}
 /* v3.2 profile */
 .sheet.prof{position:relative}
 .pfx{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;border:1px solid var(--edge);background:var(--panel);color:var(--muted);font-size:15px;display:grid;place-items:center;z-index:2}
 .pfx:hover{color:var(--ink);border-color:var(--muted)}
 .phead{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding-top:8px}
-.avbig{position:relative;margin-top:16px}
+.avbig{position:relative;margin-top:30px}
 .avbig .ring{padding:5px;background:var(--edge);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
 .avbig.champ .ring{background:var(--gold);filter:drop-shadow(0 0 16px rgba(255,201,74,.6))}
-.avbig .av{width:124px;height:124px;font-size:54px}
-.avbig .crown{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:34px;line-height:1}
-.avbig .cam{right:-4px;bottom:6px;width:36px;height:36px;font-size:17px}
+.avbig .av{width:min(210px,56vw);height:min(210px,56vw);font-size:clamp(54px,24vw,90px)}
+.avbig .crown{position:absolute;top:-44px;left:50%;transform:translateX(-50%);font-size:46px;line-height:1}
+.avbig .cam{right:2px;bottom:14px;width:46px;height:46px;font-size:21px}
 .phead .nm{font-family:var(--display);font-weight:700;font-size:28px;line-height:1.15;margin-top:4px;overflow-wrap:anywhere}
 .phead .sub{font-size:13px;color:var(--muted)}
 .phead .sub b{color:var(--volt);font-family:var(--display)}
@@ -351,10 +383,10 @@ tbody tr[data-prof]:hover td{background:rgba(255,255,255,.03)}
       </svg>
       <div>
         <h1>Signal<span>13</span> League</h1>
-        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v3.2</span></div>
+        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v4.0</span></div>
       </div>
     </div>
-    <div class="live">MATCH NIGHT</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><div class="live">MATCH NIGHT</div><button class="mechip none" id="meChip">👤 เลือกตัวเอง</button></div>
   </header>
 
   <div class="mode" id="mode" hidden>โหมดเครื่องเดียว: ข้อมูลเก็บในเบราว์เซอร์นี้เท่านั้น ใส่ Firebase config ในไฟล์เพื่อให้เพื่อนทุกเครื่องเห็นตารางเดียวกัน</div>
@@ -443,7 +475,7 @@ tbody tr[data-prof]:hover td{background:rgba(255,255,255,.03)}
     <div class="list" id="hist"></div>
     <button class="wipebtn" id="wipeOpen">ล้างประวัติทั้งหมด</button>
   </section>
-  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">3.2</span></div>
+  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">4.0</span></div>
 </div>
 
 <script>
@@ -478,6 +510,30 @@ const firebaseConfig = {
     <button class="del" id="shUndo" hidden>บันทึกผิด? ยกเลิกผลนี้</button>
   </div>
 </div>
+<div class="modal" id="who" hidden role="dialog" aria-modal="true" aria-labelledby="whoTitle">
+  <div class="sheet who">
+    <div class="tag">ยินดีต้อนรับสู่ Signal13 League</div>
+    <div class="warn" id="whoTitle" style="color:var(--volt)">คุณคือใคร?</div>
+    <p class="note">เลือกชื่อของคุณ แอพจะจำไว้ในเครื่องนี้</p>
+    <div class="whos" id="whoList"></div>
+    <button class="ghost" id="whoNew">＋ ฉันยังไม่มีชื่อในลีก</button>
+    <div class="nedit" id="whoNewBox" hidden><input id="whoInput" maxlength="24" placeholder="ชื่อของคุณ" aria-label="ชื่อของคุณ"><button class="ok" id="whoCreate">สร้าง</button></div>
+    <p class="pfnote" id="whoNote" role="status"></p>
+    <button class="ghost cancel" id="whoSkip">ข้ามไปก่อน</button>
+  </div>
+</div>
+<div class="modal" id="crop" hidden role="dialog" aria-modal="true" aria-labelledby="crTitle">
+  <div class="sheet crop">
+    <div class="ctop"><button class="back" id="crBack" aria-label="กลับ">‹</button><h2 id="crTitle">ตัดรูปโปรไฟล์</h2></div>
+    <div class="stage" id="crStage"><canvas id="crCv"></canvas><span class="hint" id="crHint">☝️ ลากเพื่อเลื่อนรูป</span><button class="pickme" id="crEmpty">แตะเพื่อเลือกรูป</button></div>
+    <div class="zoom"><span>−</span><input type="range" id="crZoom" min="1" max="4" step="0.01" value="1" aria-label="ซูม"><span>+</span></div>
+    <div class="prev"><canvas id="crP1" width="108" height="108"></canvas><canvas id="crP2" width="60" height="60"></canvas><span>ตัวอย่างตอนเป็นไอคอนในแอพ</span></div>
+    <p class="pfnote" id="crNote" role="status"></p>
+    <div class="cfbtns"><button class="ghost" id="crPick">เลือกรูปใหม่</button><button class="save" id="crSave">บันทึกรูป</button></div>
+    <button class="del" id="crDel">ลบรูป กลับไปใช้ตัวอักษร</button>
+    <input type="file" id="crFile" accept="image/*" hidden>
+  </div>
+</div>
 <div class="modal" id="prof" hidden role="dialog" aria-modal="true" aria-labelledby="pfName">
   <div class="sheet prof" id="profBody"></div>
 </div>
@@ -492,15 +548,24 @@ const firebaseConfig = {
 </div>
 
 <script>
-const APP_VERSION = "3.2";
-const S = {players:[], matches:[], ga:0, gb:0, ta:null, tb:null, db:null, canWrite:true, armed:null};
+const APP_VERSION = "4.0";
+const S = {bigCache:{}, imgCache:{}, players:[], matches:[], ga:0, gb:0, ta:null, tb:null, db:null, canWrite:true, armed:null};
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const nameOf = id => (S.players.find(p => p.id === id) || {}).name || "?";
 const KIT = ["#2ee6d6","#ffc94a","#ff7a59","#8f9bff","#3fe08f","#ff6fb5","#5fd0ff","#d4f05a"];
 function kit(id){ let h = 0; for (const c of String(id)) h = (h*31 + c.charCodeAt(0)) >>> 0; return KIT[h % KIT.length]; }
 function initial(n){ const ch = [...String(n)]; const i = ch.findIndex(c => !/[เแโใไ]/.test(c)); return (ch[i >= 0 ? i : 0] || "?").toUpperCase(); }
-function av(id){ return `<span class="av" style="background:${kit(id)}">${esc(initial(nameOf(id)))}</span>`; }
+const playerOf = id => S.players.find(p => p.id === id);
+function bigSrc(id){ const p = playerOf(id), b = S.bigCache && S.bigCache[id]; return p && p.photo && b && b.at === p.photoAt ? b.src : null; }
+function av(id, big){
+  const p = playerOf(id);
+  if (p && p.photo){
+    const src = (big && bigSrc(id)) || p.photo;
+    return `<span class="av ph" role="img" aria-label="${esc(p.name)}" style="background:${kit(id)} url('${src}')">${esc(initial(p.name))}</span>`;
+  }
+  return `<span class="av" style="background:${kit(id)}">${esc(initial(nameOf(id)))}</span>`;
+}
 
 function fmtDate(t){
   try{ return new Date(t).toLocaleString("th-TH",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; }
@@ -622,8 +687,9 @@ function render(){
   S.players = [...S.players].sort((a,b) => a.name.localeCompare(b.name,"th"));
   const ps = S.players;
   ["pa","pb","ha","hb"].forEach(id => fillSelect($(id)));
-  if (!$("ha").value && ps[0]) $("ha").value = ps[0].id;
-  if (!$("hb").value && ps[1]) $("hb").value = ps[1].id;
+  if (!$("ha").value && ps[0]) $("ha").value = meId() || ps[0].id;
+  if (!$("hb").value && ps[1]) $("hb").value = (ps.find(p => p.id !== $("ha").value) || ps[1]).id;
+  renderMe();
 
   const rows = stats();
   const stOf = id => (rows.find(r => r.id === id) || {}).st;
@@ -646,8 +712,8 @@ function render(){
     pod.hidden = false;
   } else pod.hidden = true;
 
-  $("tbody").innerHTML = rows.length ? rows.map((r,i) => `<tr class="${r.gp && i===0 ? "top1" : ""}" data-prof="${esc(r.id)}">
-    <td class="rank">${r.gp ? i+1 : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${stHtml(r.st)}${ttlHtml(r.id)}${r.gp && r.gp < SETTLED ? '<span class="prov">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
+  $("tbody").innerHTML = rows.length ? rows.map((r,i) => `<tr class="${r.gp && i===0 ? "top1" : ""} ${r.id === meId() ? "me" : ""}" data-prof="${esc(r.id)}">
+    <td class="rank">${r.gp ? i+1 : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${r.id === meId() ? '<span class="you">คุณ</span>' : ""}${stHtml(r.st)}${ttlHtml(r.id)}${r.gp && r.gp < SETTLED ? '<span class="prov">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
     <td>${r.gd>0?"+":""}${r.gd}</td><td>${r.pts}</td><td class="elo">${r.gp ? r.elo : "–"}</td>
     <td><span class="form">${r.form.slice(-5).map(f => `<span class="dot ${f}">${f==="W"?"ช":f==="D"?"ส":"พ"}</span>`).join("")}</span></td></tr>`).join("")
     : '<tr><td colspan="10" class="note" style="padding:24px">ตารางจะขึ้นเมื่อมีผู้เล่นและผลแมตช์</td></tr>';
@@ -663,7 +729,7 @@ function renderSuggest(){
   if (ps.length < 2 || S.ta || S.tb || !S.canWrite){ box.hidden = true; return; }
   const elo = {}; (S.rows || []).forEach(r => elo[r.id] = r.elo);
   const pa = $("pa").value, pb = $("pb").value;
-  const fixed = pa && !pb ? pa : (!pa && pb ? pb : null);
+  const fixed = pa && !pb ? pa : (!pa && pb ? pb : (!pa && !pb && meId() ? meId() : null));
   if (pa && pb){ box.hidden = true; return; }
   const pairs = [];
   for (let i = 0; i < ps.length; i++) for (let j = i+1; j < ps.length; j++){
@@ -674,7 +740,7 @@ function renderSuggest(){
   }
   pairs.sort((x,y) => x.score - y.score);
   const top = pairs.slice(0, 3);
-  $("sgTitle").textContent = fixed ? "คู่แข่งที่แนะนำให้ " + nameOf(fixed) : "คู่ที่น่าเตะตอนนี้";
+  $("sgTitle").textContent = fixed ? (fixed === meId() ? "คู่แข่งที่แนะนำให้คุณ" : "คู่แข่งที่แนะนำให้ " + nameOf(fixed)) : "คู่ที่น่าเตะตอนนี้";
   $("sgs").innerHTML = top.map(p => {
     let a = p.a, b = p.b; if (fixed && b === fixed){ [a, b] = [b, a]; }
     return `<button class="sg" data-sa="${esc(a)}" data-sb="${esc(b)}">
@@ -962,6 +1028,8 @@ function hex(ctx, x, y, w, h){
 }
 function avatar(ctx, id, x, y, size){
   hex(ctx, x, y, size, size); ctx.fillStyle = kit(id); ctx.fill();
+  const im = photoImg(id);
+  if (im){ ctx.save(); hex(ctx, x, y, size, size); ctx.clip(); ctx.drawImage(im, x, y, size, size); ctx.restore(); return; }
   ctx.fillStyle = C.dark; ctx.textBaseline = "middle";
   ctx.font = `700 ${Math.round(size*0.42)}px ${FD}`;
   fillC(ctx, initial(nameOf(id)), x+size/2, y+size/2+2);
@@ -1248,7 +1316,7 @@ function renderStats(){
   $("cursedList").innerHTML = cursed.length ? cursed.map(teamRow).join("") : '<div class="empty">ยังไม่มีข้อมูลพอ</div>';
 }
 $("shareSum").addEventListener("click", async () => {
-  try{ await fontsReady(); const r = drawSummary(); await openShareCanvas(r.cv, "signal13-summary.png", "แชร์สรุป 10 นัดล่าสุด", r.text, false); }
+  try{ await prepShare(S.players.map(p => p.id)); const r = drawSummary(); await openShareCanvas(r.cv, "signal13-summary.png", "แชร์สรุป 10 นัดล่าสุด", r.text, false); }
   catch(e){ setMsg("สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง"); }
 });
 
@@ -1308,11 +1376,12 @@ function renderProfile(id){
   $("profBody").innerHTML = `
     <button class="pfx" id="pfClose" aria-label="ปิด">✕</button>
     <div class="phead">
-      <div class="avbig ${isChamp ? "champ" : ""}">${isChamp ? '<span class="crown">👑</span>' : ""}<div class="ring">${av(id)}</div><button class="cam" id="pfCam" aria-label="เพิ่มรูปโปรไฟล์">📷</button></div>
+      <div class="avbig ${isChamp ? "champ" : ""}">${isChamp ? '<span class="crown">👑</span>' : ""}<div class="ring">${av(id, true)}</div><button class="cam" id="pfCam" aria-label="เปลี่ยนรูปโปรไฟล์">📷</button></div>
       ${S.editingName === id
         ? `<div class="nedit"><input id="pfInput" maxlength="24" value="${esc(nameOf(id))}" aria-label="ชื่อใหม่"><button class="ok" id="pfSave">บันทึก</button><button id="pfCancel">ยกเลิก</button></div>`
         : `<div class="nm" id="pfName">${esc(nameOf(id))} ${stHtml(row.st)}<button class="edit" id="pfEdit" aria-label="แก้ชื่อ">✏️</button></div>`}
       <div class="sub num">${rank ? `อันดับ <b>${rank}</b> · ` : ""}เรต <b>${Math.round(r.elo)}</b> · ${r.w}-${r.d}-${r.l}${gp && gp < SETTLED ? " · ยังไม่นิ่ง" : ""}</div>
+      <button class="mebtn ${meId() === id ? "set" : ""}" id="pfMe">${meId() === id ? "✓ นี่คือคุณ · กดถ้าไม่ใช่แล้ว" : "👤 นี่คือฉัน"}</button>
       ${t.length ? `<div class="tchips">${t.map(k => `<span class="tchip">${TITLES[k].e} ${esc(TITLES[k].n)}</span>`).join("")}</div>` : ""}
     </div>
     <p class="pfnote" id="pfNote" role="status">${esc(S.pfNote || "")}</p>
@@ -1339,7 +1408,10 @@ function renderProfile(id){
     }).join("") : '<div class="empty">ยังไม่มีแมตช์</div>'}</div>`;
   $("pfCards").addEventListener("click", () => { S.profView = "cards"; S.pfNote = ""; renderProfile(id); $("profBody").scrollTop = 0; });
   $("pfClose").addEventListener("click", closeProfile);
-  $("pfCam").addEventListener("click", () => { S.pfNote = "📷 ฟีเจอร์รูปโปรไฟล์กำลังมา รออัปเดตนะ"; $("pfNote").textContent = S.pfNote; });
+  $("pfCam").addEventListener("click", () => openCrop(id));
+  $("pfMe").addEventListener("click", () => { if (meId() === id) clearMe(); else setMe(id); renderProfile(id); });
+  const pp = playerOf(id);
+  if (pp && pp.photo && !bigSrc(id)) loadBig(id).then(ok => { if (ok && S.profId === id && !$("prof").hidden && !S.editingName && S.profView !== "cards") renderProfile(id); });
   if ($("pfEdit")) $("pfEdit").addEventListener("click", () => { S.editingName = id; S.pfNote = ""; renderProfile(id); const i = $("pfInput"); i.focus(); i.select(); });
   if ($("pfCancel")) $("pfCancel").addEventListener("click", () => { S.editingName = null; renderProfile(id); });
   if ($("pfSave")) $("pfSave").addEventListener("click", () => saveName(id));
@@ -1449,7 +1521,7 @@ function drawCard(id, c){
 }
 async function shareCard(id, k){
   const c = cardsOf(id).find(x => x.k === k && x.have); if (!c) return;
-  try{ await fontsReady(); const r = drawCard(id, c); await openShareCanvas(r.cv, `signal13-card-${k}.png`, "แชร์การ์ด" + CARDS[k].n, r.text, false); }
+  try{ await prepShare([id]); const r = drawCard(id, c); await openShareCanvas(r.cv, `signal13-card-${k}.png`, "แชร์การ์ด" + CARDS[k].n, r.text, false); }
   catch(e){ S.pfNote = "สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง"; $("pfNote").textContent = S.pfNote; }
 }
 
@@ -1468,9 +1540,9 @@ async function openShareCanvas(cv, filename, title, text, withUndo){
   $("shUndo").hidden = !(withUndo && S.undo);
   $("shareModal").hidden = false;
 }
-async function openResultShare(m){ await fontsReady(); const r = drawResult(m); await openShareCanvas(r.cv, "signal13-result.png", "แชร์ผลแมตช์", r.text, true); }
+async function openResultShare(m){ await prepShare([m.a, m.b]); const r = drawResult(m); await openShareCanvas(r.cv, "signal13-result.png", "แชร์ผลแมตช์", r.text, true); }
 $("shareTable").addEventListener("click", async () => {
-  try{ await fontsReady(); const r = drawTable(); await openShareCanvas(r.cv, "signal13-table.png", "แชร์ตารางคะแนน", r.text, false); }
+  try{ await prepShare(S.players.map(p => p.id)); const r = drawTable(); await openShareCanvas(r.cv, "signal13-table.png", "แชร์ตารางคะแนน", r.text, false); }
   catch(e){ setMsg("สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง"); }
 });
 $("shGo").addEventListener("click", async () => {
@@ -1488,6 +1560,193 @@ $("shClose").addEventListener("click", closeShare);
 $("shareModal").addEventListener("click", e => { if (e.target.id === "shareModal") closeShare(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("shareModal").hidden) closeShare(); });
 
+/* ===== รูปโปรไฟล์ ===== */
+function loadImage(src){ return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; }); }
+async function loadBig(id){
+  const p = playerOf(id); if (!p || !p.photo || !S.db) return false;
+  if (bigSrc(id)) return true;
+  try{
+    const snap = await S.db.collection("photos").doc(id).get();
+    if (!snap.exists) return false;
+    const d = snap.data(); if (!d || !d.data) return false;
+    S.bigCache[id] = {src: d.data, at: d.at};
+    return d.at === p.photoAt;
+  }catch(e){ return false; }
+}
+function photoImg(id){
+  const p = playerOf(id); if (!p || !p.photo) return null;
+  const b = S.imgCache["b:" + id], sm = S.imgCache["s:" + id];
+  if (b && b.at === p.photoAt) return b.img;
+  if (sm && sm.src === p.photo) return sm.img;
+  return null;
+}
+async function prepShare(bigIds){
+  await fontsReady();
+  const jobs = [];
+  S.players.forEach(p => {
+    if (!p.photo) return;
+    const k = "s:" + p.id;
+    if (!S.imgCache[k] || S.imgCache[k].src !== p.photo) jobs.push(loadImage(p.photo).then(img => { S.imgCache[k] = {src: p.photo, img}; }).catch(() => {}));
+  });
+  (bigIds || []).forEach(id => {
+    const p = playerOf(id); if (!p || !p.photo) return;
+    jobs.push(loadBig(id).then(ok => {
+      const b = S.bigCache[id]; if (!ok || !b) return;
+      const k = "b:" + id;
+      if (S.imgCache[k] && S.imgCache[k].at === b.at) return;
+      return loadImage(b.src).then(img => { S.imgCache[k] = {at: b.at, img}; }).catch(() => {});
+    }));
+  });
+  await Promise.all(jobs);
+}
+
+/* ===== หน้าตัดรูป ===== */
+const CR = {id: null, img: null, zoom: 1, px: 0, py: 0, drag: null, changed: false};
+function openCrop(id){
+  CR.id = id; CR.img = null; CR.zoom = 1; CR.px = CR.py = 0; CR.changed = false;
+  $("crTitle").textContent = "รูปโปรไฟล์ของ" + nameOf(id);
+  $("crNote").textContent = ""; $("crZoom").value = 1;
+  const p = playerOf(id);
+  $("crDel").hidden = !(p && p.photo);
+  $("crop").hidden = false;
+  sizeCrop(); drawCrop();
+  if (p && p.photo){
+    loadBig(id).then(() => loadImage(bigSrc(id) || p.photo)).then(img => { if (CR.id === id && !CR.img){ CR.img = img; drawCrop(); } }).catch(() => {});
+  } else {
+    $("crFile").click();
+  }
+}
+function closeCrop(){ $("crop").hidden = true; CR.img = null; $("crFile").value = ""; }
+function sizeCrop(){
+  const cv = $("crCv"), w = $("crStage").clientWidth || 320, d = Math.min(window.devicePixelRatio || 1, 3);
+  cv.width = Math.round(w * d); cv.height = Math.round(w * d);
+}
+function cropGeom(W){
+  const im = CR.img, base = Math.max(W / im.naturalWidth, W / im.naturalHeight), s = base * CR.zoom;
+  const dw = im.naturalWidth * s, dh = im.naturalHeight * s;
+  const mx = (dw - W) / 2, my = (dh - W) / 2;
+  CR.px = Math.max(-mx, Math.min(mx, CR.px)); CR.py = Math.max(-my, Math.min(my, CR.py));
+  return {x: (W - dw) / 2 + CR.px, y: (W - dh) / 2 + CR.py, w: dw, h: dh};
+}
+function paintCrop(ctx, W, unit){
+  /* unit = W / ขนาดช่องบนจอ ใช้แปลงระยะลากเป็นพิกเซลของผลลัพธ์ */
+  const g = cropGeom(W / unit);
+  ctx.drawImage(CR.img, g.x * unit, g.y * unit, g.w * unit, g.h * unit);
+}
+function drawCrop(){
+  const cv = $("crCv"), ctx = cv.getContext("2d"), W = cv.width;
+  ctx.clearRect(0, 0, W, W);
+  $("crEmpty").hidden = !!CR.img; $("crHint").hidden = !CR.img; $("crSave").disabled = !CR.img || !CR.changed;
+  [$("crP1"), $("crP2")].forEach(c => c.getContext("2d").clearRect(0, 0, c.width, c.height));
+  if (!CR.img) return;
+  paintCrop(ctx, W, 1);
+  ctx.save(); ctx.fillStyle = "rgba(3,6,14,.62)"; ctx.beginPath(); ctx.rect(0, 0, W, W);
+  ctx.moveTo(W/2, 0); ctx.lineTo(W, W/4); ctx.lineTo(W, 3*W/4); ctx.lineTo(W/2, W); ctx.lineTo(0, 3*W/4); ctx.lineTo(0, W/4); ctx.closePath();
+  ctx.fill("evenodd"); ctx.restore();
+  ctx.save(); ctx.setLineDash([W/60, W/90]); ctx.strokeStyle = "#2ee6d6"; ctx.lineWidth = Math.max(2, W/180); hex(ctx, 1, 1, W-2, W-2); ctx.stroke(); ctx.restore();
+  [$("crP1"), $("crP2")].forEach(c => {
+    const x = c.getContext("2d"), s = c.width;
+    x.save(); hex(x, 0, 0, s, s); x.clip(); paintCrop(x, s, s / W * 1); x.restore();
+  });
+}
+function cropOut(size, type, q){
+  const c = document.createElement("canvas"); c.width = size; c.height = size;
+  const x = c.getContext("2d"); x.fillStyle = "#0a1020"; x.fillRect(0, 0, size, size);
+  paintCrop(x, size, size / $("crCv").width);
+  return c.toDataURL(type, q);
+}
+function jpegUnder(size, limit){
+  let q = .86, out = cropOut(size, "image/jpeg", q);
+  while (out.length > limit && q > .4){ q -= .08; out = cropOut(size, "image/jpeg", q); }
+  return out;
+}
+$("crFile").addEventListener("change", async () => {
+  const f = $("crFile").files && $("crFile").files[0]; if (!f) return;
+  const url = URL.createObjectURL(f);
+  try{
+    const img = await loadImage(url);
+    CR.img = img; CR.zoom = 1; CR.px = CR.py = 0; CR.changed = true; $("crZoom").value = 1; $("crNote").textContent = "";
+    sizeCrop(); drawCrop();
+  }catch(e){ $("crNote").textContent = "เปิดรูปนี้ไม่ได้ ลองเลือกรูปอื่น"; }
+});
+$("crPick").addEventListener("click", () => $("crFile").click());
+$("crEmpty").addEventListener("click", () => $("crFile").click());
+$("crBack").addEventListener("click", closeCrop);
+$("crZoom").addEventListener("input", () => { CR.zoom = Number($("crZoom").value); CR.changed = true; drawCrop(); });
+$("crStage").addEventListener("pointerdown", e => { if (!CR.img) return; CR.drag = {x: e.clientX, y: e.clientY}; $("crStage").setPointerCapture(e.pointerId); });
+$("crStage").addEventListener("pointermove", e => {
+  if (!CR.drag) return;
+  const k = $("crCv").width / $("crStage").clientWidth;
+  CR.px += (e.clientX - CR.drag.x) * k; CR.py += (e.clientY - CR.drag.y) * k; CR.drag = {x: e.clientX, y: e.clientY}; CR.changed = true; drawCrop();
+});
+["pointerup","pointercancel"].forEach(t => $("crStage").addEventListener(t, () => { CR.drag = null; }));
+$("crStage").addEventListener("wheel", e => { if (!CR.img) return; e.preventDefault(); CR.zoom = Math.max(1, Math.min(4, CR.zoom - e.deltaY * .002)); $("crZoom").value = CR.zoom; CR.changed = true; drawCrop(); }, {passive: false});
+window.addEventListener("resize", () => { if (!$("crop").hidden){ sizeCrop(); drawCrop(); } });
+$("crSave").addEventListener("click", async () => {
+  if (!CR.img || !S.db) return;
+  const id = CR.id, at = Date.now();
+  $("crSave").disabled = true; $("crNote").textContent = "กำลังบันทึก...";
+  try{
+    const big = jpegUnder(512, 300000), small = jpegUnder(128, 40000);
+    await S.db.collection("photos").doc(id).set({data: big, at});
+    S.bigCache[id] = {src: big, at};
+    await S.db.collection("players").doc(id).update({photo: small, photoAt: at});
+    closeCrop(); S.pfNote = "เปลี่ยนรูปแล้ว"; if (S.profId === id) renderProfile(id);
+  }catch(err){
+    $("crSave").disabled = false;
+    $("crNote").textContent = err && err.code === "permission-denied" ? "บันทึกไม่ได้ ต้องวางกฎ Firestore ชุดใหม่ก่อน" : "บันทึกไม่สำเร็จ ลองใหม่อีกครั้ง";
+  }
+});
+$("crDel").addEventListener("click", async () => {
+  const id = CR.id; if (!S.db) return;
+  if ($("crDel").dataset.arm !== "1"){ $("crDel").dataset.arm = "1"; $("crDel").textContent = "แตะอีกครั้งเพื่อลบรูป"; return; }
+  $("crDel").dataset.arm = ""; $("crDel").textContent = "ลบรูป กลับไปใช้ตัวอักษร";
+  try{
+    await S.db.collection("players").doc(id).update({photo: null, photoAt: Date.now()});
+    try{ await S.db.collection("photos").doc(id).delete(); }catch(e){}
+    delete S.bigCache[id];
+    closeCrop(); S.pfNote = "ลบรูปแล้ว"; if (S.profId === id) renderProfile(id);
+  }catch(err){ $("crNote").textContent = err && err.code === "permission-denied" ? "ลบไม่ได้ ต้องวางกฎ Firestore ชุดใหม่ก่อน" : "ลบไม่สำเร็จ ลองใหม่อีกครั้ง"; }
+});
+
+/* ===== จำว่าเครื่องนี้คือใคร ===== */
+const ME_KEY = "signal13-me", SKIP_KEY = "signal13-me-skip";
+function meId(){ let v = null; try{ v = localStorage.getItem(ME_KEY); }catch(e){} return v && playerOf(v) ? v : null; }
+function setMe(id){ try{ localStorage.setItem(ME_KEY, id); localStorage.removeItem(SKIP_KEY); }catch(e){} $("who").hidden = true; render(); }
+function clearMe(){ try{ localStorage.removeItem(ME_KEY); localStorage.setItem(SKIP_KEY, "1"); }catch(e){} render(); }
+function renderMe(){
+  const id = meId(), b = $("meChip");
+  if (id){ b.className = "mechip"; b.innerHTML = `${av(id)}<span class="n">${esc(nameOf(id))}</span>`; b.setAttribute("aria-label", "โปรไฟล์ของฉัน " + nameOf(id)); }
+  else { b.className = "mechip none"; b.textContent = "👤 เลือกตัวเอง"; b.setAttribute("aria-label", "เลือกว่าคุณคือใคร"); }
+}
+function openWho(){
+  $("whoList").innerHTML = S.players.length ? S.players.map(p => `<button class="whob" data-who="${esc(p.id)}">${av(p.id)}<span class="n">${esc(p.name)}</span></button>`).join("")
+    : '<p class="note" style="grid-column:1/-1">ยังไม่มีใครในลีก สร้างชื่อของคุณเป็นคนแรกได้เลย</p>';
+  $("whoNote").textContent = ""; $("whoNewBox").hidden = !!S.players.length; $("whoNew").hidden = !S.players.length;
+  $("who").hidden = false;
+}
+$("meChip").addEventListener("click", () => { const id = meId(); if (id) openProfile(id); else openWho(); });
+$("whoList").addEventListener("click", e => { const b = e.target.closest("[data-who]"); if (b) setMe(b.dataset.who); });
+$("whoNew").addEventListener("click", () => { $("whoNewBox").hidden = false; $("whoNew").hidden = true; $("whoInput").focus(); });
+$("whoSkip").addEventListener("click", () => { try{ localStorage.setItem(SKIP_KEY, "1"); }catch(e){} $("who").hidden = true; });
+async function createMe(){
+  const n = ($("whoInput").value || "").trim();
+  if (!n){ $("whoNote").textContent = "ใส่ชื่ออย่างน้อย 1 ตัวอักษร"; return; }
+  if (S.players.some(p => p.name.toLowerCase() === n.toLowerCase())){ $("whoNote").textContent = `มีคนใช้ชื่อ ${n} แล้ว ถ้าเป็นคุณ แตะชื่อในรายการด้านบน`; return; }
+  if (!S.db) return;
+  $("whoCreate").disabled = true;
+  try{ const ref = await S.db.collection("players").add({name: n, createdAt: Date.now()}); $("whoInput").value = ""; setMe(ref.id); }
+  catch(err){ $("whoNote").textContent = "สร้างไม่สำเร็จ ลองใหม่อีกครั้ง"; }
+  $("whoCreate").disabled = false;
+}
+$("whoCreate").addEventListener("click", createMe);
+$("whoInput").addEventListener("keydown", e => { if (e.key === "Enter") createMe(); });
+function maybeAskWho(){
+  if (S.whoAsked) return; S.whoAsked = true;
+  let skip = false; try{ skip = !!localStorage.getItem(SKIP_KEY); }catch(e){}
+  if (!meId() && !skip && S.canWrite) openWho();
+}
+
 function writeFail(err){
   if (err && err.code === "permission-denied"){ S.canWrite = false; setMsg("บันทึกไม่ได้ ตรวจ Firestore rules ใน Firebase"); render(); }
   else if (err && err.code === "quota_exceeded") setMsg("พื้นที่เก็บข้อมูลเต็ม ลองลบแมตช์เก่าบางส่วน");
@@ -1500,14 +1759,15 @@ function localDB(){
   const KEY = "sofa-league-v1";
   let data = {};
   try{ data = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
-  data.players = data.players || {}; data.matches = data.matches || {};
-  const subs = {players:[], matches:[]};
+  data.players = data.players || {}; data.matches = data.matches || {}; data.photos = data.photos || {};
+  const subs = {players:[], matches:[], photos:[]};
   const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){} };
   const snap = c => ({docs: Object.entries(data[c]).map(([id,v]) => ({id, data: () => v}))});
   const emit = c => subs[c].forEach(f => f(snap(c)));
   return { collection(c){ return {
     async add(v){ const id = Date.now().toString(36) + Math.random().toString(36).slice(2,7); data[c][id] = v; save(); emit(c); return {id}; },
-    doc(id){ return { async delete(){ delete data[c][id]; save(); emit(c); }, async update(v){ data[c][id] = {...data[c][id], ...v}; save(); emit(c); } }; },
+    doc(id){ return { async delete(){ delete data[c][id]; save(); emit(c); }, async update(v){ data[c][id] = {...data[c][id], ...v}; save(); emit(c); },
+      async set(v){ data[c][id] = v; save(); emit(c); }, async get(){ const v = data[c][id]; return {exists: !!v, data: () => v}; } }; },
     onSnapshot(f){ subs[c].push(f); f(snap(c)); return () => {}; }
   }; } };
 }
@@ -1536,7 +1796,7 @@ function localDB(){
     S.db = localDB();
     $("mode").hidden = false;
   }
-  S.db.collection("players").onSnapshot(s => { S.players = s.docs.map(d => ({id:d.id, ...d.data()})); render(); }, () => setMsg("โหลดรายชื่อไม่สำเร็จ ตรวจ Firestore rules"));
+  S.db.collection("players").onSnapshot(s => { S.players = s.docs.map(d => ({id:d.id, ...d.data()})); render(); if (!s.metadata || !s.metadata.fromCache) maybeAskWho(); }, () => setMsg("โหลดรายชื่อไม่สำเร็จ ตรวจ Firestore rules"));
   S.db.collection("matches").onSnapshot(s => { S.matches = s.docs.map(d => ({id:d.id, ...d.data()})); render(); }, () => setMsg("โหลดผลแมตช์ไม่สำเร็จ ตรวจ Firestore rules"));
   updateSave();
 })();
