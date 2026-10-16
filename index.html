@@ -205,6 +205,59 @@ tr.top1 td.rank{color:var(--gold)}
 .sheet.share{max-height:100%;overflow:auto;gap:12px}
 .sheet.share img{width:100%;max-height:52vh;object-fit:contain;background:var(--night);border:1px solid var(--edge)}
 .sheet.share .del{align-self:center}
+/* round 2 */
+.spinall{width:100%}
+.team.empty b{color:var(--muted)}
+.ttl{font-size:13px;white-space:nowrap}
+button.pl{color:inherit;font:inherit;font-weight:600;font-size:14px;cursor:pointer}
+button.pl:hover{border-color:var(--volt)}
+tbody tr[data-prof]{cursor:pointer}
+tbody tr[data-prof]:hover td{background:rgba(255,255,255,.03)}
+.pod[data-prof]{cursor:pointer}
+.sheet.prof{text-align:left;max-height:100%;overflow:auto;gap:14px}
+.sheet.prof > *, .sheet.share > *{flex-shrink:0}
+.ph{display:flex;align-items:center;gap:14px;min-width:0}
+.ph .av{width:64px;height:64px;font-size:26px;flex:none}
+.ph .nm{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;overflow-wrap:anywhere}
+.ph .sub{font-size:13px;color:var(--muted)}
+.tchips{display:flex;flex-wrap:wrap;gap:6px}
+.tchip{background:rgba(255,201,74,.12);border:1px solid rgba(255,201,74,.4);color:var(--gold);border-radius:999px;padding:2px 10px;font-size:13px;font-weight:600}
+.kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.kv div{background:var(--deck);border:1px solid var(--edge);border-radius:4px;padding:8px 10px;min-width:0}
+.kv b{display:block;font-family:var(--display);font-size:19px}
+.kv span{font-size:11px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block;background:var(--deck);border:1px solid var(--edge);border-radius:4px}
+.chart .ln{fill:none;stroke:var(--volt);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.chart .ar{fill:rgba(46,230,214,.12)}
+.chart .bl{stroke:var(--muted);stroke-dasharray:4 4;opacity:.5}
+.chart .dt{fill:var(--volt)}
+.chart text{fill:var(--muted);font-size:10px;font-family:var(--display)}
+.rv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rv div{background:var(--deck);border:1px solid var(--edge);border-radius:4px;padding:10px;min-width:0}
+.rv small{display:block;font-size:11px;color:var(--muted)}
+.rv b{font-weight:600;overflow-wrap:anywhere}
+.rv span{display:block;font-size:12px;color:var(--muted)}
+.lbl{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.12em;color:var(--volt);text-transform:uppercase}
+.mini{display:flex;flex-direction:column;gap:6px}
+.mrow{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;background:var(--deck);border:1px solid var(--edge);border-radius:4px;padding:8px 10px;font-size:14px}
+.mrow span{color:var(--muted);min-width:0;overflow-wrap:anywhere}
+.mrow .r{text-align:right}
+.mrow .w{font-weight:700;color:var(--ink)}
+.mrow .s{font-family:var(--display);font-weight:700}
+.sec{display:flex;flex-direction:column;gap:10px}
+.cards2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.hl{background:var(--deck);border:1px solid var(--edge);border-radius:4px;padding:12px;min-width:0}
+.hl small{display:block;font-size:11px;color:var(--muted)}
+.hl b{display:block;font-family:var(--display);font-size:18px;overflow-wrap:anywhere}
+.hl span{font-size:13px;color:var(--muted)}
+.hl.mvp{grid-column:1/-1;border-color:var(--gold);background:linear-gradient(90deg,rgba(255,201,74,.12),var(--deck) 70%)}
+.tlist{display:flex;flex-direction:column;gap:6px}
+.trow{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:var(--deck);border:1px solid var(--edge);border-radius:4px;padding:10px 12px}
+.trow .e{font-size:22px}
+.trow b{font-weight:600}
+.trow small{display:block;font-size:12px;color:var(--muted)}
+.trow .who{font-family:var(--display);font-weight:700;color:var(--volt);text-align:right;overflow-wrap:anywhere;max-width:42vw}
+.trow .who.none{color:var(--muted);font-weight:500}
 @media (max-width:420px){.score output{font-size:44px}.step{width:34px;height:34px}h1{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -238,16 +291,17 @@ tr.top1 td.rank{color:var(--gold)}
     <div class="sides">
       <div class="side">
         <select id="pa" aria-label="ผู้เล่นทีมเหย้า"></select>
-        <div class="spin"><button class="spinbtn" id="spina" data-side="a">สุ่มทีม</button><div class="team" id="teama" hidden><b></b><span></span></div></div>
+        <div class="spin"><div class="team empty" id="teama"><b>—</b><span>ยังไม่สุ่มทีม</span></div></div>
         <div class="score"><button class="step" data-s="a" data-d="-1" aria-label="ลดประตูทีมเหย้า">−</button><output id="ga" class="num">0</output><button class="step" data-s="a" data-d="1" aria-label="เพิ่มประตูทีมเหย้า">+</button></div>
       </div>
       <div class="vs">VS</div>
       <div class="side">
         <select id="pb" aria-label="ผู้เล่นทีมเยือน"></select>
-        <div class="spin"><button class="spinbtn" id="spinb" data-side="b">สุ่มทีม</button><div class="team" id="teamb" hidden><b></b><span></span></div></div>
+        <div class="spin"><div class="team empty" id="teamb"><b>—</b><span>ยังไม่สุ่มทีม</span></div></div>
         <div class="score"><button class="step" data-s="b" data-d="-1" aria-label="ลดประตูทีมเยือน">−</button><output id="gb" class="num">0</output><button class="step" data-s="b" data-d="1" aria-label="เพิ่มประตูทีมเยือน">+</button></div>
       </div>
     </div>
+    <button class="spinbtn spinall" id="spinAll">สุ่มทีมทั้งสองฝั่ง</button>
     <button class="save" id="save">บันทึกผล</button>
     <button class="ghost cancel" id="cancelMatch">ยกเลิกแมตช์</button>
     <div class="msg" id="msg" role="status"></div>
@@ -272,6 +326,7 @@ tr.top1 td.rank{color:var(--gold)}
     <button role="tab" aria-selected="true" data-tab="table">ตารางอันดับ</button>
     <button role="tab" aria-selected="false" data-tab="h2h">ตัวต่อตัว</button>
     <button role="tab" aria-selected="false" data-tab="hist">ประวัติ</button>
+    <button role="tab" aria-selected="false" data-tab="stats">สถิติ</button>
   </div>
 
   <section class="panel" id="tab-table">
@@ -289,6 +344,26 @@ tr.top1 td.rank{color:var(--gold)}
       <select id="ha" aria-label="ผู้เล่นคนแรก"></select><span class="note">กับ</span><select id="hb" aria-label="ผู้เล่นคนที่สอง"></select>
     </div>
     <div id="h2hout"></div>
+  </section>
+
+  <section class="panel" id="tab-stats" hidden>
+    <div class="sec">
+      <div class="lbl">สรุป 10 นัดล่าสุด</div>
+      <div id="sumBox"></div>
+      <button class="sharebtn" id="shareSum" hidden>แชร์สรุปเข้า LINE</button>
+    </div>
+    <div class="sec">
+      <div class="lbl">ฉายาตอนนี้</div>
+      <div class="tlist" id="ttlList"></div>
+      <p class="note">ฉายาจากสถิติ (เหนียวจัด ยิงกระจุย ชนะบ้างนะ ไก่) ต้องเล่นครบ 5 นัดก่อน ฉายาย้ายมือได้ทุกนัด</p>
+    </div>
+    <div class="sec">
+      <div class="lbl">ทีมนำโชค</div>
+      <div class="tlist" id="luckyList"></div>
+      <div class="lbl">ทีมอาถรรพ์</div>
+      <div class="tlist" id="cursedList"></div>
+      <p class="note">นับจากทีมที่สุ่มได้ ทีมต้องถูกใช้อย่างน้อย 2 นัด</p>
+    </div>
   </section>
 
   <section class="panel" id="tab-hist" hidden>
@@ -329,6 +404,9 @@ const firebaseConfig = {
     <button class="del" id="shUndo" hidden>บันทึกผิด? ยกเลิกผลนี้</button>
   </div>
 </div>
+<div class="modal" id="prof" hidden role="dialog" aria-modal="true" aria-labelledby="pfName">
+  <div class="sheet prof" id="profBody"></div>
+</div>
 <div class="modal" id="confirm" hidden role="dialog" aria-modal="true" aria-labelledby="cfTitle">
   <div class="sheet">
     <div class="tag">ตรวจผลก่อนบันทึก</div>
@@ -356,10 +434,13 @@ function fmtDate(t){
 const START = 1000, K = 32, SETTLED = 5, TIER_GAP = 75;
 function statsOf(list){
   const m = {}, delta = {};
-  S.players.forEach(p => m[p.id] = {id:p.id,name:p.name,gp:0,w:0,d:0,l:0,gf:0,ga:0,form:[],elo:START});
+  const slap = {}, champBeat = {};
+  S.players.forEach(p => m[p.id] = {id:p.id,name:p.name,gp:0,w:0,d:0,l:0,gf:0,ga:0,form:[],elo:START,hist:[]});
   const sorted = [...list].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id)));
   for (const x of sorted){
     const a = m[x.a], b = m[x.b]; if (!a || !b) continue;
+    let leader = null;
+    for (const id in m){ const r = m[id]; if (r.gp && (!leader || r.elo > leader.elo)) leader = r; }
     const adv = (x.ra && x.rb) ? (x.rb - x.ra) * TIER_GAP : 0;
     const ea = 1 / (1 + Math.pow(10, (b.elo - a.elo - adv) / 400));
     const sa = x.ga > x.gb ? 1 : x.ga < x.gb ? 0 : 0.5;
@@ -370,13 +451,59 @@ function statsOf(list){
     if (sa === 1){a.w++; b.l++; a.form.push("W"); b.form.push("L");}
     else if (sa === 0){b.w++; a.l++; a.form.push("L"); b.form.push("W");}
     else {a.d++; b.d++; a.form.push("D"); b.form.push("D");}
+    a.hist.push({at:x.at, elo:a.elo, id:x.id}); b.hist.push({at:x.at, elo:b.elo, id:x.id});
+    const win = sa === 1 ? a : sa === 0 ? b : null, lose = sa === 1 ? b : sa === 0 ? a : null;
+    const beat = !!(win && leader && leader.id === lose.id);
+    champBeat[x.id] = beat;
+    delete slap[a.id]; delete slap[b.id];
+    if (beat) slap[win.id] = x.id;
   }
   const rows = Object.values(m).map(r => ({...r, elo: Math.round(r.elo), pts: 3*r.w + r.d, gd: r.gf - r.ga, st: streakOf(r.form)}))
     .sort((x,y) => (y.gp>0) - (x.gp>0) || y.elo - x.elo || y.pts - x.pts || x.name.localeCompare(y.name,"th"));
   const rank = {}; rows.filter(r => r.gp).forEach((r,i) => rank[r.id] = i+1);
-  return {rows, delta, rank, by: m};
+  return {rows, delta, rank, by: m, slap, champBeat};
 }
-function stats(){ const r = statsOf(S.matches); S.delta = r.delta; S.rank = r.rank; S.rows = r.rows; return r.rows; }
+function stats(){ const r = statsOf(S.matches); S.res = r; S.delta = r.delta; S.rank = r.rank; S.rows = r.rows; S.titles = titlesOf(r); return r.rows; }
+
+/* ===== ฉายา ===== */
+const TITLES = {
+  champ:   {e:"🏆", n:"แชมป์อ่ะครับ!!", d:"อันดับ 1 ในตารางตอนนี้"},
+  slap:    {e:"👋", n:"ตบแชมป์",        d:"ชนะแชมป์ได้ ถือฉายาจนตัวเองลงเล่นนัดถัดไป"},
+  wall:    {e:"🧱", n:"เหนียวจัด",       d:"เสียประตูเฉลี่ยต่อนัดน้อยสุด"},
+  boom:    {e:"💥", n:"ยิงกระจุย",       d:"ยิงประตูเฉลี่ยต่อนัดมากสุด"},
+  pls:     {e:"🥲", n:"ชนะบ้างนะ",       d:"ไม่ได้ชนะติดต่อกันนานสุดตอนนี้ (3 นัดขึ้นไป)"},
+  chicken: {e:"🐔", n:"ไก่",             d:"เรตต่ำสุดในลีก"}
+};
+const TITLE_MIN = 5;
+function winless(form){ let n = 0; for (let i = form.length-1; i >= 0 && form[i] !== "W"; i--) n++; return n; }
+function titlesOf(res){
+  const T = {}, holder = {};
+  const give = (id, k) => { (T[id] = T[id] || []).push(k); (holder[k] = holder[k] || []).push(id); };
+  const played = res.rows.filter(r => r.gp);
+  if (played[0]) give(played[0].id, "champ");
+  Object.keys(res.slap || {}).forEach(id => give(id, "slap"));
+  const q = played.filter(r => r.gp >= TITLE_MIN);
+  const best = (arr, f, dir) => {
+    let b = null;
+    for (const r of arr){
+      const v = f(r);
+      if (!b || (dir < 0 ? v < b.v - 1e-9 : v > b.v + 1e-9) || (Math.abs(v - b.v) < 1e-9 && r.gp > b.r.gp)) b = {r, v};
+    }
+    return b;
+  };
+  if (q.length >= 2){
+    const w = best(q, r => r.ga / r.gp, -1); if (w) give(w.r.id, "wall");
+    const bm = best(q, r => r.gf / r.gp, 1); if (bm && bm.v > 0) give(bm.r.id, "boom");
+  }
+  const pl = best(q.filter(r => winless(r.form) >= 3), r => winless(r.form), 1); if (pl) give(pl.r.id, "pls");
+  if (q.length >= 3){ const c = best(q, r => r.elo, -1); if (c && !(T[c.r.id] || []).includes("champ")) give(c.r.id, "chicken"); }
+  return {T, holder};
+}
+function ttlOf(id){ return (S.titles && S.titles.T[id]) || []; }
+function ttlHtml(id){
+  const t = ttlOf(id); if (!t.length) return "";
+  return `<span class="ttl" title="${esc(t.map(k => TITLES[k].n).join(", "))}">${t.map(k => TITLES[k].e).join("")}</span>`;
+}
 function streakOf(form){
   if (!form.length) return {t:null,n:0};
   const last = form[form.length-1]; if (last === "D") return {t:null,n:0};
@@ -404,26 +531,27 @@ function render(){
 
   const rows = stats();
   const stOf = id => (rows.find(r => r.id === id) || {}).st;
-  $("chips").innerHTML = ps.length ? ps.map(p => `<span class="pl">${av(p.id)}${esc(p.name)}${stHtml(stOf(p.id))}</span>`).join("")
+  $("chips").innerHTML = ps.length ? ps.map(p => `<button type="button" class="pl" data-prof="${esc(p.id)}">${av(p.id)}${esc(p.name)}${stHtml(stOf(p.id))}${ttlHtml(p.id)}</button>`).join("")
     : '<span class="note">ยังไม่มีผู้เล่น เพิ่มชื่อเพื่อนอย่างน้อย 2 คนเพื่อเริ่มจดผล</span>';
   $("shareTable").hidden = !rows.some(r => r.gp);
   const played = rows.filter(r => r.gp);
   const pod = $("podium");
   if (played.length >= 3){
     const order = [1,0,2];
-    pod.innerHTML = order.map(i => { const r = played[i]; return `<div class="pod p${i+1}">
-      <span class="pos">${["อันดับ 1","อันดับ 2","อันดับ 3"][i]}</span>${av(r.id)}<span class="nm">${esc(r.name)} ${stHtml(r.st)}</span>
+    pod.innerHTML = order.map(i => { const r = played[i]; return `<div class="pod p${i+1}" data-prof="${esc(r.id)}">
+      <span class="pos">${["อันดับ 1","อันดับ 2","อันดับ 3"][i]}</span>${av(r.id)}<span class="nm">${esc(r.name)} ${stHtml(r.st)}${ttlHtml(r.id)}</span>
       <span class="pc num">${r.elo}</span><span class="note num">${r.w}-${r.d}-${r.l}</span></div>`; }).join("");
     pod.hidden = false;
   } else pod.hidden = true;
 
-  $("tbody").innerHTML = rows.length ? rows.map((r,i) => `<tr class="${r.gp && i===0 ? "top1" : ""}">
-    <td class="rank">${r.gp ? i+1 : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${stHtml(r.st)}${r.gp && r.gp < SETTLED ? '<span class="prov">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
+  $("tbody").innerHTML = rows.length ? rows.map((r,i) => `<tr class="${r.gp && i===0 ? "top1" : ""}" data-prof="${esc(r.id)}">
+    <td class="rank">${r.gp ? i+1 : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${stHtml(r.st)}${ttlHtml(r.id)}${r.gp && r.gp < SETTLED ? '<span class="prov">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
     <td>${r.gd>0?"+":""}${r.gd}</td><td>${r.pts}</td><td class="elo">${r.gp ? r.elo : "–"}</td>
     <td><span class="form">${r.form.slice(-5).map(f => `<span class="dot ${f}">${f==="W"?"ช":f==="D"?"ส":"พ"}</span>`).join("")}</span></td></tr>`).join("")
     : '<tr><td colspan="10" class="note" style="padding:24px">ตารางจะขึ้นเมื่อมีผู้เล่นและผลแมตช์</td></tr>';
 
-  renderH2H(); renderHist(); updateSave(); renderSuggest();
+  renderH2H(); renderHist(); updateSave(); renderSuggest(); renderStats();
+  if (S.profId && !$("prof").hidden) renderProfile(S.profId);
   if (firstLoad){ S.restored = true; restorePending(); }
 }
 
@@ -480,9 +608,9 @@ function renderH2H(){
 function matchRow(x){
   const aw = x.ga > x.gb, bw = x.gb > x.ga, armed = S.armed === x.id;
   return `<div class="m ${aw||bw?"dec":""}">
-    <div class="p ${aw?"won":""}">${esc(nameOf(x.a))}${x.ta?`<small>${esc(x.ta)}${x.ra?" · ระดับ "+x.ra:""}</small>`:""}</div>
+    <div class="p ${aw?"won":""}">${esc(nameOf(x.a))}${x.ta?`<small>${esc(teamName(x.ta))}${x.ra?" · ระดับ "+x.ra:""}</small>`:""}</div>
     <div class="sc num"><span>${x.ga} – ${x.gb}</span></div>
-    <div class="p r ${bw?"won":""}">${esc(nameOf(x.b))}${x.tb?`<small>${esc(x.tb)}${x.rb?" · ระดับ "+x.rb:""}</small>`:""}</div>
+    <div class="p r ${bw?"won":""}">${esc(nameOf(x.b))}${x.tb?`<small>${esc(teamName(x.tb))}${x.rb?" · ระดับ "+x.rb:""}</small>`:""}</div>
     <div class="meta"><span>${fmtDate(x.at)}${dl(x.id)}</span>${S.canWrite?`<button class="del ${armed?"arm":""}" data-del="${esc(x.id)}">${armed?"แตะอีกครั้งเพื่อลบ":"ลบ"}</button>`:""}</div>
   </div>`;
 }
@@ -500,20 +628,22 @@ function renderHist(){
 
 function updateSave(){
   const a = $("pa").value, b = $("pb").value;
-  $("save").disabled = !S.db || !S.canWrite || !a || !b || a === b || !S.ta || !S.tb;
-  $("save").textContent = (!S.ta || !S.tb) && a && b && a !== b ? "สุ่มทีมให้ครบทั้งสองฝั่งก่อน" : "บันทึกผล";
+  $("save").disabled = !S.db || !S.canWrite || !a || !b || a === b || !S.ta || !S.tb || S.rolling;
+  $("save").textContent = (!S.ta || !S.tb) && a && b && a !== b ? "สุ่มทีมก่อนบันทึกผล" : "บันทึกผล";
+  $("spinAll").hidden = !!(S.ta || S.tb);
+  $("spinAll").disabled = !S.canWrite || !a || !b || a === b;
 }
 function setMsg(t){ $("msg").textContent = t; }
 
 document.querySelectorAll(".step").forEach(btn => btn.addEventListener("click", () => {
   const k = "g" + btn.dataset.s; S[k] = Math.max(0, Math.min(99, S[k] + Number(btn.dataset.d))); $(k).textContent = S[k]; savePending();
 }));
-["pa","pb"].forEach(id => $(id).addEventListener("change", () => { if (S["t"+id[1]]) resetSide(id[1]); updateSave(); renderSuggest(); setMsg($("pa").value && $("pa").value === $("pb").value ? "เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน" : ""); }));
+["pa","pb"].forEach(id => $(id).addEventListener("change", () => { if (S.ta || S.tb) resetSide(); updateSave(); renderSuggest(); setMsg($("pa").value && $("pa").value === $("pb").value ? "เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน" : ""); }));
 ["ha","hb"].forEach(id => $(id).addEventListener("change", renderH2H));
 
 document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
   document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
-  ["table","h2h","hist"].forEach(t => $("tab-"+t).hidden = t !== b.dataset.tab);
+  ["table","h2h","hist","stats"].forEach(t => $("tab-"+t).hidden = t !== b.dataset.tab);
   try{ localStorage.setItem("tab", b.dataset.tab); }catch(e){}
 }));
 try{ const t = localStorage.getItem("tab"); const b = t && document.querySelector(`.tabs button[data-tab="${t}"]`); if (b) b.click(); }catch(e){}
@@ -532,12 +662,14 @@ const LEAGUE = {};
  ["LALIGA",["Barcelona","Real Madrid","Villarreal","Atlético Madrid","Real Betis"]],
  ["SERIE A",["Inter","Napoli","Roma","Como","AC Milan"]],
  ["BUNDESLIGA",["Bayern","Dortmund","RB Leipzig","Stuttgart","Hoffenheim"]],
- ["LIGUE 1",["PSG","Lens","Lille","Lyon","Marseille"]]].forEach(([l,ts]) => ts.forEach(t => LEAGUE[t] = l));
+ ["LIGUE 1",["PSG","Lens","LOSC Lille","Lyon","Marseille"]]].forEach(([l,ts]) => ts.forEach(t => LEAGUE[t] = l));
 const TIERS = {
   1: ["Arsenal","Man City","Liverpool","Chelsea","Real Madrid","Barcelona","Atlético Madrid","Bayern","PSG","Inter"],
-  2: ["Man United","Newcastle","Tottenham","Aston Villa","Napoli","AC Milan","Roma","Dortmund","RB Leipzig","Stuttgart","Villarreal","Marseille","Lyon","Lille","Lens"],
+  2: ["Man United","Newcastle","Tottenham","Aston Villa","Napoli","AC Milan","Roma","Dortmund","RB Leipzig","Stuttgart","Villarreal","Marseille","Lyon","LOSC Lille","Lens"],
   3: ["Bournemouth","Brentford","Brighton","Crystal Palace","Everton","Fulham","Nottingham Forest","Leeds United","Sunderland","Coventry City","Hull City","Ipswich Town","Como","Hoffenheim","Real Betis"]
 };
+const TEAM_ALIAS = {"Lille":"LOSC Lille"};
+const teamName = n => TEAM_ALIAS[n] || n;
 const POOL = Object.entries(TIERS).flatMap(([r,ts]) => ts.map(n => ({n, l:LEAGUE[n], r:Number(r)})));
 const reduceMotion = (() => { try{ return matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } })();
 function showTeam(side, t, rolling){
@@ -560,43 +692,54 @@ function restorePending(){
   const has = id => S.players.some(p => p.id === id);
   if (d.pa && has(d.pa)) $("pa").value = d.pa;
   if (d.pb && has(d.pb)) $("pb").value = d.pb;
-  ["a","b"].forEach(side => {
-    const t = d["t"+side];
-    if (t && t.n && $("p"+side).value === d["p"+side]){ S["t"+side] = t; $("spin"+side).hidden = true; showTeam(side, t); }
-  });
+  if (d.ta && d.tb && d.ta.n && d.tb.n && $("pa").value === d.pa && $("pb").value === d.pb){
+    const fix = t => { const n = teamName(t.n); const f = POOL.find(x => x.n === n); return f || {...t, n}; };
+    S.ta = fix(d.ta); S.tb = fix(d.tb); showTeam("a", S.ta); showTeam("b", S.tb);
+  }
   S.ga = Number(d.ga) || 0; S.gb = Number(d.gb) || 0; $("ga").textContent = S.ga; $("gb").textContent = S.gb;
   if (S.ta || S.tb) setMsg("กลับมาที่แมตช์ที่สุ่มทีมไว้แล้ว");
   updateSave();
 }
-function spin(side){
-  if (S["t"+side]) return;
-  if (!$("p"+side).value){ setMsg("เลือกผู้เล่นฝั่งนี้ก่อนสุ่มทีม"); return; }
-  const other = S[side === "a" ? "tb" : "ta"];
-  const pool = POOL.filter(t => !other || t.n !== other.n);
-  const pick = pool[Math.floor(Math.random() * pool.length)];
-  const btn = $("spin"+side); btn.hidden = true;
-  S["t"+side] = pick;
-  savePending(); renderSuggest();
-  if (reduceMotion){ showTeam(side, pick); updateSave(); return; }
-  let i = 0; const steps = 16;
+function emptyTeam(side){
+  const box = $("team"+side); box.classList.remove("rolling","done"); box.classList.add("empty");
+  box.querySelector("b").textContent = "—"; box.querySelector("span").textContent = "ยังไม่สุ่มทีม";
+}
+function spinBoth(){
+  if (S.ta || S.tb || S.rolling) return;
+  const a = $("pa").value, b = $("pb").value;
+  if (!a || !b){ setMsg("เลือกผู้เล่นให้ครบสองฝั่งก่อนสุ่มทีม"); return; }
+  if (a === b){ setMsg("เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน"); return; }
+  const pickA = POOL[Math.floor(Math.random() * POOL.length)];
+  const restB = POOL.filter(t => t.n !== pickA.n);
+  const pickB = restB[Math.floor(Math.random() * restB.length)];
+  S.ta = pickA; S.tb = pickB; S.rolling = true;
+  savePending(); renderSuggest(); setMsg("");
+  ["a","b"].forEach(side => $("team"+side).classList.remove("empty"));
+  updateSave();
+  /* แสดงรายชื่อวิ่งทุกเครื่อง (เป็นแค่ข้อความเปลี่ยน ไม่ใช่ภาพเคลื่อนไหว) */
+  let i = 0; const stopA = 15, stopB = 20;
+  const rnd = () => POOL[Math.floor(Math.random() * POOL.length)];
   const tick = () => {
-    if (i++ < steps){ showTeam(side, pool[Math.floor(Math.random()*pool.length)], true); setTimeout(tick, 40 + i*i*0.7); }
-    else { showTeam(side, pick); updateSave(); }
+    i++;
+    if (i < stopA) showTeam("a", rnd(), true); else if (i === stopA) showTeam("a", pickA);
+    if (i < stopB) showTeam("b", rnd(), true);
+    else { showTeam("b", pickB); S.rolling = false; updateSave(); return; }
+    setTimeout(tick, 45 + i*i*0.55);
   };
   tick();
 }
-function resetSide(side){ S["t"+side] = null; $("spin"+side).hidden = false; $("team"+side).hidden = true; savePending(); }
+function resetSide(){ resetSpins(); savePending(); }
 function cancelMatch(){
   resetSpins(); $("pa").value = ""; $("pb").value = "";
   S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0;
   clearPending(); setMsg("ยกเลิกแมตช์แล้ว"); updateSave(); renderSuggest();
 }
 function resetSpins(){
-  ["a","b"].forEach(side => { S["t"+side] = null; $("spin"+side).hidden = false; $("team"+side).hidden = true; });
+  S.ta = S.tb = null; S.rolling = false;
+  ["a","b"].forEach(emptyTeam); updateSave();
 }
-$("spina").addEventListener("click", () => spin("a"));
+$("spinAll").addEventListener("click", spinBoth);
 $("cancelMatch").addEventListener("click", cancelMatch);
-$("spinb").addEventListener("click", () => spin("b"));
 
 function openConfirm(){
   const a = $("pa").value, b = $("pb").value; if (!a || !b || a === b || !S.ta || !S.tb) return;
@@ -702,6 +845,9 @@ async function fontsReady(){
     ]);
   }catch(e){}
 }
+/* จัดตำแหน่งเอง: บางเบราว์เซอร์มือถือจัด textAlign ข้อความไทยผิด */
+function fillR(ctx, t, x, y){ ctx.textAlign = "left"; ctx.fillText(t, x - ctx.measureText(t).width, y); }
+function fillC(ctx, t, x, y){ ctx.textAlign = "left"; ctx.fillText(t, x - ctx.measureText(t).width/2, y); }
 function fit(ctx, text, font, size, maxW){
   let s = size;
   while (s > 14){ ctx.font = font.replace("{s}", s); if (ctx.measureText(text).width <= maxW) break; s -= 2; }
@@ -714,10 +860,10 @@ function hex(ctx, x, y, w, h){
 }
 function avatar(ctx, id, x, y, size){
   hex(ctx, x, y, size, size); ctx.fillStyle = kit(id); ctx.fill();
-  ctx.fillStyle = C.dark; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillStyle = C.dark; ctx.textBaseline = "middle";
   ctx.font = `700 ${Math.round(size*0.42)}px ${FD}`;
-  ctx.fillText(initial(nameOf(id)), x+size/2, y+size/2+2);
-  ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+  fillC(ctx, initial(nameOf(id)), x+size/2, y+size/2+2);
+  ctx.textBaseline = "alphabetic";
 }
 function chip(ctx, tier, x, yMid, h){
   if (!tier) return 0;
@@ -751,19 +897,25 @@ function kicker(ctx, text, rightX, y){
   const w = ctx.measureText(text).width + 56, h = 74;
   ctx.save(); ctx.translate(rightX - w, y); ctx.transform(1, 0, -0.18, 1, 0, 0);
   ctx.fillStyle = C.gold; ctx.fillRect(0, 0, w, h); ctx.restore();
-  ctx.fillStyle = "#241a00"; ctx.textAlign = "right"; ctx.fillText(text, rightX - 28 - 6, y + 50); ctx.textAlign = "left";
+  ctx.fillStyle = "#241a00"; fillR(ctx, text, rightX - 28 - 6, y + 50);
 }
 function linkText(){ return (location.host + location.pathname).replace(/index\.html$/, "").replace(/\/$/, "") || "Signal13 League"; }
 function shortDate(t){ try{ return new Date(t).toLocaleString("th-TH",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; } }
-function nightStart(){ const now = new Date(), c = new Date(now); c.setHours(6,0,0,0); if (now < c) c.setDate(c.getDate()-1); return c.getTime(); }
+function sessionStart(){
+  const ts = S.matches.map(x => x.at).sort((a,b) => b - a);
+  if (!ts.length) return Infinity;
+  let start = ts[0];
+  for (let i = 1; i < ts.length && start - ts[i] <= 4*3600*1000; i++) start = ts[i];
+  return start;
+}
 
 function headlineOf(o){
   if (o.draw){
     return o.gw === 0 ? {k:"แบ่งแต้ม", l:["ยิงกันไม่เข้า", "เสมอ 0–0"]} : {k:"แบ่งแต้ม", l:["สูสีไม่มีใครยอม", `เสมอ ${o.gw}–${o.gl}`]};
   }
+  if (o.champBeat) return {k:"ตบแชมป์! 👋", l:["ล้มแชมป์อ่ะครับ!!", "ได้สำเร็จ"]};
   if (o.rw && o.rl && o.rw > o.rl) return {k:"ช็อก!", l:[`ทีมระดับ ${o.rw}`, `ล้มยักษ์ระดับ ${o.rl}`]};
-  if (o.loserRankBefore === 1) return {k:"ล้มจ่าฝูง!", l:["โค่นอันดับ 1", "ได้สำเร็จ"]};
-  if (o.rankAfter === 1 && o.rankBefore !== 1) return {k:"ขึ้นจ่าฝูง!", l:["ยึดอันดับ 1", "ของลีก"]};
+  if (o.rankAfter === 1 && o.rankBefore !== 1) return {k:"ขึ้นแชมป์!", l:["ยึดบัลลังก์", "แชมป์อ่ะครับ!!"]};
   if (o.streak >= 3) return {k:"ไฟลุก 🔥", l:["ชนะติดกัน", `${o.streak} นัดแล้ว`]};
   if (o.gw - o.gl >= 3) return {k:"ถล่มยับ!", l:["ชนะขาด", `ห่าง ${o.gw - o.gl} ลูก`]};
   return {k:"FULL TIME", l:["เก็บชัยชนะ", `เรตขึ้น +${o.dw}`]};
@@ -778,7 +930,7 @@ function drawResult(m){
   const H = aHero ? {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da} : {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:-da};
   const L = aHero ? {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:-da} : {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da};
   const o = {draw, gw:H.g, gl:L.g, rw:H.r, rl:L.r, dw:H.d,
-    loserRankBefore: before.rank[L.id], rankBefore: before.rank[H.id], rankAfter: after.rank[H.id],
+    champBeat: !!after.champBeat[m.id], rankBefore: before.rank[H.id], rankAfter: after.rank[H.id],
     streak: after.by[H.id] ? streakOf(after.by[H.id].form).t === "W" ? streakOf(after.by[H.id].form).n : 0 : 0};
   const hl = headlineOf(o);
 
@@ -787,27 +939,28 @@ function drawResult(m){
   backdrop(ctx, W, Ht, 925);
   topTag(ctx, shortDate(m.at));
   kicker(ctx, hl.k, 1020, 214);
-  ctx.fillStyle = C.ink; ctx.textAlign = "right";
-  fit(ctx, hl.l[0], `700 {s}px ${FD}`, 84, 900); ctx.fillText(hl.l[0], 1020, 384);
-  fit(ctx, hl.l[1], `700 {s}px ${FD}`, 84, 900); ctx.fillText(hl.l[1], 1020, 476);
-  ctx.textAlign = "left";
+  ctx.fillStyle = C.ink;
+  fit(ctx, hl.l[0], `700 {s}px ${FD}`, 84, 900); fillR(ctx, hl.l[0], 1020, 384);
+  fit(ctx, hl.l[1], `700 {s}px ${FD}`, 84, 900); fillR(ctx, hl.l[1], 1020, 476);
 
   avatar(ctx, H.id, 60, 590, 192);
   ctx.fillStyle = draw ? C.gold : C.win; ctx.fillRect(288, 568, draw ? 140 : 178, 46);
   ctx.fillStyle = draw ? "#241a00" : C.dark; ctx.font = `700 28px ${FD}`; ctx.fillText(draw ? "DRAW" : "WINNER", 304, 601);
+  const heroT = (titlesOf(after).T[H.id] || []).map(k => TITLES[k].e).join(" ");
+  if (heroT){ ctx.font = "34px sans-serif"; ctx.fillText(heroT, 288 + (draw ? 140 : 178) + 18, 604); }
   ctx.fillStyle = C.ink; fit(ctx, nameOf(H.id), `700 {s}px ${FD}`, 118, 730); ctx.fillText(nameOf(H.id), 288, 728);
-  ctx.fillStyle = C.volt; fit(ctx, H.t || "", `700 {s}px ${FD}`, 38, 520); ctx.fillText(H.t || "", 288, 798);
-  chip(ctx, H.r, 288 + ctx.measureText(H.t || "").width + 20, 785, 44);
+  ctx.fillStyle = C.volt; fit(ctx, teamName(H.t || ""), `700 {s}px ${FD}`, 38, 520); ctx.fillText(teamName(H.t || ""), 288, 798);
+  chip(ctx, H.r, 288 + ctx.measureText(teamName(H.t || "")).width + 20, 785, 44);
 
   const sc = `${H.g}–${L.g}`;
   ctx.font = `700 132px ${FD}`; const sw = Math.max(300, ctx.measureText(sc).width + 90);
   ctx.fillStyle = C.ink; ctx.fillRect(60, 856, sw, 184);
   ctx.strokeStyle = C.ink; ctx.lineWidth = 4; ctx.strokeRect(62, 858, 956, 180);
-  ctx.fillStyle = C.night; ctx.textAlign = "center"; ctx.fillText(sc, 60 + sw/2, 995); ctx.textAlign = "left";
+  ctx.fillStyle = C.night; fillC(ctx, sc, 60 + sw/2, 995);
   const ox = 60 + sw + 36, ow = 1000 - ox;
   ctx.fillStyle = C.ink; fit(ctx, (draw ? "เสมอ " : "ชนะ ") + nameOf(L.id), `600 {s}px ${FB}`, 46, ow); ctx.fillText((draw ? "เสมอ " : "ชนะ ") + nameOf(L.id), ox, 942);
-  ctx.fillStyle = C.muted; fit(ctx, L.t || "", `500 {s}px ${FD}`, 32, ow - 130); ctx.fillText(L.t || "", ox, 997);
-  chip(ctx, L.r, ox + ctx.measureText(L.t || "").width + 16, 986, 36);
+  ctx.fillStyle = C.muted; fit(ctx, teamName(L.t || ""), `500 {s}px ${FD}`, 32, ow - 130); ctx.fillText(teamName(L.t || ""), ox, 997);
+  chip(ctx, L.r, ox + ctx.measureText(teamName(L.t || "")).width + 16, 986, 36);
 
   const rb = o.rankBefore, ra = o.rankAfter;
   const rankTxt = ra ? (rb && ra < rb ? `ขึ้นอันดับ ${ra} ▲${rb - ra}` : rb && ra > rb ? `อันดับ ${ra} ▼${ra - rb}` : `อันดับ ${ra}`) : "";
@@ -815,75 +968,262 @@ function drawResult(m){
   fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 520); ctx.fillText(linkText(), 60, 1290);
   const eloNow = after.by[H.id] ? Math.round(after.by[H.id].elo) : START;
   const dTxt = (H.d > 0 ? "+" : H.d < 0 ? "−" : "±") + Math.abs(H.d);
-  ctx.textAlign = "right";
-  ctx.font = `700 40px ${FD}`; ctx.fillStyle = H.d >= 0 ? C.win : C.loss; ctx.fillText(dTxt, 1020, 1284);
+  ctx.font = `700 40px ${FD}`; ctx.fillStyle = H.d >= 0 ? C.win : C.loss; fillR(ctx, dTxt, 1020, 1284);
   const dw = ctx.measureText(dTxt).width;
-  ctx.fillStyle = C.ink; ctx.font = `700 40px ${FD}`; ctx.fillText(String(eloNow), 1020 - dw - 14, 1284);
+  ctx.fillStyle = C.ink; ctx.font = `700 40px ${FD}`; fillR(ctx, String(eloNow), 1020 - dw - 14, 1284);
   const ew = ctx.measureText(String(eloNow)).width;
-  ctx.font = `600 34px ${FB}`; ctx.fillText("เรต", 1020 - dw - 14 - ew - 12, 1284);
-  ctx.textAlign = "left";
+  ctx.font = `600 34px ${FB}`; fillR(ctx, "เรต", 1020 - dw - 14 - ew - 12, 1284);
   return {cv, text: `${nameOf(m.a)} ${m.ga}–${m.gb} ${nameOf(m.b)} · Signal13 League`};
 }
 
+function sortedMatches(){ return [...S.matches].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id))); }
+function recentInfo(){
+  const sorted = sortedMatches(), recent = sorted.slice(-10), older = sorted.slice(0, -10);
+  const all = S.res || statsOf(S.matches);
+  const gain = {};
+  recent.forEach(x => { const d = all.delta[x.id] || 0; gain[x.a] = (gain[x.a]||0) + d; gain[x.b] = (gain[x.b]||0) - d; });
+  const mvp = Object.entries(gain).sort((a,b) => b[1] - a[1])[0];
+  return {recent, older, gain, mvp: mvp && mvp[1] > 0 ? {id: mvp[0], g: mvp[1]} : null, all};
+}
+function emojiLine(id, st){
+  let s = ttlOf(id).map(k => TITLES[k].e).join("");
+  if (st && st.n >= 3) s += (st.t === "W" ? "🔥" : "🧊") + st.n;
+  return s;
+}
 function drawTable(){
-  const all = statsOf(S.matches), rows = all.rows.filter(r => r.gp).slice(0, 10);
-  const cut = nightStart();
-  const tonight = S.matches.filter(x => x.at >= cut);
-  const before = statsOf(S.matches.filter(x => x.at < cut));
-  const gain = {}; tonight.forEach(x => { const d = all.delta[x.id] || 0; gain[x.a] = (gain[x.a]||0) + d; gain[x.b] = (gain[x.b]||0) - d; });
-  const mvp = Object.entries(gain).sort((a,b) => b[1]-a[1])[0];
-
+  const info = recentInfo(), all = info.all, rows = all.rows.filter(r => r.gp).slice(0, 10);
+  const before = statsOf(info.older);
   const W = 1080, rowH = 74, top = 750, Ht = Math.max(1350, top + rows.length*rowH + 170);
   const cv = document.createElement("canvas"); cv.width = W; cv.height = Ht; const ctx = cv.getContext("2d");
   backdrop(ctx, W, Ht, 760);
   topTag(ctx, shortDate(Date.now()));
   kicker(ctx, "ตารางคะแนน", 1020, 150);
-  ctx.fillStyle = C.ink; ctx.textAlign = "right"; ctx.font = `700 40px ${FB}`;
-  ctx.fillText(`เล่นไปแล้ว ${S.matches.length} นัด`, 1020, 290); ctx.textAlign = "left";
+  ctx.fillStyle = C.ink; ctx.font = `700 40px ${FB}`;
+  fillR(ctx, `เล่นไปแล้ว ${S.matches.length} นัด`, 1020, 290);
 
   const L = rows[0];
   if (L){
-    ctx.font = "64px sans-serif"; ctx.textAlign = "center"; ctx.fillText("👑", 156, 392); ctx.textAlign = "left";
+    ctx.font = "64px sans-serif"; fillC(ctx, "👑", 156, 392);
     avatar(ctx, L.id, 72, 404, 168);
-    ctx.fillStyle = C.gold; ctx.fillRect(280, 396, 150, 46);
-    ctx.fillStyle = "#241a00"; ctx.font = `700 28px ${FB}`; ctx.fillText("จ่าฝูง", 300, 429);
+    ctx.font = `700 28px ${FB}`; const stw = ctx.measureText("แชมป์อ่ะครับ!!").width + 40;
+    ctx.fillStyle = C.gold; ctx.fillRect(280, 396, stw, 46);
+    ctx.fillStyle = "#241a00"; ctx.fillText("แชมป์อ่ะครับ!!", 300, 429);
     ctx.fillStyle = C.ink; fit(ctx, L.name, `700 {s}px ${FD}`, 104, 720); ctx.fillText(L.name, 280, 540);
     ctx.fillStyle = C.volt; ctx.font = `700 36px ${FD}`;
-    ctx.fillText(`เรต ${L.elo} · ${L.w}-${L.d}-${L.l}${L.st.n >= 3 && L.st.t === "W" ? "  🔥" + L.st.n : ""}`, 280, 600);
+    ctx.fillText(`เรต ${L.elo} · ${L.w}-${L.d}-${L.l}`, 280, 600);
+    const lw = ctx.measureText(`เรต ${L.elo} · ${L.w}-${L.d}-${L.l}`).width;
+    const le = emojiLine(L.id, L.st).replace("🏆", ""); if (le){ ctx.font = "32px sans-serif"; ctx.fillText(le, 280 + lw + 16, 600); }
   }
-  if (mvp && mvp[1] > 0){
+  if (info.mvp){
     ctx.fillStyle = "rgba(255,201,74,.14)"; roundRect(ctx, 60, 626, 960, 52, 8); ctx.fill();
     ctx.fillStyle = C.gold; ctx.font = `600 28px ${FB}`;
-    ctx.fillText(`MVP คืนนี้: ${nameOf(mvp[0])}  เรต +${mvp[1]}`, 84, 662);
+    ctx.fillText(`MVP 10 นัดล่าสุด: ${nameOf(info.mvp.id)}  เรต +${info.mvp.g}`, 84, 662);
   }
-
-  ctx.font = `500 22px ${FD}`; ctx.fillStyle = C.muted;
   rows.forEach((r, i) => {
     const y = top + i*rowH;
     if (i % 2 === 0){ ctx.fillStyle = "rgba(255,255,255,.04)"; ctx.fillRect(60, y, 960, rowH - 6); }
     if (i === 0){ ctx.fillStyle = C.gold; ctx.fillRect(60, y, 6, rowH - 6); }
     const mid = y + (rowH - 6)/2;
     ctx.textBaseline = "middle";
-    ctx.fillStyle = i === 0 ? C.gold : C.muted; ctx.font = `700 34px ${FD}`; ctx.textAlign = "center"; ctx.fillText(String(i+1), 112, mid+2); ctx.textAlign = "left";
+    ctx.fillStyle = i === 0 ? C.gold : C.muted; ctx.font = `700 34px ${FD}`; fillC(ctx, String(i+1), 112, mid+2);
     avatar(ctx, r.id, 150, mid - 22, 44); ctx.textBaseline = "middle";
-    ctx.fillStyle = C.ink; fit(ctx, r.name, `600 {s}px ${FB}`, 34, 330); ctx.fillText(r.name, 212, mid+2);
-    let nx = 212 + ctx.measureText(r.name).width + 10;
-    if (r.st.n >= 3){ ctx.font = `700 26px ${FD}`; ctx.fillStyle = r.st.t === "W" ? "#ff9a3d" : "#7fd3ff"; ctx.fillText((r.st.t === "W" ? "🔥" : "🧊") + r.st.n, nx, mid+2); }
+    ctx.fillStyle = C.ink; fit(ctx, r.name, `600 {s}px ${FB}`, 34, 250); ctx.fillText(r.name, 212, mid+2);
+    const nx = 212 + ctx.measureText(r.name).width + 10;
+    const em = emojiLine(r.id, r.st);
+    if (em){ ctx.font = "26px sans-serif"; ctx.fillText(em, nx, mid+2); }
     ctx.fillStyle = C.muted; ctx.font = `500 28px ${FD}`; ctx.fillText(`${r.w}-${r.d}-${r.l}`, 600, mid+2);
-    ctx.fillStyle = C.volt; ctx.font = `700 36px ${FD}`; ctx.textAlign = "right"; ctx.fillText(String(r.elo), 900, mid+2);
+    ctx.fillStyle = C.volt; ctx.font = `700 36px ${FD}`; fillR(ctx, String(r.elo), 860, mid+2);
     const rb = before.rank[r.id], ra = i+1;
     let mv = "–", mc = C.muted;
-    if (tonight.length && rb && ra < rb){ mv = "▲" + (rb - ra); mc = C.win; }
-    else if (tonight.length && rb && ra > rb){ mv = "▼" + (ra - rb); mc = C.loss; }
-    else if (tonight.length && !rb){ mv = "ใหม่"; mc = C.gold; }
-    ctx.fillStyle = mc; ctx.font = `700 28px ${FD}`; ctx.fillText(mv, 1000, mid+2); ctx.textAlign = "left";
+    if (info.older.length){
+      if (rb && ra < rb){ mv = "▲" + (rb - ra); mc = C.win; }
+      else if (rb && ra > rb){ mv = "▼" + (ra - rb); mc = C.loss; }
+      else if (!rb){ mv = "ใหม่"; mc = C.gold; }
+    }
+    ctx.fillStyle = mc; ctx.font = `700 28px ${FD}`; fillR(ctx, mv, 1005, mid+2);
     ctx.textBaseline = "alphabetic";
   });
   ctx.fillStyle = C.muted; ctx.font = `500 22px ${FD}`;
-  ctx.fillText("ชนะ-เสมอ-แพ้", 600, top - 16); ctx.textAlign = "right"; ctx.fillText("เรต", 900, top - 16); ctx.fillText("คืนนี้", 1000, top - 16); ctx.textAlign = "left";
+  ctx.fillText("ชนะ-เสมอ-แพ้", 600, top - 16); fillR(ctx, "เรต", 860, top - 16); fillR(ctx, "10 นัดล่าสุด", 1005, top - 16);
   fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 900); ctx.fillText(linkText(), 60, Ht - 60);
   return {cv, text: "ตารางคะแนน Signal13 League"};
 }
+
+function summaryInfo(){
+  const info = recentInfo(), d = info.all.delta;
+  const recent = [...info.recent].reverse();
+  let shock = null, thrash = null, goals = 0;
+  recent.forEach(x => {
+    goals += x.ga + x.gb;
+    if (x.ga === x.gb) return;
+    const wa = x.ga > x.gb, g = wa ? (d[x.id] || 0) : -(d[x.id] || 0), mg = Math.abs(x.ga - x.gb);
+    if (!shock || g > shock.g) shock = {x, g, w: wa ? x.a : x.b};
+    if (!thrash || mg > thrash.mg || (mg === thrash.mg && x.ga + x.gb > thrash.x.ga + thrash.x.gb)) thrash = {x, mg};
+  });
+  return {...info, recentDesc: recent, shock, thrash, goals};
+}
+function scoreLine(x){ return `${nameOf(x.a)} ${x.ga}–${x.gb} ${nameOf(x.b)}`; }
+function drawSummary(){
+  const si = summaryInfo(), list = si.recentDesc;
+  const W = 1080, rowH = 66, top = 900, Ht = Math.max(1350, top + list.length*rowH + 150);
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = Ht; const ctx = cv.getContext("2d");
+  backdrop(ctx, W, Ht, 760);
+  topTag(ctx, shortDate(Date.now()));
+  kicker(ctx, "สรุป 10 นัดล่าสุด", 1020, 150);
+  ctx.fillStyle = C.ink; ctx.font = `700 40px ${FB}`;
+  fillR(ctx, `ยิงรวม ${si.goals} ประตู`, 1020, 290);
+  if (si.mvp){
+    const r = si.all.by[si.mvp.id], inR = si.recent.filter(x => x.a === si.mvp.id || x.b === si.mvp.id);
+    const wins = inR.filter(x => (x.a === si.mvp.id && x.ga > x.gb) || (x.b === si.mvp.id && x.gb > x.ga)).length;
+    avatar(ctx, si.mvp.id, 72, 380, 168);
+    ctx.fillStyle = C.gold; ctx.fillRect(280, 372, 120, 46);
+    ctx.fillStyle = "#241a00"; ctx.font = `700 30px ${FD}`; ctx.fillText("MVP", 302, 406);
+    ctx.fillStyle = C.ink; fit(ctx, nameOf(si.mvp.id), `700 {s}px ${FD}`, 104, 720); ctx.fillText(nameOf(si.mvp.id), 280, 516);
+    ctx.fillStyle = C.volt; ctx.font = `700 36px ${FD}`;
+    ctx.fillText(`เรต +${si.mvp.g} · ชนะ ${wins} จาก ${inR.length} นัด`, 280, 576);
+  }
+  const box = (y, label, line, sub) => {
+    ctx.fillStyle = "rgba(255,255,255,.05)"; roundRect(ctx, 60, y, 960, 120, 10); ctx.fill();
+    ctx.fillStyle = C.gold; ctx.font = `600 26px ${FB}`; ctx.fillText(label, 88, y + 42);
+    ctx.fillStyle = C.ink; fit(ctx, line, `700 {s}px ${FD}`, 40, 700); ctx.fillText(line, 88, y + 94);
+    if (sub){ ctx.fillStyle = C.muted; ctx.font = `600 28px ${FD}`; fillR(ctx, sub, 992, y + 94); }
+  };
+  if (si.shock) box(626, "ช็อกที่สุด", scoreLine(si.shock.x), `${nameOf(si.shock.w)} +${si.shock.g}`);
+  if (si.thrash) box(760, "ถล่มที่สุด", scoreLine(si.thrash.x), `ห่าง ${si.thrash.mg} ลูก`);
+  list.forEach((x, i) => {
+    const y = top + i*rowH, mid = y + (rowH - 8)/2;
+    if (i % 2 === 0){ ctx.fillStyle = "rgba(255,255,255,.04)"; ctx.fillRect(60, y, 960, rowH - 8); }
+    ctx.textBaseline = "middle";
+    const aw = x.ga > x.gb, bw = x.gb > x.ga;
+    ctx.fillStyle = aw ? C.ink : C.muted; fit(ctx, nameOf(x.a), `${aw ? 700 : 500} {s}px ${FB}`, 32, 360); fillR(ctx, nameOf(x.a), 460, mid+2);
+    ctx.fillStyle = C.ink; ctx.font = `700 34px ${FD}`; fillC(ctx, `${x.ga}–${x.gb}`, 540, mid+2);
+    ctx.fillStyle = bw ? C.ink : C.muted; fit(ctx, nameOf(x.b), `${bw ? 700 : 500} {s}px ${FB}`, 32, 360); ctx.fillText(nameOf(x.b), 620, mid+2);
+    ctx.textBaseline = "alphabetic";
+  });
+  ctx.fillStyle = C.muted; fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 900); ctx.fillText(linkText(), 60, Ht - 60);
+  return {cv, text: "สรุป 10 นัดล่าสุด · Signal13 League"};
+}
+
+/* ===== แท็บสถิติ ===== */
+function teamStats(){
+  const t = {};
+  const add = (name, tier, gf, ga) => {
+    if (!name) return; const n = teamName(name);
+    const r = t[n] = t[n] || {n, r: tier, gp:0, w:0, d:0, l:0};
+    r.gp++; if (gf > ga) r.w++; else if (gf < ga) r.l++; else r.d++;
+    if (tier) r.r = tier;
+  };
+  S.matches.forEach(x => { add(x.ta, x.ra, x.ga, x.gb); add(x.tb, x.rb, x.gb, x.ga); });
+  return Object.values(t).filter(r => r.gp >= 2).map(r => ({...r, wr: r.w / r.gp, l1: LEAGUE[r.n] || ""}));
+}
+function teamRow(r){
+  return `<div class="trow"><span class="e">${r.wr >= .5 ? "🍀" : "🪦"}</span>
+    <span><b>${esc(r.n)}</b><small>${esc(r.l1)}${r.r ? " · ระดับ " + r.r : ""} · ${r.w}-${r.d}-${r.l}</small></span>
+    <span class="who num">${Math.round(r.wr*100)}%</span></div>`;
+}
+function renderStats(){
+  const si = summaryInfo();
+  const hl = [];
+  if (si.mvp) hl.push(`<div class="hl mvp"><small>MVP</small><b>${esc(nameOf(si.mvp.id))}</b><span>เรตรวม +${si.mvp.g} ใน 10 นัดล่าสุด</span></div>`);
+  if (si.shock) hl.push(`<div class="hl"><small>ช็อกที่สุด</small><b>${esc(scoreLine(si.shock.x))}</b><span>${esc(nameOf(si.shock.w))} เรต +${si.shock.g}</span></div>`);
+  if (si.thrash) hl.push(`<div class="hl"><small>ถล่มที่สุด</small><b>${esc(scoreLine(si.thrash.x))}</b><span>ห่าง ${si.thrash.mg} ลูก</span></div>`);
+  $("sumBox").innerHTML = si.recent.length
+    ? `<div class="cards2">${hl.join("")}</div><p class="note">${si.recent.length} นัดล่าสุด · ยิงรวม ${si.goals} ประตู</p>`
+    : '<div class="empty">ยังไม่มีแมตช์</div>';
+  $("shareSum").hidden = !si.recent.length;
+
+  const h = (S.titles && S.titles.holder) || {};
+  $("ttlList").innerHTML = Object.entries(TITLES).map(([k, t]) => {
+    const who = (h[k] || []).map(nameOf).join(", ");
+    return `<div class="trow"><span class="e">${t.e}</span><span><b>${esc(t.n)}</b><small>${esc(t.d)}</small></span>
+      <span class="who ${who ? "" : "none"}">${who ? esc(who) : "ยังไม่มี"}</span></div>`;
+  }).join("");
+
+  const ts = teamStats();
+  const lucky = [...ts].sort((a,b) => b.wr - a.wr || b.gp - a.gp).slice(0, 3);
+  const cursed = [...ts].filter(r => !lucky.includes(r)).sort((a,b) => a.wr - b.wr || b.gp - a.gp).slice(0, 3);
+  $("luckyList").innerHTML = lucky.length ? lucky.map(teamRow).join("") : '<div class="empty">ยังไม่มีทีมที่ถูกใช้ครบ 2 นัด</div>';
+  $("cursedList").innerHTML = cursed.length ? cursed.map(teamRow).join("") : '<div class="empty">ยังไม่มีข้อมูลพอ</div>';
+}
+$("shareSum").addEventListener("click", async () => {
+  try{ await fontsReady(); const r = drawSummary(); await openShareCanvas(r.cv, "signal13-summary.png", "แชร์สรุป 10 นัดล่าสุด", r.text, false); }
+  catch(e){ setMsg("สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง"); }
+});
+
+/* ===== หน้าโปรไฟล์ ===== */
+function chartSvg(pts){
+  if (pts.length < 2) return '<p class="note">ลงเล่นอย่างน้อย 1 นัดถึงจะมีกราฟเรต</p>';
+  const W = 320, H = 120, px = 10, py = 14;
+  let mn = Math.min(...pts, START), mx = Math.max(...pts, START);
+  if (mx - mn < 30){ mx += 15; mn -= 15; }
+  const X = i => px + i * (W - 2*px) / (pts.length - 1), Y = v => py + (mx - v) * (H - 2*py) / (mx - mn);
+  const line = pts.map((v,i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+  const area = `${X(0).toFixed(1)},${H} ${line} ${X(pts.length-1).toFixed(1)},${H}`;
+  const last = pts[pts.length-1];
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="กราฟเรตจาก ${pts[0]} ถึง ${Math.round(last)}">
+    <line class="bl" x1="0" x2="${W}" y1="${Y(START).toFixed(1)}" y2="${Y(START).toFixed(1)}"/>
+    <text x="4" y="${(Y(START) - 4).toFixed(1)}">1000</text>
+    <polygon class="ar" points="${area}"/><polyline class="ln" points="${line}"/>
+    <circle class="dt" cx="${X(pts.length-1).toFixed(1)}" cy="${Y(last).toFixed(1)}" r="4"/>
+    <text x="${W - 4}" y="${Math.max(12, Y(last) - 8).toFixed(1)}" text-anchor="end">${Math.round(last)}</text>
+  </svg>`;
+}
+function renderProfile(id){
+  S.profId = id;
+  const res = S.res || statsOf(S.matches), r = res.by[id];
+  if (!r){ $("prof").hidden = true; return; }
+  const row = res.rows.find(x => x.id === id) || r, rank = res.rank[id];
+  const mine = sortedMatches().filter(x => x.a === id || x.b === id);
+  const vs = {}, teams = {};
+  mine.forEach(x => {
+    const me = x.a === id, op = me ? x.b : x.a, gf = me ? x.ga : x.gb, ga = me ? x.gb : x.ga, tm = teamName(me ? x.ta : x.tb);
+    const v = vs[op] = vs[op] || {id: op, n:0, w:0, d:0, l:0}; v.n++;
+    if (gf > ga) v.w++; else if (gf < ga) v.l++; else v.d++;
+    if (tm){ const t = teams[tm] = teams[tm] || {n: tm, gp:0, w:0}; t.gp++; if (gf > ga) t.w++; }
+  });
+  const vl = Object.values(vs);
+  const rival = vl.filter(v => v.l > 0).sort((a,b) => b.l - a.l || b.n - a.n)[0];
+  const prey = vl.filter(v => v.w > 0).sort((a,b) => b.w - a.w || b.n - a.n)[0];
+  const lucky = Object.values(teams).filter(t => t.w > 0).sort((a,b) => b.w - a.w || a.gp - b.gp)[0];
+  const t = ttlOf(id);
+  const gp = r.gp || 0, avg = v => gp ? (v / gp).toFixed(1) : "–";
+  const pts = [START, ...r.hist.map(h => h.elo)];
+  const last5 = [...mine].reverse().slice(0, 5);
+  $("profBody").innerHTML = `
+    <div class="ph">${av(id)}<div><div class="nm" id="pfName">${esc(nameOf(id))} ${stHtml(row.st)}</div>
+      <div class="sub">${rank ? "อันดับ " + rank + " · " : ""}เรต ${Math.round(r.elo)}${gp && gp < SETTLED ? " · ยังไม่นิ่ง" : ""}</div></div></div>
+    ${t.length ? `<div class="tchips">${t.map(k => `<span class="tchip">${TITLES[k].e} ${esc(TITLES[k].n)}</span>`).join("")}</div>` : ""}
+    <div class="kv num">
+      <div><b>${gp}</b><span>นัด</span></div>
+      <div><b>${r.w}-${r.d}-${r.l}</b><span>ชนะ-เสมอ-แพ้</span></div>
+      <div><b>${gp ? Math.round(r.w / gp * 100) + "%" : "–"}</b><span>ชนะ</span></div>
+      <div><b>${3*r.w + r.d}</b><span>แต้ม</span></div>
+      <div><b>${avg(r.gf)}</b><span>ยิงต่อนัด</span></div>
+      <div><b>${avg(r.ga)}</b><span>เสียต่อนัด</span></div>
+    </div>
+    <div class="lbl">กราฟเรต</div>
+    ${chartSvg(pts)}
+    <div class="rv">
+      <div><small>คู่ปรับ (แพ้ให้บ่อยสุด)</small>${rival ? `<b>${esc(nameOf(rival.id))}</b><span>แพ้ ${rival.l} จาก ${rival.n} นัด</span>` : "<b>ยังไม่มี</b>"}</div>
+      <div><small>ลูกไล่ (ชนะบ่อยสุด)</small>${prey ? `<b>${esc(nameOf(prey.id))}</b><span>ชนะ ${prey.w} จาก ${prey.n} นัด</span>` : "<b>ยังไม่มี</b>"}</div>
+      <div style="grid-column:1/-1"><small>ทีมนำโชคของ${esc(nameOf(id))}</small>${lucky ? `<b>${esc(lucky.n)}</b><span>ชนะ ${lucky.w} จาก ${lucky.gp} นัด</span>` : "<b>ยังไม่มี</b>"}</div>
+    </div>
+    <div class="lbl">5 นัดล่าสุด</div>
+    <div class="mini">${last5.length ? last5.map(x => {
+      const aw = x.ga > x.gb, bw = x.gb > x.ga;
+      return `<div class="mrow"><span class="${aw ? "w" : ""}">${esc(nameOf(x.a))}</span><span class="s num">${x.ga}–${x.gb}</span><span class="r ${bw ? "w" : ""}">${esc(nameOf(x.b))}</span></div>`;
+    }).join("") : '<div class="empty">ยังไม่มีแมตช์</div>'}</div>
+    <button class="ghost cancel" id="pfClose">ปิด</button>`;
+  $("pfClose").addEventListener("click", closeProfile);
+}
+function openProfile(id){ renderProfile(id); $("prof").hidden = false; $("profBody").scrollTop = 0; }
+function closeProfile(){ $("prof").hidden = true; S.profId = null; }
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-prof]"); if (!t) return;
+  openProfile(t.dataset.prof);
+});
+$("prof").addEventListener("click", e => { if (e.target.id === "prof") closeProfile(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("prof").hidden) closeProfile(); });
 
 let shareFile = null, shareUrl = null, shareText = "";
 function closeShare(){ $("shareModal").hidden = true; }
