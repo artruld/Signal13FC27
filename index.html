@@ -436,6 +436,67 @@ tr.zrow td{opacity:.72}
 .mbtn{display:flex;align-items:center;gap:4px}
 .shr{background:none;border:1px solid rgba(46,230,214,.5);color:var(--volt);border-radius:4px;font-size:12px;font-weight:600;padding:2px 8px}
 .shr:hover{background:rgba(46,230,214,.1)}
+.rs-head{display:flex;align-items:baseline;gap:8px;font-weight:700;font-size:16px}
+.rs-head small{margin-left:auto;font-size:12px;color:var(--muted);font-weight:500}
+.rs-mvp{position:relative;overflow:hidden;border:1px solid var(--gold);border-radius:10px;text-align:center;padding:20px 14px 16px;cursor:pointer}
+.rs-mvp canvas{position:absolute;inset:0;width:100%;height:100%}
+.rs-mvp .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,11,22,.12),rgba(7,11,22,.5) 55%,rgba(7,11,22,.9))}
+.rs-mvp > *:not(canvas):not(.shade){position:relative}
+.rs-mvp .k{display:inline-block;background:var(--gold);color:#241a00;font-weight:700;font-size:12px;padding:2px 10px;transform:skewX(-10deg)}
+.rs-mvp .crown{font-size:32px;line-height:1;margin-top:8px}
+.rs-mvp .ring{display:inline-block;padding:5px;background:var(--gold);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);filter:drop-shadow(0 0 16px rgba(255,201,74,.6))}
+.rs-mvp .ring .av{width:min(128px,34vw);height:min(128px,34vw);font-size:48px}
+.rs-mvp .nm{font-family:var(--display);font-size:28px;font-weight:700;margin-top:6px;text-shadow:0 2px 10px #000;overflow-wrap:anywhere}
+.rs-mvp .sub{font-size:13px;color:#e4ebf8}.rs-mvp .sub b{color:var(--win);font-size:17px}
+.rs-duo,.rs-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rs-hl,.rs-box{position:relative;overflow:hidden;background:var(--deck);border:1px solid var(--edge);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.rs-hl[data-prof]{cursor:pointer}
+.rs-hl .t,.rs-box .t{font-size:11px;color:var(--muted);font-weight:700}
+.rs-hl .row{display:flex;align-items:center;gap:8px;min-width:0}
+.rs-hl .row .av{width:42px;height:42px;font-size:17px}
+.rs-hl .sc{font-family:var(--display);font-size:24px;font-weight:700;line-height:1}
+.rs-hl .who{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rs-hl .vs{font-size:11px;color:var(--muted)}
+.rs-hl .tag{font-size:12px;font-weight:700}.rs-hl .tag.up{color:var(--win)}.rs-hl .tag.dn{color:#ff8f99}
+.rs-hl .wm{position:absolute;right:6px;top:4px;font-size:26px}
+.rs-box .big{font-family:var(--display);font-size:30px;font-weight:700;line-height:1.1}
+.rs-box small{font-size:11px;color:var(--muted)}
+.rs-box .faces{display:flex;align-items:center;gap:4px;min-height:28px}
+.rs-box .faces .av{width:26px;height:26px;font-size:11px}
+.rs-box .faces em{font-style:normal;font-size:13px;width:20px}
+.rs-sub{font-size:12px;color:var(--muted);font-weight:700}
+.rs-list{display:flex;flex-direction:column;gap:4px}
+.rs-mr{display:grid;grid-template-columns:22px minmax(0,1fr) auto minmax(0,1fr) 22px;gap:6px;align-items:center;background:var(--deck);border:1px solid var(--edge);border-radius:4px;padding:5px 8px;font-size:12px}
+.rs-mr .av{width:22px;height:22px;font-size:10px}
+.rs-mr span{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rs-mr span.w{color:var(--ink);font-weight:700}
+.rs-mr .r{text-align:right}.rs-mr .s{font-family:var(--display);font-weight:700;color:var(--ink)}
+.rs-more{text-align:center;font-size:12px;color:var(--muted);padding:4px}
+.rs-prog{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.rs-prog .bar{flex:1;height:8px;border-radius:4px;background:var(--edge);overflow:hidden}
+.rs-prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--volt),var(--gold))}
+.hof{border:1px solid rgba(255,201,74,.45);border-radius:10px;padding:14px;background:linear-gradient(160deg,#1f1a0c,#0d1528 60%)}
+.hof h3{font-family:var(--display);font-size:20px;color:var(--gold);display:flex;align-items:center;gap:8px;margin:0 0 4px}
+.hof h3 small{font-size:11px;color:var(--muted);font-weight:600;margin-left:auto}
+.rec{display:grid;grid-template-columns:30px 42px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid rgba(36,49,79,.7);cursor:pointer}
+.rec:last-of-type{border-bottom:0}
+.rec .e{font-size:24px;text-align:center}
+.rec .av{width:42px;height:42px;font-size:17px}
+.rec .t{display:block;font-size:11px;color:var(--muted);font-weight:700}
+.rec b{display:block;font-size:15px;overflow-wrap:anywhere}
+.rec small{display:block;font-size:11px;color:var(--muted)}
+.rec .v{font-family:var(--display);font-size:22px;font-weight:700;color:var(--gold);text-align:right;line-height:1}
+.rec .v small{display:inline;font-size:10px}
+.rec.open{background:rgba(255,201,74,.06);border-radius:6px}
+.rec .trail{grid-column:2/-1;display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:11px;color:var(--muted)}
+.rec .trail span{border:1px solid var(--edge);border-radius:999px;padding:2px 8px}
+.rec .trail span.now{border-color:var(--gold);color:var(--gold)}
+.hof-l{font-weight:700;font-size:13px;color:var(--gold);margin-top:12px}
+.mvps{display:flex;gap:8px;overflow-x:auto;margin-top:6px;padding-bottom:4px}
+.mv{flex:none;width:76px;text-align:center;font-size:11px;color:var(--muted);cursor:pointer}
+.mv .av{width:50px;height:50px;margin:0 auto 4px;font-size:20px}
+.mv b{display:block;color:var(--ink);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hof .season{margin-top:10px;border:1px dashed var(--edge);border-radius:8px;padding:10px;text-align:center;font-size:12px;color:var(--muted)}
+#shTitle{text-transform:none;letter-spacing:.04em;font-size:14px;line-height:1.4}
 .ver{text-align:center;font-size:11px;color:var(--muted);font-family:var(--display);letter-spacing:.08em;padding-top:8px}
 @media (max-width:420px){.score output{font-size:44px}.step{width:34px;height:34px}h1{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -457,7 +518,7 @@ tr.zrow td{opacity:.72}
       </svg>
       <div>
         <h1>Signal<span>13</span> League</h1>
-        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v4.3</span></div>
+        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v4.4.1</span></div>
       </div>
     </div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><div class="live">MATCH NIGHT</div><button class="mechip none" id="meChip">👤 เลือกตัวเอง</button></div>
@@ -529,9 +590,12 @@ tr.zrow td{opacity:.72}
 
   <section class="panel" id="tab-stats" hidden>
     <div class="sec">
-      <div class="lbl">สรุป 10 นัดล่าสุด</div>
+      <div class="lbl">สรุปรอบละ 10 นัด</div>
       <div id="sumBox"></div>
-      <button class="sharebtn" id="shareSum" hidden>แชร์สรุปเข้า LINE</button>
+      <button class="sharebtn" id="shareSum" hidden>แชร์สรุปรอบเข้า LINE</button>
+    </div>
+    <div class="sec">
+      <div id="hofBox"></div>
     </div>
     <div class="sec">
       <div class="lbl">ฉายาตอนนี้</div>
@@ -551,7 +615,7 @@ tr.zrow td{opacity:.72}
     <div class="list" id="hist"></div>
     <button class="wipebtn" id="wipeOpen">ล้างประวัติทั้งหมด</button>
   </section>
-  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">4.3</span></div>
+  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">4.4.1</span></div>
 </div>
 
 <script>
@@ -637,7 +701,7 @@ const firebaseConfig = {
 </div>
 
 <script>
-const APP_VERSION = "4.3";
+const APP_VERSION = "4.4.1";
 const S = {bigCache:{}, imgCache:{}, players:[], matches:[], ga:0, gb:0, ta:null, tb:null, db:null, canWrite:true, armed:null};
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -661,12 +725,16 @@ function fmtDate(t){
 }
 
 const START = 1000, K = 32, SETTLED = 5, TIER_GAP = 75, IDLE_N = 30;
+/* วันเปลี่ยนกติกา: แมตช์ก่อนหน้านี้นับการ์ดตามกติกาเดิมด้วย (การ์ดสะสมไม่หายเพราะเปลี่ยนกติกา) */
+const RULE_V42 = Date.parse("2026-10-17T14:40:00+07:00"), RULE_V43 = Date.parse("2026-10-17T19:50:00+07:00");
 function statsOf(list){
   const m = {}, delta = {}, deltaB = {}, assisted = {}, gradMatch = {};
   const slap = {}, champBeat = {};
-  let curLeader = null, reign = 0, reignStart = null;
+  let curLeader = null, reign = 0, reignStart = null, bestReign = 0; const reignTrail = [];
+  let oldLeader = null, oldReign = 0;
+  const topOld = () => { let L = null; for (const id in m){ const r = m[id]; if (r.gp && (!L || r.elo > L.elo)) L = r; } return L; };
   S.players.forEach(p => m[p.id] = {id:p.id,name:p.name,gp:0,w:0,d:0,l:0,gf:0,ga:0,form:[],elo:START,hist:[],
-    winRun:0, maxWin:0, runs5:0, fire5At:null, thrash:[], shock:[], gp50At:null, reigns:0, maxReign:0, firstChampAt:null, cs:[], csRun:0, maxCs:0, late:[], lastI:-1, zone:3, idle:0,
+    winRun:0, maxWin:0, runs5:0, fire5At:null, thrash:[], shock:[], gp50At:null, reigns:0, maxReign:0, firstChampAt:null, cs:[], csRun:0, maxCs:0, late:[], slaps:[], oldReigns:0, oldMaxReign:0, oldChampAt:null, lastI:-1, zone:3, idle:0,
     rookie:false, everRookie:false, grad:null, rk:{goal:null, draw:null, win:null, less:[], prevMg:null}, helpers:{}, mentorN:0, boosted:[]});
   const sorted = [...list].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id)));
   /* ติดอันดับ = เล่นครบ 5 นัด และยังไม่พัก (ลีกเล่นไปไม่ถึง 30 แมตช์นับจากนัดล่าสุดของตัวเอง) */
@@ -702,7 +770,9 @@ function statsOf(list){
     else {a.d++; b.d++; a.form.push("D"); b.form.push("D");}
     a.hist.push({at:x.at, elo:a.elo, id:x.id}); b.hist.push({at:x.at, elo:b.elo, id:x.id});
     const win = sa === 1 ? a : sa === 0 ? b : null, lose = sa === 1 ? b : sa === 0 ? a : null;
-    const beat = !!(win && leader && leader.id === lose.id);
+    const old = x.at < RULE_V43, lOld = old ? topOld() : null;
+    const beat = !!(win && ((leader && leader.id === lose.id) || (lOld && lOld.id === lose.id)));
+    if (beat) win.slaps.push({x, l: lose.id});
     champBeat[x.id] = beat;
     delete slap[a.id]; delete slap[b.id];
     if (beat) slap[win.id] = x.id;
@@ -714,7 +784,7 @@ function statsOf(list){
       const mg = Math.abs(x.ga - x.gb);
       if (mg >= 5) win.thrash.push({x, mg});
       const wr = win === a ? x.ra : x.rb, lr = win === a ? x.rb : x.ra;
-      if (wr === 3 && lr === 1 && !oneR) win.shock.push({x});
+      if (wr === 3 && lr === 1 && (!oneR || x.at < RULE_V42)) win.shock.push({x});
     } else { a.winRun = 0; b.winRun = 0; }
     const csW = win && (win === a ? x.gb : x.ga) === 0 ? win : null;
     [a, b].forEach(p => { if (p === csW){ p.cs.push({x}); p.csRun++; if (p.csRun > p.maxCs) p.maxCs = p.csRun; } else p.csRun = 0; });
@@ -738,12 +808,17 @@ function statsOf(list){
         Object.keys(p.helpers).forEach(h => { if (m[h]) m[h].boosted.push({id: p.id, at: x.at}); });
       } else if (!p.rookie && p.w < 2 && p.gp >= 1 && (p.ga - p.gf) / p.gp >= 2){ p.rookie = true; p.everRookie = true; }
     });
+    if (old){
+      const lo = topOld();
+      if (lo){ if (lo.id !== oldLeader){ oldLeader = lo.id; oldReign = 1; lo.oldReigns++; if (!lo.oldChampAt) lo.oldChampAt = x.at; } else oldReign++; if (oldReign > lo.oldMaxReign) lo.oldMaxReign = oldReign; }
+    }
     const la = topOf();
     if (!la){ curLeader = null; reign = 0; }
     else {
       if (la.id !== curLeader){ curLeader = la.id; reign = 1; reignStart = x.at; la.reigns++; if (!la.firstChampAt) la.firstChampAt = x.at; }
       else reign++;
       if (reign > la.maxReign) la.maxReign = reign;
+      if (reign > bestReign){ bestReign = reign; const e = {id: la.id, x, v: reign}, L = reignTrail[reignTrail.length - 1]; if (L && L.id === la.id) reignTrail[reignTrail.length - 1] = e; else reignTrail.push(e); }
     }
   }
   const zoneOf = r => !r.gp ? 3 : r.gp < SETTLED ? 1 : (mi - r.lastI) >= IDLE_N ? 2 : 0;
@@ -751,7 +826,7 @@ function statsOf(list){
   const rows = Object.values(m).map(r => ({...r, elo: Math.round(r.elo), pts: 3*r.w + r.d, gd: r.gf - r.ga, st: streakOf(r.form)}))
     .sort((x,y) => x.zone - y.zone || y.elo - x.elo || y.pts - x.pts || x.name.localeCompare(y.name,"th"));
   const rank = {}; rows.filter(r => r.zone === 0).forEach((r,i) => rank[r.id] = i+1);
-  return {rows, delta, deltaB, assisted, gradMatch, rank, by: m, slap, champBeat, champ: {id: curLeader, reign, since: reignStart}};
+  return {rows, delta, deltaB, assisted, gradMatch, reignTrail, rank, by: m, slap, champBeat, champ: {id: curLeader, reign, since: reignStart}};
 }
 function stats(){ const r = statsOf(S.matches); S.res = r; S.delta = r.delta; S.deltaB = r.deltaB; S.rank = r.rank; S.rows = r.rows; S.titles = titlesOf(r); return r.rows; }
 
@@ -873,6 +948,7 @@ function render(){
   renderH2H(); renderHist(); updateSave(); renderSuggest(); renderStats();
   if (S.profId && !$("prof").hidden && !S.editingName) renderProfile(S.profId);
   if (firstLoad){ S.restored = true; restorePending(); }
+  checkMilestones();
 }
 
 function meetCount(a, b){ return S.matches.filter(x => (x.a===a&&x.b===b)||(x.a===b&&x.b===a)).length; }
@@ -1724,6 +1800,233 @@ function drawSummary(){
   return {cv, text: "สรุป 10 นัดล่าสุด · Signal13 League"};
 }
 
+/* ===== สรุปรอบละ 10 นัด + หอเกียรติยศ (v4.4) ===== */
+const ROUND = 10;
+function roundInfo(k){
+  const sm = sortedMatches(), N = sm.length, done = Math.floor(N / ROUND);
+  if (!k) k = done || 1;
+  const list = sm.slice((k - 1) * ROUND, k * ROUND);
+  const res = S.res || statsOf(S.matches), d = res.delta, dB = res.deltaB || {};
+  const gain = {}, wl = {}, gc = {};
+  let shock = null, thrash = null, goals = 0;
+  list.forEach(x => {
+    const da = d[x.id] || 0, db = dB[x.id] !== undefined ? dB[x.id] : -da;
+    gain[x.a] = (gain[x.a] || 0) + da; gain[x.b] = (gain[x.b] || 0) + db;
+    goals += x.ga + x.gb; gc[gOf(x.g)] = (gc[gOf(x.g)] || 0) + 1;
+    [[x.a, x.ga, x.gb], [x.b, x.gb, x.ga]].forEach(([id, f, g]) => { const r = wl[id] = wl[id] || {w:0, d:0, l:0}; if (f > g) r.w++; else if (f < g) r.l++; else r.d++; });
+    if (x.ga === x.gb) return;
+    const wa = x.ga > x.gb, g = wa ? da : db, mg = Math.abs(x.ga - x.gb);
+    const e = {x, w: wa ? x.a : x.b, l: wa ? x.b : x.a};
+    if (!shock || g > shock.g) shock = {...e, g: Math.round(g)};
+    if (!thrash || mg > thrash.mg || (mg === thrash.mg && x.ga + x.gb > thrash.x.ga + thrash.x.gb)) thrash = {...e, mg};
+  });
+  const top = Object.entries(gain).sort((a, b) => b[1] - a[1])[0];
+  const mvp = top && top[1] > 0 ? {id: top[0], g: Math.round(top[1]), ...wl[top[0]]} : null;
+  const hot = Object.entries(wl).filter(([, r]) => r.w >= 2).sort((a, b) => b[1].w - a[1].w || a[1].l - b[1].l).slice(0, 3).map(e => e[0]);
+  const cold = Object.entries(wl).filter(([, r]) => r.l >= 2 && r.w === 0).sort((a, b) => b[1].l - a[1].l).slice(0, 3).map(e => e[0]);
+  const gg = Object.entries(gc).sort((a, b) => b[1] - a[1])[0];
+  return {k, done, N, list, complete: list.length === ROUND, from: (k - 1) * ROUND + 1, to: (k - 1) * ROUND + list.length,
+    mvp, shock, thrash, goals, hot, cold, g: gg ? gg[0] : "eu", left: ROUND - (N % ROUND)};
+}
+const wScore = (x, w) => w === x.a ? `${x.ga}–${x.gb}` : `${x.gb}–${x.ga}`;
+const RECS = [
+  {k:"thrash", e:"💣", n:"ชนะห่างที่สุด", u:"ลูก"},
+  {k:"shock",  e:"⚡", n:"ช็อกที่สุด", u:"เรต", plus:true},
+  {k:"goals",  e:"⚽", n:"ยิงรวมมากสุดในนัดเดียว", u:"ลูก"},
+  {k:"streak", e:"🔥", n:"ชนะติดกันยาวที่สุด", u:"นัด"},
+  {k:"peak",   e:"📈", n:"เรตสูงสุดที่เคยทำได้", u:""},
+  {k:"reign",  e:"👑", n:"ครองแชมป์นานที่สุด", u:"นัด"}
+];
+function recordsOf(){
+  const res = S.res || statsOf(S.matches), d = res.delta, dB = res.deltaB || {};
+  const R = {thrash:[], shock:[], goals:[], streak:[], peak:[], reign: res.reignTrail || []};
+  const top = a => a.length ? a[a.length - 1].v : -Infinity;
+  const push = (a, e, merge) => { const L = a[a.length - 1]; if (merge && L && L.id === e.id) a[a.length - 1] = e; else a.push(e); };
+  const run = {}, after = {};
+  Object.values(res.by).forEach(r => r.hist.forEach(h => { (after[h.id] = after[h.id] || {})[r.id] = h.elo; }));
+  sortedMatches().forEach(x => {
+    if (!res.by[x.a] || !res.by[x.b]) return;
+    const da = d[x.id] || 0, db = dB[x.id] !== undefined ? dB[x.id] : -da, tot = x.ga + x.gb;
+    if (tot > top(R.goals) && tot > 0) push(R.goals, {id: x.a, id2: x.b, x, v: tot});
+    if (x.ga !== x.gb){
+      const wa = x.ga > x.gb, w = wa ? x.a : x.b, l = wa ? x.b : x.a, mg = Math.abs(x.ga - x.gb), g = Math.round(wa ? da : db);
+      if (mg > top(R.thrash)) push(R.thrash, {id: w, l, x, v: mg});
+      if (g > 0 && g > top(R.shock)) push(R.shock, {id: w, l, x, v: g});
+      run[w] = (run[w] || 0) + 1; run[l] = 0;
+      if (run[w] >= 2 && run[w] > top(R.streak)) push(R.streak, {id: w, x, v: run[w]}, true);
+    } else { run[x.a] = 0; run[x.b] = 0; }
+    const ea = after[x.id] || {};
+    [x.a, x.b].forEach(id => { const v = Math.round(ea[id] || 0); if (v > START && v > top(R.peak)) push(R.peak, {id, x, v}, true); });
+  });
+  return R;
+}
+function recSub(k, e){
+  const x = e.x;
+  if (k === "thrash") return `ชนะ ${nameOf(e.l)} ${wScore(x, e.id)} · ${shortDay(x.at)}`;
+  if (k === "shock") return `ชนะ ${nameOf(e.l)} ${wScore(x, e.id)} · ${shortDay(x.at)}`;
+  if (k === "goals") return `${x.ga}–${x.gb} · ${shortDay(x.at)}`;
+  return shortDay(x.at);
+}
+const recWho = (k, e) => k === "goals" ? `${nameOf(e.id)} vs ${nameOf(e.id2)}` : nameOf(e.id);
+const recVal = (d, v) => (d.plus ? "+" : "") + v;
+function sumHtml(ri){
+  const fc = ids => ids.map(id => av(id)).join("");
+  const nm = (x, w) => esc(nameOf(w));
+  const rows = [...ri.list].reverse().slice(0, 6).map(x => {
+    const aw = x.ga > x.gb, bw = x.gb > x.ga;
+    return `<div class="rs-mr">${av(x.a)}<span class="${aw ? "w" : ""}">${esc(nameOf(x.a))}</span><span class="s num">${x.ga}–${x.gb}</span><span class="r ${bw ? "w" : ""}">${esc(nameOf(x.b))}</span>${av(x.b)}</div>`;
+  }).join("") + (ri.list.length > 6 ? `<div class="rs-more">+ อีก ${ri.list.length - 6} นัด</div>` : "");
+  const pct = Math.round((ROUND - ri.left) / ROUND * 100);
+  return `
+  <div class="rs-head"><span>📊 สรุปรอบที่ ${ri.k}${ri.complete ? "" : " (กำลังสะสม)"}</span><small>นัดที่ ${ri.from}–${ri.to}</small></div>
+  ${ri.mvp ? `<div class="rs-mvp" data-prof="${esc(ri.mvp.id)}"><canvas id="rsBg"></canvas><div class="shade"></div>
+    <span class="k">MVP ประจำรอบ</span><div class="crown">👑</div>
+    <div class="ring">${av(ri.mvp.id, true)}</div>
+    <div class="nm">${esc(nameOf(ri.mvp.id))}</div>
+    <div class="sub">เรตรวม <b>+${ri.mvp.g}</b> ใน ${ri.list.length} นัด · ชนะ ${ri.mvp.w} เสมอ ${ri.mvp.d} แพ้ ${ri.mvp.l}</div></div>`
+    : '<div class="empty">ยังไม่มี MVP ในรอบนี้</div>'}
+  <div class="rs-duo">
+    ${ri.shock ? `<div class="rs-hl" data-prof="${esc(ri.shock.w)}"><span class="wm">⚡</span><span class="t">ช็อกที่สุด</span>
+      <div class="row">${av(ri.shock.w)}<div><div class="sc num">${wScore(ri.shock.x, ri.shock.w)}</div><div class="who">${esc(nameOf(ri.shock.w))}</div></div></div>
+      <span class="vs">ชนะ ${esc(nameOf(ri.shock.l))}</span><span class="tag up">เรต +${ri.shock.g}</span></div>` : '<div class="rs-hl"><span class="t">ช็อกที่สุด</span><span class="vs">ยังไม่มี</span></div>'}
+    ${ri.thrash ? `<div class="rs-hl" data-prof="${esc(ri.thrash.w)}"><span class="wm">💣</span><span class="t">ถล่มที่สุด</span>
+      <div class="row">${av(ri.thrash.w)}<div><div class="sc num">${wScore(ri.thrash.x, ri.thrash.w)}</div><div class="who">${esc(nameOf(ri.thrash.w))}</div></div></div>
+      <span class="vs">ชนะ ${esc(nameOf(ri.thrash.l))}</span><span class="tag dn">ห่าง ${ri.thrash.mg} ลูก</span></div>` : '<div class="rs-hl"><span class="t">ถล่มที่สุด</span><span class="vs">ยังไม่มี</span></div>'}
+  </div>
+  <div class="rs-two">
+    <div class="rs-box"><span class="t">⚽ ประตูรวม</span><div class="big num">${ri.goals}</div><small>เฉลี่ย ${ri.list.length ? (ri.goals / ri.list.length).toFixed(1) : 0} ลูก/นัด</small></div>
+    <div class="rs-box"><span class="t">ฟอร์มรอบนี้</span>
+      <div class="faces"><em data-tip="🔥 ฟอร์มร้อน|ชนะ 2 นัดขึ้นไปในรอบนี้">🔥</em>${ri.hot.length ? fc(ri.hot) : '<small>—</small>'}</div>
+      <div class="faces"><em data-tip="🧊 ฟอร์มเย็น|แพ้ 2 นัดขึ้นไปและยังไม่ชนะในรอบนี้">🧊</em>${ri.cold.length ? fc(ri.cold) : '<small>—</small>'}</div></div>
+  </div>
+  <div class="rs-sub">${ri.list.length} นัดของรอบนี้</div>
+  <div class="rs-list">${rows}</div>
+  <div class="rs-prog"><span>รอบที่ ${ri.done + 1}</span><div class="bar"><i style="width:${ri.left === ROUND ? 0 : pct}%"></i></div><span>อีก ${ri.left} นัดสรุปรอบใหม่</span></div>`;
+}
+function hofHtml(){
+  const R = recordsOf(), ri = roundInfo();
+  const recs = RECS.map(d => {
+    const a = R[d.k], e = a[a.length - 1]; if (!e) return "";
+    const open = S.recOpen === d.k;
+    const trail = a.length > 1 ? `<div class="trail">เคยเป็นของ: ${a.map((t, i) => `<span class="${i === a.length - 1 ? "now" : ""}">${esc(recWho(d.k, t))} ${recVal(d, t.v)}</span>`).join("→")}</div>` : `<div class="trail">ยังไม่มีใครทำลายสถิตินี้</div>`;
+    return `<div class="rec ${open ? "open" : ""}" data-rec="${d.k}"><span class="e">${d.e}</span>${av(e.id)}
+      <div><span class="t">${d.n}${a.length > 1 ? " · แตะดูเส้นทาง" : ""}</span><b>${esc(recWho(d.k, e))}</b><small>${esc(recSub(d.k, e))}</small></div>
+      <div class="v num">${recVal(d, e.v)}<small> ${d.u}</small></div>${open ? trail : ""}</div>`;
+  }).join("");
+  const mv = [], cnt = {};
+  for (let k = 1; k <= ri.done; k++){ const r = roundInfo(k); if (r.mvp){ mv.push({k, ...r.mvp}); cnt[r.mvp.id] = (cnt[r.mvp.id] || 0) + 1; } }
+  const mvps = mv.reverse().slice(0, 12).map(m => `<div class="mv" data-prof="${esc(m.id)}">${av(m.id)}<b>${esc(nameOf(m.id))}${cnt[m.id] > 1 ? ` ⭐×${cnt[m.id]}` : ""}</b>รอบ ${m.k} · +${m.g}</div>`).join("");
+  return `<div class="hof"><h3>🏛️ หอเกียรติยศ <small>สถิติตลอดกาล</small></h3>
+    ${recs || '<div class="empty">ยังไม่มีสถิติ</div>'}
+    <div class="hof-l">⭐ MVP ประจำรอบ</div>
+    <div class="mvps">${mvps || '<small class="note">ครบ 10 นัดแรกเมื่อไร MVP คนแรกจะขึ้นที่นี่</small>'}</div>
+    <div class="season">🏆 แชมป์ประจำซีซั่น · เปิดเมื่อมีระบบซีซั่น</div></div>`;
+}
+document.addEventListener("click", e => {
+  const r = e.target.closest("[data-rec]"); if (!r) return;
+  S.recOpen = S.recOpen === r.dataset.rec ? null : r.dataset.rec; $("hofBox").innerHTML = hofHtml();
+});
+function paintRsBg(g){
+  const cv = $("rsBg"); if (!cv) return;
+  const box = cv.parentElement, dpr = Math.min(2, window.devicePixelRatio || 1);
+  cv.width = Math.round(box.offsetWidth * dpr) || 700; cv.height = Math.round(box.offsetHeight * dpr) || 600;
+  try{ drawScene(cv.getContext("2d"), cv.width, cv.height, g, 9); }catch(e){}
+}
+/* รูปแชร์: สรุปรอบ */
+function drawRound(k){
+  const ri = roundInfo(k), W = 1080, Ht = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = Ht; const ctx = cv.getContext("2d");
+  ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, Ht);
+  try{ drawScene(ctx, W, 820, ri.g, 40 + ri.k); }catch(e){}
+  let g = ctx.createLinearGradient(0, 480, 0, 860); g.addColorStop(0, "rgba(10,16,32,0)"); g.addColorStop(1, C.night); ctx.fillStyle = g; ctx.fillRect(0, 0, W, 860);
+  ctx.fillStyle = C.night; ctx.fillRect(0, 859, W, Ht - 859);
+  g = ctx.createLinearGradient(0, 0, 0, 240); g.addColorStop(0, "rgba(7,11,22,.6)"); g.addColorStop(1, "rgba(7,11,22,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, 240);
+  topTag(ctx, `สรุปรอบที่ ${ri.k} · นัด ${ri.from}–${ri.to}`, true);
+  kicker(ctx, "MVP ประจำรอบ 👑", 1020, 140);
+  if (ri.mvp){
+    hex(ctx, 380, 250, 320, 320); ctx.save(); ctx.shadowColor = "rgba(255,201,74,.7)"; ctx.shadowBlur = 40; ctx.fillStyle = C.gold; ctx.fill(); ctx.restore();
+    avatar(ctx, ri.mvp.id, 392, 262, 296);
+    const cr = emojiImg("👑", 90); ctx.drawImage(cr, 540 - cr.width / 2, 120 + 40, cr.width, cr.height);
+    ctx.fillStyle = C.ink; fit(ctx, nameOf(ri.mvp.id), `700 {s}px ${FD}`, 110, 960); fillC(ctx, nameOf(ri.mvp.id), 540, 700);
+    ctx.fillStyle = C.win; ctx.font = `700 56px ${FD}`; fillC(ctx, `เรตรวม +${ri.mvp.g} ใน ${ri.list.length} นัด`, 540, 785);
+  }
+  const tiles = [
+    ["⚡ ช็อกสุด", ri.shock ? `${nameOf(ri.shock.w)} ${wScore(ri.shock.x, ri.shock.w)}` : "—", ri.shock ? `เรต +${ri.shock.g}` : ""],
+    ["💣 ถล่มสุด", ri.thrash ? `${nameOf(ri.thrash.w)} ${wScore(ri.thrash.x, ri.thrash.w)}` : "—", ri.thrash ? `ห่าง ${ri.thrash.mg} ลูก` : ""],
+    ["⚽ ประตูรวม", `${ri.goals} ลูก`, ri.list.length ? `${(ri.goals / ri.list.length).toFixed(1)}/นัด` : ""]];
+  tiles.forEach(([a, b, d], i) => { const x = 60 + i * 330;
+    ctx.fillStyle = "rgba(255,255,255,.05)"; roundRect(ctx, x, 850, 300, 230, 10); ctx.fill();
+    ctx.fillStyle = C.muted; ctx.font = `700 30px ${FB}`; fillC(ctx, a, x + 150, 905);
+    ctx.fillStyle = C.ink; fit(ctx, b, `700 {s}px ${FD}`, 40, 270); fillC(ctx, b, x + 150, 985);
+    ctx.fillStyle = C.gold; ctx.font = `700 34px ${FD}`; fillC(ctx, d, x + 150, 1045); });
+  if (ri.hot.length){ ctx.fillStyle = C.muted; ctx.font = `600 30px ${FB}`; ctx.fillText("🔥 ฟอร์มร้อน", 60, 1160); ri.hot.forEach((id, i) => avatar(ctx, id, 290 + i * 80, 1118, 64)); }
+  ctx.fillStyle = C.muted; fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 900); ctx.fillText(linkText(), 60, 1290);
+  return {cv, text: `สรุปรอบที่ ${ri.k} · MVP ${ri.mvp ? nameOf(ri.mvp.id) : "-"} · Signal13 League`};
+}
+/* รูปแชร์: ทำลายสถิติ */
+function drawRecord(k){
+  const d = RECS.find(r => r.k === k), a = recordsOf()[k], e = a[a.length - 1], prev = a[a.length - 2];
+  const W = 1080, Ht = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = Ht; const ctx = cv.getContext("2d");
+  ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, Ht);
+  try{ drawScene(ctx, W, 820, gOf(e.x.g), 77); }catch(err){}
+  let g = ctx.createLinearGradient(0, 480, 0, 860); g.addColorStop(0, "rgba(10,16,32,0)"); g.addColorStop(1, C.night); ctx.fillStyle = g; ctx.fillRect(0, 0, W, 860);
+  ctx.fillStyle = C.night; ctx.fillRect(0, 859, W, Ht - 859);
+  g = ctx.createLinearGradient(0, 0, 0, 240); g.addColorStop(0, "rgba(7,11,22,.6)"); g.addColorStop(1, "rgba(7,11,22,0)"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, 240);
+  topTag(ctx, "สถิติตลอดกาล", true);
+  kicker(ctx, "สถิติใหม่! 📊", 1020, 140);
+  hex(ctx, 380, 250, 320, 320); ctx.save(); ctx.shadowColor = "rgba(255,201,74,.7)"; ctx.shadowBlur = 40; ctx.fillStyle = C.gold; ctx.fill(); ctx.restore();
+  avatar(ctx, e.id, 392, 262, 296);
+  ctx.fillStyle = C.ink; fit(ctx, recWho(k, e), `700 {s}px ${FD}`, 104, 960); fillC(ctx, recWho(k, e), 540, 700);
+  const line = `${d.e} ${d.n} ${recVal(d, e.v)} ${d.u}`;
+  ctx.fillStyle = C.gold; fit(ctx, line, `700 {s}px ${FD}`, 58, 960); fillC(ctx, line, 540, 790);
+  if (["thrash", "shock", "goals"].includes(k)){
+    const sc = k === "goals" ? `${e.x.ga}–${e.x.gb}` : wScore(e.x, e.id);
+    ctx.fillStyle = C.ink; ctx.fillRect(340, 850, 400, 150); ctx.fillStyle = C.night; ctx.font = `700 110px ${FD}`; fillC(ctx, sc, 540, 965);
+  }
+  ctx.fillStyle = C.muted; ctx.font = `600 38px ${FB}`; fillC(ctx, recSub(k, e), 540, 1075);
+  if (prev){ const t = `ทำลายสถิติเดิมของ ${recWho(k, prev)} (${recVal(d, prev.v)} ${d.u})`; ctx.fillStyle = "#ff8f99"; fit(ctx, t, `700 {s}px ${FB}`, 36, 960); fillC(ctx, t, 540, 1150); }
+  ctx.fillStyle = C.muted; fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 900); ctx.fillText(linkText(), 60, 1290);
+  return {cv, text: `สถิติใหม่! ${recWho(k, e)} ${d.n} ${recVal(d, e.v)} ${d.u} · Signal13 League`};
+}
+/* ป๊อปอัปสรุปรอบ / ทำลายสถิติ: 1 ครั้งต่อเครื่อง */
+S.popQ = []; let popTimer = null, msTimer = null;
+const POPBUSY = ["whatsNew", "who", "confirm", "shareModal", "prof", "cardInfo", "crop", "wipe"];
+function popBusy(){ return POPBUSY.some(id => $(id) && !$(id).hidden) || S.rolling || !!(S.ta || S.tb); }
+function runPopQ(){
+  clearTimeout(popTimer); if (!S.popQ.length) return;
+  if (popBusy()){ popTimer = setTimeout(runPopQ, 2500); return; }
+  const job = S.popQ.shift(); Promise.resolve().then(job).catch(() => {});
+}
+function checkMilestones(){
+  clearTimeout(msTimer);
+  msTimer = setTimeout(() => {
+    if (!S.matchesLoaded || !S.res) return;
+    let st = {}; try{ st = JSON.parse(localStorage.getItem("signal13-ms") || "null") || {}; }catch(e){ return; }
+    const first = !st.init, R = recordsOf(), done = Math.floor(sortedMatches().length / ROUND), recs = st.recs || {};
+    RECS.forEach(d => {
+      const a = R[d.k], e = a[a.length - 1]; if (!e) return;
+      const old = recs[d.k], sig = {id: e.id, v: e.v, n: a.length};
+      recs[d.k] = sig;
+      if (first || !old) return;
+      const newHolder = a.length > old.n && e.v > old.v;
+      const better = e.v > old.v && (old.id !== e.id || ["thrash", "shock", "goals"].includes(d.k));
+      if (newHolder || better) S.popQ.push(async () => {
+        await prepShare([e.id]); const r = drawRecord(d.k);
+        await openShareCanvas(r.cv, `signal13-record-${d.k}.png`, `📊 สถิติใหม่! ${recWho(d.k, e)} · ${d.n}`, r.text, false);
+      });
+    });
+    const lastRound = st.round || 0;
+    if (done > lastRound && done >= 1 && (!first || done >= 1)){
+      const k = done;
+      S.popQ.push(async () => {
+        const ri = roundInfo(k); await prepShare(ri.mvp ? [ri.mvp.id] : []); const r = drawRound(k);
+        await openShareCanvas(r.cv, `signal13-round-${k}.png`, `📊 สรุปรอบที่ ${k} มาแล้ว!${ri.mvp ? " MVP คือ " + nameOf(ri.mvp.id) + " 👑" : ""}`, r.text, false);
+      });
+    }
+    try{ localStorage.setItem("signal13-ms", JSON.stringify({init: 1, recs, round: Math.max(lastRound, done)})); }catch(e){}
+    runPopQ();
+  }, 1500);
+}
+
 /* ===== แท็บสถิติ ===== */
 function teamStats(){
   const t = {};
@@ -1742,15 +2045,12 @@ function teamRow(r){
     <span class="who num">${Math.round(r.wr*100)}%</span></div>`;
 }
 function renderStats(){
-  const si = summaryInfo();
-  const hl = [];
-  if (si.mvp) hl.push(`<div class="hl mvp"><small>MVP</small><b>${esc(nameOf(si.mvp.id))}</b><span>เรตรวม +${si.mvp.g} ใน 10 นัดล่าสุด</span></div>`);
-  if (si.shock) hl.push(`<div class="hl"><small>ช็อกที่สุด</small><b>${esc(scoreLine(si.shock.x))}</b><span>${esc(nameOf(si.shock.w))} เรต +${si.shock.g}</span></div>`);
-  if (si.thrash) hl.push(`<div class="hl"><small>ถล่มที่สุด</small><b>${esc(scoreLine(si.thrash.x))}</b><span>ห่าง ${si.thrash.mg} ลูก</span></div>`);
-  $("sumBox").innerHTML = si.recent.length
-    ? `<div class="cards2">${hl.join("")}</div><p class="note">${si.recent.length} นัดล่าสุด · ยิงรวม ${si.goals} ประตู</p>`
-    : '<div class="empty">ยังไม่มีแมตช์</div>';
-  $("shareSum").hidden = !si.recent.length;
+  const ri = roundInfo();
+  S.sumK = ri.k;
+  $("sumBox").innerHTML = ri.list.length ? sumHtml(ri) : '<div class="empty">ยังไม่มีแมตช์</div>';
+  $("shareSum").hidden = !ri.list.length;
+  paintRsBg(ri.g);
+  $("hofBox").innerHTML = S.matches.length ? hofHtml() : "";
 
   const h = (S.titles && S.titles.holder) || {};
   $("ttlList").innerHTML = Object.entries(TITLES).map(([k, t]) => {
@@ -1766,7 +2066,7 @@ function renderStats(){
   $("cursedList").innerHTML = cursed.length ? cursed.map(teamRow).join("") : '<div class="empty">ยังไม่มีข้อมูลพอ</div>';
 }
 $("shareSum").addEventListener("click", async () => {
-  try{ await prepShare(S.players.map(p => p.id)); const r = drawSummary(); await openShareCanvas(r.cv, "signal13-summary.png", "แชร์สรุป 10 นัดล่าสุด", r.text, false); }
+  try{ const ri = roundInfo(S.sumK); await prepShare(ri.mvp ? [ri.mvp.id] : []); const r = drawRound(S.sumK); await openShareCanvas(r.cv, `signal13-round-${S.sumK}.png`, `แชร์สรุปรอบที่ ${S.sumK}`, r.text, false); }
   catch(e){ setMsg("สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง"); }
 });
 
@@ -1901,7 +2201,7 @@ document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("prof")
 /* ===== การ์ด ===== */
 const CARDS = {
   champ:     {e:"🏆", n:"แชมป์อ่ะครับ!!", kind:"t", c:"#ffc94a", c2:"#ffb020"},
-  slap:      {e:"👋", n:"ตบแชมป์",        kind:"t", c:"#b48cff", c2:"#9a6bff"},
+  slap:      {e:"👋", n:"ตบแชมป์",        kind:"p", c:"#b48cff", c2:"#9a6bff", how:"ชนะคนที่เป็นแชมป์ (อันดับ 1) ตอนนั้นได้"},
   wall:      {e:"🧱", n:"เหนียวจัด",       kind:"t", c:"#e0805a", c2:"#c9643c"},
   boom:      {e:"💥", n:"ยิงกระจุย",       kind:"t", c:"#ff6b3d", c2:"#ff4f2e"},
   pls:       {e:"🥲", n:"ชนะบ้างนะ",       kind:"t", c:"#9fb4cc", c2:"#8098b5"},
@@ -1924,7 +2224,7 @@ const CARDS = {
 function cardsOf(id){
   const res = S.res || statsOf(S.matches), r = res.by[id]; if (!r) return [];
   const held = ttlOf(id), out = [];
-  ["champ","slap","wall","boom","pls","chicken"].forEach(k => {
+  ["champ","wall","boom","pls","chicken"].forEach(k => {
     const c = {k, have: held.includes(k), how: TITLES[k].d};
     if (c.have){
       if (k === "champ"){ c.cap = `ครองแชมป์มา ${res.champ.reign} นัด`; c.at = res.champ.since; }
@@ -1937,7 +2237,10 @@ function cardsOf(id){
     out.push(c);
   });
   const p = (k, have, cap, at, count, g) => out.push({k, have, cap, at, count, g, how: CARDS[k].how});
-  p("everChamp", r.reigns > 0, `ครองแชมป์ ${r.reigns} ครั้ง นานสุด ${r.maxReign} นัด`, r.firstChampAt);
+  const eR = r.reigns || r.oldReigns, eM = Math.max(r.maxReign, r.oldMaxReign);
+  p("everChamp", eR > 0, `ครองแชมป์ ${eR} ครั้ง นานสุด ${eM} นัด`, r.firstChampAt || r.oldChampAt);
+  const sl = r.slaps[r.slaps.length - 1];
+  p("slap", !!sl, sl ? (r.slaps.length > 1 ? `ตบแชมป์มาแล้ว ${r.slaps.length} ครั้ง · ล่าสุดตบ ${nameOf(sl.l)}` : `ตบ ${nameOf(sl.l)} ร่วงบัลลังก์`) : "", r.slaps[0] && r.slaps[0].x.at, r.slaps.length, sl && sl.x.g);
   p("fire5", r.runs5 > 0, `ชนะติดกันสูงสุด ${r.maxWin} นัด`, r.fire5At, r.runs5);
   const bt = [...r.thrash].sort((a,b) => b.mg - a.mg || b.x.at - a.x.at)[0];
   const wsc = x => { const me = x.a === id; return `${nameOf(id)} ${me ? x.ga : x.gb}–${me ? x.gb : x.ga} ${nameOf(me ? x.b : x.a)}`; };
@@ -2149,7 +2452,7 @@ async function shareCard(id, k){
 }
 
 let shareFile = null, shareUrl = null, shareText = "";
-function closeShare(){ $("shareModal").hidden = true; }
+function closeShare(){ $("shareModal").hidden = true; if (S.popQ && S.popQ.length) setTimeout(runPopQ, 900); }
 async function openShareCanvas(cv, filename, title, text, withUndo){
   const blob = await new Promise(res => cv.toBlob(res, "image/png"));
   if (!blob) throw new Error("no blob");
@@ -2399,11 +2702,10 @@ function localDB(){
 /* ===== แจ้งอัปเดต (v4.1) ===== */
 const SEEN_KEY = "signal13-seen";
 const CHANGES = [
-  "🏟️ สนามเปลี่ยนตามโหมดที่สุ่ม ทั้งหน้าจดผล และรูปที่แชร์เข้ากลุ่ม",
-  "📤 แชร์ผลย้อนหลังได้ กดปุ่มแชร์ที่ 5 นัดล่าสุดในหน้าประวัติ",
-  "🎯 ตารางใหม่: ต้องเล่นครบ 5 นัดถึงติดอันดับ และใครไม่ลงสนามนาน (เพื่อนเล่นไป 30 แมตช์) จะถูกพัก 💤 ไว้ก่อน เรตไม่ลด ลงเล่น 1 นัดก็กลับมา",
-  "🃏 การ์ดที่ยังไม่ได้ แตะดูได้ว่าต้องทำยังไง · อิโมจิบนการ์ดที่แชร์ชัดขึ้นบนไอโฟน",
-  "🏷️ รูปแชร์และการ์ดบอกโหมดที่เล่น · 5 นัดล่าสุดในโปรไฟล์บอกทีมที่ใช้"
+  "📊 สรุปรอบละ 10 นัด: MVP มีรูปโปรไฟล์ใหญ่ พร้อมช็อกสุด ถล่มสุด ประตูรวม และฟอร์มร้อน-เย็น",
+  "🔔 ครบรอบ 10 นัดเมื่อไร แอปเด้งสรุปให้แชร์ทันที (ครั้งเดียวต่อรอบ)",
+  "🏛️ หอเกียรติยศ: สถิติตลอดกาล เช่น ชนะห่างที่สุด ชนะติดกันยาวที่สุด เรตสูงสุด · แตะดูได้ว่าเคยเป็นของใครมาก่อน",
+  "📊 ใครทำลายสถิติ แอปเด้งรูปฉลองให้แชร์ · มีรายชื่อ MVP ประจำรอบทุกรอบ"
 ];
 function verCmp(a, b){ const x = String(a).split(".").map(Number), y = String(b).split(".").map(Number);
   for (let i = 0; i < Math.max(x.length, y.length); i++){ const d = (x[i] || 0) - (y[i] || 0); if (d) return d; } return 0; }
@@ -2475,7 +2777,7 @@ setTimeout(maybeWhatsNew, 1200);
     $("mode").hidden = false;
   }
   S.db.collection("players").onSnapshot(s => { S.players = s.docs.map(d => ({id:d.id, ...d.data()})); render(); if (!s.metadata || !s.metadata.fromCache) maybeAskWho(); }, () => setMsg("โหลดรายชื่อไม่สำเร็จ ตรวจ Firestore rules"));
-  S.db.collection("matches").onSnapshot(s => { S.matches = s.docs.map(d => ({id:d.id, ...d.data()})); render(); }, () => setMsg("โหลดผลแมตช์ไม่สำเร็จ ตรวจ Firestore rules"));
+  S.db.collection("matches").onSnapshot(s => { S.matches = s.docs.map(d => ({id:d.id, ...d.data()})); S.matchesLoaded = true; render(); }, () => setMsg("โหลดผลแมตช์ไม่สำเร็จ ตรวจ Firestore rules"));
   updateSave();
 })();
 </script>
