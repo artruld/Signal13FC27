@@ -441,7 +441,7 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
       </svg>
       <div>
         <h1>Signal<span>13</span> League</h1>
-        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v4.2</span></div>
+        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v4.2.1</span></div>
       </div>
     </div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><div class="live">MATCH NIGHT</div><button class="mechip none" id="meChip">👤 เลือกตัวเอง</button></div>
@@ -535,7 +535,7 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
     <div class="list" id="hist"></div>
     <button class="wipebtn" id="wipeOpen">ล้างประวัติทั้งหมด</button>
   </section>
-  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">4.2</span></div>
+  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">4.2.1</span></div>
 </div>
 
 <script>
@@ -621,7 +621,7 @@ const firebaseConfig = {
 </div>
 
 <script>
-const APP_VERSION = "4.2";
+const APP_VERSION = "4.2.1";
 const S = {bigCache:{}, imgCache:{}, players:[], matches:[], ga:0, gb:0, ta:null, tb:null, db:null, canWrite:true, armed:null};
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -987,8 +987,8 @@ const GROUPS = {
     2: ["Italy","Belgium","Croatia","Uruguay","Colombia","Morocco","USA","Mexico","Japan","Denmark","Switzerland"],
     3: ["Norway","Türkiye","Senegal","Korea Republic","Ecuador","Austria","Poland","Wales","Scotland","Australia","Canada","Republic of Ireland"]}},
   fam: {e:"🌟", n:"ทีมดัง", s:"ทีมดัง", lab: n => FAM_LEAGUE[n] || LEAGUE[n] || "", tiers: {
-    1: ["Real Madrid","Barcelona","Man City","Liverpool","Arsenal","Bayern","PSG","Inter"],
-    2: ["Man United","Chelsea","Tottenham","Aston Villa","Atlético Madrid","Dortmund","Juventus","Milano FC (AC Milan)","Napoli","Benfica","Porto","Sporting CP","Al-Nassr","Al-Hilal","Flamengo"],
+    1: ["Real Madrid","Barcelona","Man City","Liverpool","Arsenal","Bayern","PSG","Inter","Atlético Madrid"],
+    2: ["Man United","Chelsea","Tottenham","Aston Villa","Dortmund","Juventus","Milano FC (AC Milan)","Napoli","Benfica","Porto","Sporting CP","Al-Nassr","Al-Hilal","Flamengo"],
     3: ["Ajax","Celtic","Galatasaray","Fenerbahçe","Marseille","Al-Ittihad","Inter Miami","LA Galaxy","Boca Juniors","River Plate"]}},
   ucl: {e:"⭐", n:"UCL", s:"UCL", lab: () => "UCL 26/27", tiers: {
     1: ["Arsenal","Man City","Bayern","PSG","Liverpool","Inter","Real Madrid","Barcelona","Atlético Madrid"],
@@ -2210,7 +2210,9 @@ setTimeout(checkUpdate, 8000);
 function maybeWhatsNew(){
   let seen = null, old = false;
   try{ seen = localStorage.getItem(SEEN_KEY); old = !!(localStorage.getItem(ME_KEY) || localStorage.getItem(SKIP_KEY) || localStorage.getItem("tab")); }catch(e){ return; }
+  const mm = v => String(v || "").split(".").slice(0, 2).join(".");
   if (seen === APP_VERSION) return;
+  if (seen && mm(seen) === mm(APP_VERSION)){ try{ localStorage.setItem(SEEN_KEY, APP_VERSION); }catch(e){} return; } /* แก้บั๊กเล็ก ไม่ต้องเด้ง */
   if (!old){ try{ localStorage.setItem(SEEN_KEY, APP_VERSION); }catch(e){} return; }
   if (!$("who").hidden || !$("confirm").hidden){ setTimeout(maybeWhatsNew, 1500); return; }
   try{ localStorage.setItem(SEEN_KEY, APP_VERSION); }catch(e){}
