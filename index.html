@@ -55,6 +55,7 @@ h1 span{color:var(--volt)}
 .bug{--ga:var(--volt);--gb2:#7c8cff;--gtint:rgba(46,230,214,0)}
 .bug[data-g="epl"]{--ga:#3fe08f;--gb2:#a77bff;--gtint:rgba(143,91,255,.16)}
 .bug[data-g="nat"]{--ga:#ffc94a;--gb2:#ff5f6d;--gtint:rgba(255,95,109,.13)}
+.bug[data-g="fam"]{--ga:#ffd36b;--gb2:#b48cff;--gtint:rgba(180,140,255,.18)}
 .bug[data-g="ucl"]{--ga:#cfe0ff;--gb2:#4f7cff;--gtint:rgba(79,124,255,.18)}
 .bug{background:radial-gradient(ellipse 80% 60% at 100% 0,var(--gtint),transparent 70%),linear-gradient(160deg,#16213b,#0d1528)}
 .bug[data-g="ucl"]::before{background:radial-gradient(circle at 12% 18%,rgba(255,255,255,.5) 0 1.2px,transparent 2px),radial-gradient(circle at 78% 12%,rgba(255,255,255,.45) 0 1px,transparent 1.8px),radial-gradient(circle at 92% 46%,rgba(255,255,255,.4) 0 1.3px,transparent 2px),radial-gradient(circle at 40% 8%,rgba(255,255,255,.35) 0 1px,transparent 1.6px),radial-gradient(circle at 60% 30%,rgba(255,255,255,.3) 0 .9px,transparent 1.5px),repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 40px,transparent 40px 80px)}
@@ -63,8 +64,9 @@ h1 span{color:var(--volt)}
 .bug .team.done{border-color:var(--ga)}
 .bug .save{background:linear-gradient(90deg,var(--ga),var(--gb2))}
 .gwrap{display:flex;flex-direction:column;gap:6px}
-.gbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-.gbar button{border:1px solid var(--edge);background:rgba(7,11,22,.6);border-radius:4px;padding:8px 2px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.gbar button{border:1px solid var(--edge);background:rgba(7,11,22,.6);border-radius:4px;padding:7px 1px;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.2}
+.gbar button i{font-style:normal;font-size:16px}
 .gbar button[aria-pressed="true"]{border-color:var(--ga);color:var(--ink);background:color-mix(in srgb,var(--ga) 16%,transparent);box-shadow:inset 0 -2px 0 var(--ga)}
 .gbar button:disabled{opacity:.3;cursor:not-allowed}
 .gnote{font-size:11px;color:var(--muted);text-align:center}
@@ -414,6 +416,10 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
 .updbar b{font-family:var(--display)}
 #whatsNew{z-index:80}
 .wnlist{text-align:left;margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.45}
+.rkb{font-size:13px;cursor:help}
+.tchip.rk{background:rgba(63,224,143,.12);border-color:rgba(63,224,143,.5);color:var(--win)}
+.cfassist{font-size:13px;line-height:1.5;color:var(--win);background:rgba(63,224,143,.08);border:1px solid rgba(63,224,143,.4);border-radius:6px;padding:8px 10px;margin:0;text-align:left}
+.cfassist:empty{display:none}
 .ver{text-align:center;font-size:11px;color:var(--muted);font-family:var(--display);letter-spacing:.08em;padding-top:8px}
 @media (max-width:420px){.score output{font-size:44px}.step{width:34px;height:34px}h1{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -435,7 +441,7 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
       </svg>
       <div>
         <h1>Signal<span>13</span> League</h1>
-        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v4.1</span></div>
+        <div class="sub">ลีก FC27 ของแก๊งเรา · ใครว่างก็ลงสนาม · <span id="ver">v4.2</span></div>
       </div>
     </div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><div class="live">MATCH NIGHT</div><button class="mechip none" id="meChip">👤 เลือกตัวเอง</button></div>
@@ -494,7 +500,7 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
       <thead><tr><th class="rank">#</th><th class="name">ผู้เล่น</th><th>นัด</th><th>ช</th><th>ส</th><th>พ</th><th>ได้-เสีย</th><th>แต้ม</th><th>เรต</th><th>ฟอร์ม</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table></div>
-    <p class="legend"><span>🏆 แชมป์</span><span>👋 ตบแชมป์</span><span>🧱 เหนียวจัด</span><span>💥 ยิงกระจุย</span><span>🥲 ชนะบ้างนะ</span><span>🐔 ไก่</span><span>🔥 ชนะติด</span><span>🧊 แพ้ติด</span><span>▲▼ อันดับเทียบก่อน 10 นัดล่าสุด</span><span>· แตะอิโมจิเพื่อดูความหมาย</span></p>
+    <p class="legend"><span>🏆 แชมป์</span><span>👋 ตบแชมป์</span><span>🧱 เหนียวจัด</span><span>💥 ยิงกระจุย</span><span>🥲 ชนะบ้างนะ</span><span>🐔 ไก่</span><span>🌱 มือใหม่</span><span>🔥 ชนะติด</span><span>🧊 แพ้ติด</span><span>▲▼ อันดับเทียบก่อน 10 นัดล่าสุด</span><span>· แตะอิโมจิเพื่อดูความหมาย</span></p>
     <p class="note">เรียงตามเรตติ้ง ทุกคนเริ่มที่ 1000 ชนะคนเรตสูงกว่าได้แต้มเยอะ ชนะคนเรตต่ำกว่าได้น้อย ได้ทีมระดับดีกว่าถูกนับเป็นต่อ (ระดับละ 75) ชนะได้น้อยลง แพ้เสียมากขึ้น ป้าย "ยังไม่นิ่ง" คือเล่นไม่ถึง 5 นัด เรตยังเหวี่ยงได้ · แต้ม = ชนะ 3 เสมอ 1 แพ้ 0</p>
   </section>
 
@@ -529,7 +535,7 @@ tbody tr.me td:first-child{box-shadow:inset 3px 0 0 var(--volt)}
     <div class="list" id="hist"></div>
     <button class="wipebtn" id="wipeOpen">ล้างประวัติทั้งหมด</button>
   </section>
-  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">4.1</span></div>
+  <div class="ver">SIGNAL13 LEAGUE · v<span id="ver2">4.2</span></div>
 </div>
 
 <script>
@@ -608,13 +614,14 @@ const firebaseConfig = {
     <div class="warn" id="cfTitle">ใส่ตามจริงนะจ๊ะ</div>
     <div class="cfscore" id="cfScore"></div>
     <div class="cflate" id="cfLate"></div>
+    <p class="cfassist" id="cfAssist"></p>
     <p class="note">บันทึกแล้วเรตติ้งของทั้งคู่จะขยับทันที</p>
     <div class="cfbtns"><button class="ghost" id="cfNo">กลับไปแก้</button><button class="save" id="cfYes">ยืนยัน บันทึกเลย</button></div>
   </div>
 </div>
 
 <script>
-const APP_VERSION = "4.1";
+const APP_VERSION = "4.2";
 const S = {bigCache:{}, imgCache:{}, players:[], matches:[], ga:0, gb:0, ta:null, tb:null, db:null, canWrite:true, armed:null};
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -639,11 +646,12 @@ function fmtDate(t){
 
 const START = 1000, K = 32, SETTLED = 5, TIER_GAP = 75;
 function statsOf(list){
-  const m = {}, delta = {};
+  const m = {}, delta = {}, deltaB = {}, assisted = {}, gradMatch = {};
   const slap = {}, champBeat = {};
   let curLeader = null, reign = 0, reignStart = null;
   S.players.forEach(p => m[p.id] = {id:p.id,name:p.name,gp:0,w:0,d:0,l:0,gf:0,ga:0,form:[],elo:START,hist:[],
-    winRun:0, maxWin:0, runs5:0, fire5At:null, thrash:[], shock:[], gp50At:null, reigns:0, maxReign:0, firstChampAt:null, cs:[], csRun:0, maxCs:0, late:[]});
+    winRun:0, maxWin:0, runs5:0, fire5At:null, thrash:[], shock:[], gp50At:null, reigns:0, maxReign:0, firstChampAt:null, cs:[], csRun:0, maxCs:0, late:[],
+    rookie:false, everRookie:false, grad:null, rk:{goal:null, draw:null, win:null, less:[], prevMg:null}, helpers:{}, mentorN:0, boosted:[]});
   const sorted = [...list].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id)));
   for (const x of sorted){
     const a = m[x.a], b = m[x.b]; if (!a || !b) continue;
@@ -653,8 +661,17 @@ function statsOf(list){
     const ea = 1 / (1 + Math.pow(10, (b.elo - a.elo - adv) / 400));
     const sa = x.ga > x.gb ? 1 : x.ga < x.gb ? 0 : 0.5;
     const da = K * (sa - ea);
-    a.elo += da; b.elo -= da;
-    delta[x.id] = Math.round(da);
+    /* ตัวช่วยมือใหม่: มือใหม่เจอคนทั่วไป */
+    const aR = a.rookie, bR = b.rookie, oneR = aR !== bR;
+    let dA = da, dB = -da;
+    if (oneR){
+      assisted[x.id] = true;
+      const dR = aR ? da : -da;
+      const rG = dR > 0 ? dR : dR * 0.5, nG = dR > 0 ? -dR * 1.25 : -dR * 0.5;
+      if (aR){ dA = rG; dB = nG; } else { dB = rG; dA = nG; }
+    }
+    a.elo += dA; b.elo += dB;
+    delta[x.id] = Math.round(dA); deltaB[x.id] = Math.round(dB);
     a.gp++; b.gp++; a.gf += x.ga; a.ga += x.gb; b.gf += x.gb; b.ga += x.ga;
     if (sa === 1){a.w++; b.l++; a.form.push("W"); b.form.push("L");}
     else if (sa === 0){b.w++; a.l++; a.form.push("L"); b.form.push("W");}
@@ -673,13 +690,30 @@ function statsOf(list){
       const mg = Math.abs(x.ga - x.gb);
       if (mg >= 5) win.thrash.push({x, mg});
       const wr = win === a ? x.ra : x.rb, lr = win === a ? x.rb : x.ra;
-      if (wr === 3 && lr === 1) win.shock.push({x});
+      if (wr === 3 && lr === 1 && !oneR) win.shock.push({x});
     } else { a.winRun = 0; b.winRun = 0; }
     const csW = win && (win === a ? x.gb : x.ga) === 0 ? win : null;
     [a, b].forEach(p => { if (p === csW){ p.cs.push({x}); p.csRun++; if (p.csRun > p.maxCs) p.maxCs = p.csRun; } else p.csRun = 0; });
     if (x.late === "a" && x.ga >= x.gb) a.late.push({x});
     if (x.late === "b" && x.gb >= x.ga) b.late.push({x});
     [a, b].forEach(p => { if (p.gp === 50) p.gp50At = x.at; });
+    /* มือใหม่: การ์ดเป้าหมาย พี่เลี้ยง และสถานะ */
+    [[a, aR, b, bR, x.ga, x.gb], [b, bR, a, aR, x.gb, x.ga]].forEach(([p, pR, o, oR, gf, ga]) => {
+      if (pR){
+        if (gf > 0 && !p.rk.goal) p.rk.goal = x;
+        if (gf === ga && !p.rk.draw) p.rk.draw = x;
+        if (gf > ga && !p.rk.win) p.rk.win = x;
+        if (gf < ga){ const mg = ga - gf; if (p.rk.prevMg !== null && mg < p.rk.prevMg) p.rk.less.push(x); p.rk.prevMg = mg; }
+        if (!oR){ p.helpers[o.id] = true; o.mentorN++; if (o.mentorN % 5 === 0 && !o.mentorAt) o.mentorAt = x.at; }
+      }
+    });
+    [a, b].forEach(p => {
+      if (p.grad) return;
+      if (p.rookie && p.w >= 3){
+        p.rookie = false; p.grad = x; gradMatch[x.id] = p.id;
+        Object.keys(p.helpers).forEach(h => { if (m[h]) m[h].boosted.push({id: p.id, at: x.at}); });
+      } else if (!p.rookie && p.w < 2 && p.gp >= 1 && (p.ga - p.gf) / p.gp >= 2){ p.rookie = true; p.everRookie = true; }
+    });
     let la = null;
     for (const id in m){ const r = m[id]; if (r.gp && (!la || r.elo > la.elo)) la = r; }
     if (la){
@@ -691,9 +725,9 @@ function statsOf(list){
   const rows = Object.values(m).map(r => ({...r, elo: Math.round(r.elo), pts: 3*r.w + r.d, gd: r.gf - r.ga, st: streakOf(r.form)}))
     .sort((x,y) => (y.gp>0) - (x.gp>0) || y.elo - x.elo || y.pts - x.pts || x.name.localeCompare(y.name,"th"));
   const rank = {}; rows.filter(r => r.gp).forEach((r,i) => rank[r.id] = i+1);
-  return {rows, delta, rank, by: m, slap, champBeat, champ: {id: curLeader, reign, since: reignStart}};
+  return {rows, delta, deltaB, assisted, gradMatch, rank, by: m, slap, champBeat, champ: {id: curLeader, reign, since: reignStart}};
 }
-function stats(){ const r = statsOf(S.matches); S.res = r; S.delta = r.delta; S.rank = r.rank; S.rows = r.rows; S.titles = titlesOf(r); return r.rows; }
+function stats(){ const r = statsOf(S.matches); S.res = r; S.delta = r.delta; S.deltaB = r.deltaB; S.rank = r.rank; S.rows = r.rows; S.titles = titlesOf(r); return r.rows; }
 
 /* ===== ฉายา ===== */
 const TITLES = {
@@ -725,8 +759,8 @@ function titlesOf(res){
     const w = best(q, r => r.ga / r.gp, -1); if (w) give(w.r.id, "wall");
     const bm = best(q, r => r.gf / r.gp, 1); if (bm && bm.v > 0) give(bm.r.id, "boom");
   }
-  played.filter(r => winless(r.form) >= 5).forEach(r => give(r.id, "pls"));
-  if (q.length >= 3){ const c = best(q, r => r.elo, -1); if (c && !(T[c.r.id] || []).includes("champ")) give(c.r.id, "chicken"); }
+  played.filter(r => winless(r.form) >= 5 && !r.rookie).forEach(r => give(r.id, "pls"));
+  if (q.length >= 3){ const c = best(q.filter(r => !r.rookie), r => r.elo, -1); if (c && !(T[c.r.id] || []).includes("champ")) give(c.r.id, "chicken"); }
   return {T, holder};
 }
 function ttlOf(id){ return (S.titles && S.titles.T[id]) || []; }
@@ -734,6 +768,9 @@ function ttlHtml(id){
   const t = ttlOf(id); if (!t.length) return "";
   return `<span class="ttl">${t.map(k => `<span data-tip="${esc(TITLES[k].e + " " + TITLES[k].n + "|" + TITLES[k].d)}">${TITLES[k].e}</span>`).join("")}</span>`;
 }
+const isRookie = id => !!(S.res && S.res.by[id] && S.res.by[id].rookie);
+const RK_TIP = "🌱 มือใหม่|ยังชนะไม่ถึง 2 นัด และแพ้ห่างเฉลี่ย 2 ลูกขึ้นไป ได้ตัวช่วยตอนสุ่ม แพ้เสียเรตครึ่งเดียว · ชนะครบ 3 นัด = จบหลักสูตร 🎓";
+function rkHtml(id){ return isRookie(id) ? `<span class="rkb" data-tip="${esc(RK_TIP)}">🌱</span>` : ""; }
 function streakOf(form){
   if (!form.length) return {t:null,n:0};
   const last = form[form.length-1]; if (last === "D") return {t:null,n:0};
@@ -763,7 +800,7 @@ function render(){
 
   const rows = stats();
   const stOf = id => (rows.find(r => r.id === id) || {}).st;
-  $("chips").innerHTML = ps.length ? ps.map(p => `<button type="button" class="pl" data-prof="${esc(p.id)}">${av(p.id)}${esc(p.name)}${stHtml(stOf(p.id))}${ttlHtml(p.id)}</button>`).join("")
+  $("chips").innerHTML = ps.length ? ps.map(p => `<button type="button" class="pl" data-prof="${esc(p.id)}">${av(p.id)}${esc(p.name)}${rkHtml(p.id)}${stHtml(stOf(p.id))}${ttlHtml(p.id)}</button>`).join("")
     : '<span class="note">ยังไม่มีผู้เล่น เพิ่มชื่อเพื่อนอย่างน้อย 2 คนเพื่อเริ่มจดผล</span>';
   $("shareTable").hidden = !rows.some(r => r.gp);
   const played = rows.filter(r => r.gp);
@@ -784,7 +821,7 @@ function render(){
       const reign = i === 0 && ch && ch.id === r.id ? ` · ครอง ${ch.reign} นัด` : "";
       return `<div class="pod p${i+1}" data-prof="${esc(r.id)}" aria-label="อันดับ ${i+1} ${esc(r.name)}">
       ${i === 0 ? '<span class="crown">👑</span>' : ""}<div class="ring">${av(r.id)}</div>
-      <span class="nm">${esc(r.name)}</span>${mvHtml(r.id, i+1)}<span class="badges">${stHtml(r.st)}${ttlHtml(r.id) || "&nbsp;"}</span>
+      <span class="nm">${esc(r.name)}</span>${mvHtml(r.id, i+1)}<span class="badges">${rkHtml(r.id)}${stHtml(r.st)}${ttlHtml(r.id) || (isRookie(r.id) ? "" : "&nbsp;")}</span>
       <span class="pelo num">${r.elo}</span>
       <span class="fm">${r.form.slice(-5).map(f => `<i class="${f}"></i>`).join("")}</span>
       <div class="step"><b>${i+1}</b><span class="num">${r.w}-${r.d}-${r.l}${reign}</span></div></div>`; }).join("");
@@ -792,7 +829,7 @@ function render(){
   } else pod.hidden = true;
 
   $("tbody").innerHTML = rows.length ? rows.map((r,i) => `<tr class="${r.gp && i===0 ? "top1" : ""} ${r.id === meId() ? "me" : ""}" data-prof="${esc(r.id)}">
-    <td class="rank">${r.gp ? (i+1) + mvHtml(r.id, i+1) : "–"}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${r.id === meId() ? '<span class="you">คุณ</span>' : ""}${stHtml(r.st)}${ttlHtml(r.id)}${r.gp && r.gp < SETTLED ? '<span class="prov" data-tip="ยังไม่นิ่ง|เล่นไม่ถึง 5 นัด เรตยังเหวี่ยงได้เยอะ">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
+    <td class="rank">${!r.gp ? "–" : r.rookie ? `<span data-tip="${esc(RK_TIP)}">🌱</span>` : (i+1) + mvHtml(r.id, i+1)}</td><td class="name"><span class="in">${av(r.id)}${esc(r.name)}${r.id === meId() ? '<span class="you">คุณ</span>' : ""}${rkHtml(r.id)}${stHtml(r.st)}${ttlHtml(r.id)}${r.gp && r.gp < SETTLED ? '<span class="prov" data-tip="ยังไม่นิ่ง|เล่นไม่ถึง 5 นัด เรตยังเหวี่ยงได้เยอะ">ยังไม่นิ่ง</span>' : ""}</span></td><td>${r.gp}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td>
     <td>${r.gd>0?"+":""}${r.gd}</td><td>${r.pts}</td><td class="elo">${r.gp ? r.elo : "–"}</td>
     <td><span class="form">${r.form.slice(-5).map(f => `<span class="dot ${f}">${f==="W"?"ช":f==="D"?"ส":"พ"}</span>`).join("")}</span></td></tr>`).join("")
     : '<tr><td colspan="10" class="note" style="padding:24px">ตารางจะขึ้นเมื่อมีผู้เล่นและผลแมตช์</td></tr>';
@@ -815,7 +852,11 @@ function renderSuggest(){
     const a = ps[i].id, b = ps[j].id;
     if (fixed && a !== fixed && b !== fixed) continue;
     const n = meetCount(a, b), gap = Math.abs((elo[a] ?? START) - (elo[b] ?? START));
-    pairs.push({a, b, n, gap, score: n*30 + gap});
+    let sc = n*30 + gap;
+    const ra = isRookie(a), rb = isRookie(b), top = S.rows && S.rows[0] && S.rows[0].gp ? S.rows[0].id : null;
+    if (ra && rb) sc -= 40;
+    else if ((ra || rb) && (a === top || b === top)) sc += 400;
+    pairs.push({a, b, n, gap, score: sc});
   }
   pairs.sort((x,y) => x.score - y.score);
   const top = pairs.slice(0, 3);
@@ -864,8 +905,9 @@ function matchRow(x){
 
 function dl(id){
   const d = S.delta && S.delta[id]; if (d === undefined) return "";
+  const d2 = S.deltaB && S.deltaB[id] !== undefined ? S.deltaB[id] : -d;
   const f = v => `<span class="dl ${v>0?"up":v<0?"dn":""}">${v>0?"+":""}${v}</span>`;
-  return ` · เรต ${f(d)} / ${f(-d)}`;
+  return ` · เรต ${f(d)} / ${f(d2)}`;
 }
 function renderHist(){
   const ms = [...S.matches].sort((x,y) => y.at - x.at);
@@ -922,15 +964,15 @@ document.addEventListener("click", e => {
 const LEAGUE = {};
 [["PREMIER LEAGUE",["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Chelsea","Coventry City","Crystal Palace","Everton","Fulham","Hull City","Ipswich Town","Leeds United","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham"]],
  ["LALIGA",["Barcelona","Real Madrid","Villarreal","Atlético Madrid","Real Betis"]],
- ["SERIE A",["Inter","Napoli","Roma","Como","AC Milan"]],
+ ["SERIE A",["Inter","Napoli","Roma","Como","Milano FC (AC Milan)"]],
  ["BUNDESLIGA",["Bayern","Dortmund","RB Leipzig","Stuttgart","Hoffenheim"]],
  ["LIGUE 1",["PSG","Lens","LOSC Lille","Lyon","Marseille"]]].forEach(([l,ts]) => ts.forEach(t => LEAGUE[t] = l));
 const TIERS = {
   1: ["Arsenal","Man City","Liverpool","Chelsea","Real Madrid","Barcelona","Atlético Madrid","Bayern","PSG","Inter"],
-  2: ["Man United","Newcastle","Tottenham","Aston Villa","Napoli","AC Milan","Roma","Dortmund","RB Leipzig","Stuttgart","Villarreal","Marseille","Lyon","LOSC Lille","Lens"],
+  2: ["Man United","Newcastle","Tottenham","Aston Villa","Napoli","Milano FC (AC Milan)","Roma","Dortmund","RB Leipzig","Stuttgart","Villarreal","Marseille","Lyon","LOSC Lille","Lens"],
   3: ["Bournemouth","Brentford","Brighton","Crystal Palace","Everton","Fulham","Nottingham Forest","Leeds United","Sunderland","Coventry City","Hull City","Ipswich Town","Como","Hoffenheim","Real Betis"]
 };
-const TEAM_ALIAS = {"Lille":"LOSC Lille"};
+const TEAM_ALIAS = {"Lille":"LOSC Lille","AC Milan":"Milano FC (AC Milan)"};
 const teamName = n => TEAM_ALIAS[n] || n;
 const POOL = Object.entries(TIERS).flatMap(([r,ts]) => ts.map(n => ({n, l:LEAGUE[n], r:Number(r)})));
 /* ===== กลุ่มทีมสุ่ม (v4.1) ===== */
@@ -944,11 +986,19 @@ const GROUPS = {
     1: ["France","Spain","England","Argentina","Brazil","Portugal","Germany","Netherlands"],
     2: ["Italy","Belgium","Croatia","Uruguay","Colombia","Morocco","USA","Mexico","Japan","Denmark","Switzerland"],
     3: ["Norway","Türkiye","Senegal","Korea Republic","Ecuador","Austria","Poland","Wales","Scotland","Australia","Canada","Republic of Ireland"]}},
+  fam: {e:"🌟", n:"ทีมดัง", s:"ทีมดัง", lab: n => FAM_LEAGUE[n] || LEAGUE[n] || "", tiers: {
+    1: ["Real Madrid","Barcelona","Man City","Liverpool","Arsenal","Bayern","PSG","Inter"],
+    2: ["Man United","Chelsea","Tottenham","Aston Villa","Atlético Madrid","Dortmund","Juventus","Milano FC (AC Milan)","Napoli","Benfica","Porto","Sporting CP","Al-Nassr","Al-Hilal","Flamengo"],
+    3: ["Ajax","Celtic","Galatasaray","Fenerbahçe","Marseille","Al-Ittihad","Inter Miami","LA Galaxy","Boca Juniors","River Plate"]}},
   ucl: {e:"⭐", n:"UCL", s:"UCL", lab: () => "UCL 26/27", tiers: {
     1: ["Arsenal","Man City","Bayern","PSG","Liverpool","Inter","Real Madrid","Barcelona","Atlético Madrid"],
     2: ["Aston Villa","Man United","Dortmund","Roma","Napoli","RB Leipzig","Villarreal","Sporting CP","Porto","PSV","Real Betis","Stuttgart","LOSC Lille","Lens","Como","Galatasaray","Fenerbahçe"],
     3: ["Club Brugge","Feyenoord","Bodø/Glimt","Shakhtar Donetsk","Sabah","LASK","Slavia Prague","AEK Athens","Viking","Slovan Bratislava"]}}
 };
+const FAM_LEAGUE = {"Juventus":"SERIE A","Benfica":"LIGA PORTUGAL","Porto":"LIGA PORTUGAL","Sporting CP":"LIGA PORTUGAL",
+  "Al-Nassr":"SAUDI PRO LEAGUE","Al-Hilal":"SAUDI PRO LEAGUE","Al-Ittihad":"SAUDI PRO LEAGUE","Flamengo":"BRASILEIRÃO",
+  "Ajax":"EREDIVISIE","Celtic":"SCOTTISH PREM","Galatasaray":"SÜPER LIG","Fenerbahçe":"SÜPER LIG",
+  "Inter Miami":"MLS","LA Galaxy":"MLS","Boca Juniors":"ARGENTINA","River Plate":"ARGENTINA"};
 const GKEY = "signal13-group";
 const gOf = g => GROUPS[g] ? g : "eu";
 const POOLS = {};
@@ -958,7 +1008,7 @@ S.group = (() => { try{ return gOf(localStorage.getItem(GKEY)); }catch(e){ retur
 function renderGroups(){
   const locked = !!(S.ta || S.tb);
   $("gbar").innerHTML = Object.entries(GROUPS).map(([g, d]) =>
-    `<button type="button" data-g="${g}" aria-pressed="${S.group === g}" ${locked && S.group !== g ? "disabled" : ""} aria-label="${esc(d.n)}">${d.e} ${esc(d.s)}</button>`).join("");
+    `<button type="button" data-g="${g}" aria-pressed="${S.group === g}" ${locked && S.group !== g ? "disabled" : ""} aria-label="${esc(d.n)}"><i>${d.e}</i>${esc(d.s)}</button>`).join("");
   document.querySelector(".bug").dataset.g = S.group;
   $("gnote").textContent = locked ? "สุ่มแล้ว เปลี่ยนกลุ่มไม่ได้ (กดยกเลิกแมตช์เพื่อเริ่มใหม่)" : `${groupPool(S.group).length} ทีม · ระดับ 1/2/3 = ${[1,2,3].map(r => groupPool(S.group).filter(t => t.r === r).length).join("/")} ทีม`;
 }
@@ -970,7 +1020,7 @@ function setGroup(g){
 const reduceMotion = (() => { try{ return matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } })();
 function showTeam(side, t, rolling){
   const box = $("team"+side); box.hidden = false;
-  box.querySelector("b").textContent = t.n; box.querySelector("span").textContent = rolling ? "กำลังสุ่ม..." : t.l + " · ระดับ " + t.r;
+  box.querySelector("b").textContent = teamName(t.n); box.querySelector("span").textContent = rolling ? "กำลังสุ่ม..." : t.l + " · ระดับ " + t.r;
   box.classList.toggle("rolling", !!rolling); box.classList.toggle("done", !rolling);
 }
 const PKEY = "signal13-pending";
@@ -994,7 +1044,7 @@ function restorePending(){
     S.ta = fix(d.ta); S.tb = fix(d.tb); showTeam("a", S.ta); showTeam("b", S.tb);
   }
   S.ga = Number(d.ga) || 0; S.gb = Number(d.gb) || 0; $("ga").textContent = S.ga; $("gb").textContent = S.gb;
-  if (S.ta || S.tb) setMsg("กลับมาที่แมตช์ที่สุ่มทีมไว้แล้ว");
+  if (S.ta || S.tb) setMsg("กลับมาที่แมตช์ที่สุ่มทีมไว้แล้ว" + (isRookie($("pa").value) !== isRookie($("pb").value) ? " · 🛟 ตัวช่วยมือใหม่" : ""));
   updateSave();
 }
 function emptyTeam(side){
@@ -1007,8 +1057,12 @@ function spinBoth(){
   if (!a || !b){ setMsg("เลือกผู้เล่นให้ครบสองฝั่งก่อนสุ่มทีม"); return; }
   if (a === b){ setMsg("เลือกผู้เล่นสองคนที่ไม่ซ้ำกัน"); return; }
   const pool = groupPool(S.group);
-  const pickA = pool[Math.floor(Math.random() * pool.length)];
-  const restB = pool.filter(t => t.n !== pickA.n);
+  /* ตัวช่วยมือใหม่: มือใหม่สุ่มระดับ 1–2 คู่แข่งสุ่มระดับ 2–3 */
+  const rA = isRookie(a), rB = isRookie(b), assist = rA !== rB;
+  const poolOf = rk => !assist ? pool : rk ? pool.filter(t => t.r <= 2) : pool.filter(t => t.r >= 2);
+  const poolA = poolOf(rA);
+  const pickA = poolA[Math.floor(Math.random() * poolA.length)];
+  const restB = poolOf(rB).filter(t => t.n !== pickA.n);
   const pickB = restB[Math.floor(Math.random() * restB.length)];
   S.ta = pickA; S.tb = pickB; S.rolling = true;
   savePending(); renderSuggest(); setMsg("");
@@ -1021,7 +1075,9 @@ function spinBoth(){
     i++;
     if (i < stopA) showTeam("a", rnd(), true); else if (i === stopA) showTeam("a", pickA);
     if (i < stopB) showTeam("b", rnd(), true);
-    else { showTeam("b", pickB); S.rolling = false; updateSave(); return; }
+    else { showTeam("b", pickB); S.rolling = false; updateSave();
+      if (assist) setMsg(`🛟 ตัวช่วยมือใหม่: ${nameOf(rA ? a : b)} ได้สุ่มทีมระดับ 1–2 อีกฝั่งระดับ 2–3`);
+      return; }
     setTimeout(tick, 45 + i*i*0.55);
   };
   tick();
@@ -1047,6 +1103,9 @@ function openConfirm(){
     <div class="big num">${S.ga} – ${S.gb}</div>
     <div class="nm">${esc(nameOf(b))}${tb?`<small>${esc(tb)}</small>`:""}</div>`;
   S.late = "";
+  const rA = isRookie(a), rB = isRookie(b);
+  $("cfAssist").textContent = rA !== rB ? `🛟 นัดตัวช่วยมือใหม่ (${nameOf(rA ? a : b)}) · ถ้ามือใหม่แพ้ ทั้งคู่ได้-เสียเรตแค่ครึ่งเดียว · ถ้ามือใหม่ชนะ คู่แข่งเสียเรตมากกว่าปกติ · นัดนี้ไม่นับการ์ด ⚡ ช็อกโลก`
+    : rA && rB ? "🌱 ศึกมือใหม่! รูปแชร์แบบพิเศษ โชว์ทั้งสองคน" : "";
   const sides = [];
   if (S.ga + S.gb > 0){ if (S.ga >= S.gb) sides.push(["a", a]); if (S.gb >= S.ga) sides.push(["b", b]); }
   const lateBox = $("cfLate");
@@ -1073,7 +1132,7 @@ $("cfYes").addEventListener("click", async () => {
   let ref = null;
   try{
     ref = await S.db.collection("matches").add(rec);
-    setMsg(`บันทึกแล้ว: ${nameOf(a)} ${rec.ga}–${rec.gb} ${nameOf(b)}`);
+    setMsg(`บันทึกแล้ว: ${nameOf(a)} ${rec.ga}–${rec.gb} ${nameOf(b)}` + (isRookie(a) !== isRookie(b) ? " · 🛟 นัดตัวช่วยมือใหม่ ไม่นับการ์ด ⚡" : ""));
     S.ga = S.gb = 0; $("ga").textContent = 0; $("gb").textContent = 0; resetSpins(); clearPending();
   }catch(err){ writeFail(err); }
   updateSave(); renderSuggest();
@@ -1200,7 +1259,7 @@ function backdrop(ctx, W, H, slabY, c1, c2){
   for (let k = -H; k < W + H; k += 51){ ctx.beginPath(); ctx.moveTo(k, 0); ctx.lineTo(k - H, H); ctx.stroke(); }
   ctx.restore();
 }
-const GTHEME = {eu:["#0fd3c3","#2ee6d6"], epl:["#3fe08f","#8f5bff"], nat:["#ffc94a","#ff5f6d"], ucl:["#dfe6f5","#4f7cff"]};
+const GTHEME = {eu:["#0fd3c3","#2ee6d6"], epl:["#3fe08f","#8f5bff"], nat:["#ffc94a","#ff5f6d"], fam:["#ffd36b","#9b6bff"], ucl:["#dfe6f5","#4f7cff"]};
 function starsOn(ctx, slabY){
   ctx.save(); ctx.fillStyle = "rgba(255,255,255,.75)";
   const pts = [[150,190,14],[300,120,10],[420,240,16],[210,380,11],[560,150,12],[90,520,13],[360,470,9],[700,150,10],[480,330,12],[120,300,8]];
@@ -1236,9 +1295,12 @@ function headlineOf(o){
     if (o.late) return {k:"นาทีบาป! ⏱️", l:["ตีเสมอนาทีบาป", `รอดตาย ${o.gw}–${o.gl}`]};
     return o.gw === 0 ? {k:"แบ่งแต้ม", l:["ยิงกันไม่เข้า", "เสมอ 0–0"]} : {k:"แบ่งแต้ม", l:["สูสีไม่มีใครยอม", `เสมอ ${o.gw}–${o.gl}`]};
   }
+  if (o.grad) return {k:"จบหลักสูตร! 🎓", l:["มือใหม่จบหลักสูตร", "ชนะครบ 3 นัดแล้ว!"]};
+  if (o.firstWin) return {k:"ชัยชนะแรก! 🏅", l:["ชัยชนะแรก", "ในลีก!"]};
+  if (o.loserRookie) return {k:"FULL TIME", l:["เก็บชัยชนะ", "มือใหม่เก็บประสบการณ์ 💪"]};
   if (o.champBeat) return {k:"ตบแชมป์! 👋", l:["ล้มแชมป์อ่ะครับ!!", "ได้สำเร็จ"]};
   if (o.late) return {k:"นาทีบาป! ⏱️", l:["ยิงนาทีบาป", `เชือดคาที่ ${o.gw}–${o.gl}`]};
-  if (o.rw && o.rl && o.rw > o.rl) return {k:"ช็อก!", l:[`ทีมระดับ ${o.rw}`, `ล้มยักษ์ระดับ ${o.rl}`]};
+  if (!o.assisted && o.rw && o.rl && o.rw > o.rl) return {k:"ช็อก!", l:[`ทีมระดับ ${o.rw}`, `ล้มยักษ์ระดับ ${o.rl}`]};
   if (o.rankAfter === 1 && o.rankBefore !== 1) return {k:"ขึ้นแชมป์!", l:["ยึดบัลลังก์", "แชมป์อ่ะครับ!!"]};
   if (o.streak >= 3) return {k:"ไฟลุก 🔥", l:["ชนะติดกัน", `${o.streak} นัดแล้ว`]};
   if (o.gw - o.gl >= 3) return {k:"ถล่มยับ!", l:["ชนะขาด", `ห่าง ${o.gw - o.gl} ลูก`]};
@@ -1248,12 +1310,17 @@ function headlineOf(o){
 function drawResult(m){
   const before = statsOf(S.matches.filter(x => x.id !== m.id));
   const after = statsOf([...S.matches.filter(x => x.id !== m.id), m]);
-  const da = after.delta[m.id] || 0;
+  const da = after.delta[m.id] || 0, db = after.deltaB && after.deltaB[m.id] !== undefined ? after.deltaB[m.id] : -da;
   const draw = m.ga === m.gb;
+  const bA = before.by[m.a], bB = before.by[m.b];
+  if (bA && bB && bA.rookie && bB.rookie) return drawRookieDuel(m, before, after, da, db);
   const aHero = draw ? (m.late === "a" ? true : m.late === "b" ? false : da >= 0) : m.ga > m.gb;
-  const H = aHero ? {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da} : {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:-da};
-  const L = aHero ? {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:-da} : {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da};
-  const o = {draw, gw:H.g, gl:L.g, rw:H.r, rl:L.r, dw:H.d, late: (m.late === "a" || m.late === "b") && (m.late === "a") === aHero,
+  const H = aHero ? {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da} : {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:db};
+  const L = aHero ? {id:m.b, t:m.tb, r:m.rb, g:m.gb, d:db} : {id:m.a, t:m.ta, r:m.ra, g:m.ga, d:da};
+  const hA = after.by[H.id], gradHere = after.gradMatch && after.gradMatch[m.id] === H.id;
+  const o = {draw, gw:H.g, gl:L.g, rw:H.r, rl:L.r, dw:H.d,
+    assisted: !!(after.assisted && after.assisted[m.id]), loserRookie: !draw && !!(before.by[L.id] && before.by[L.id].rookie),
+    grad: !draw && gradHere, firstWin: !draw && !!(hA && hA.rk.win && hA.rk.win.id === m.id), late: (m.late === "a" || m.late === "b") && (m.late === "a") === aHero,
     champBeat: !!after.champBeat[m.id], rankBefore: before.rank[H.id], rankAfter: after.rank[H.id],
     streak: after.by[H.id] ? streakOf(after.by[H.id].form).t === "W" ? streakOf(after.by[H.id].form).n : 0 : 0};
   const hl = headlineOf(o);
@@ -1290,7 +1357,9 @@ function drawResult(m){
 
   const rb = o.rankBefore, ra = o.rankAfter;
   const rankTxt = ra ? (rb && ra < rb ? `ขึ้นอันดับ ${ra} ▲${rb - ra}` : rb && ra > rb ? `อันดับ ${ra} ▼${ra - rb}` : `อันดับ ${ra}`) : "";
-  ctx.fillStyle = C.muted; ctx.font = `500 30px ${FB}`; ctx.fillText(rankTxt, 60, 1240);
+  let bottomTxt = rankTxt;
+  if (o.grad && hA){ const hs = Object.keys(hA.helpers).map(nameOf); if (hs.length) bottomTxt = "ขอบคุณพี่เลี้ยง: " + hs.join(", "); }
+  ctx.fillStyle = o.grad ? C.gold : C.muted; fit(ctx, bottomTxt, `500 {s}px ${FB}`, 30, 960); ctx.fillText(bottomTxt, 60, 1240);
   fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 520); ctx.fillText(linkText(), 60, 1290);
   const eloNow = after.by[H.id] ? Math.round(after.by[H.id].elo) : START;
   const dTxt = (H.d > 0 ? "+" : H.d < 0 ? "−" : "±") + Math.abs(H.d);
@@ -1299,7 +1368,35 @@ function drawResult(m){
   ctx.fillStyle = C.ink; ctx.font = `700 40px ${FD}`; fillR(ctx, String(eloNow), 1020 - dw - 14, 1284);
   const ew = ctx.measureText(String(eloNow)).width;
   ctx.font = `600 34px ${FB}`; fillR(ctx, "เรต", 1020 - dw - 14 - ew - 12, 1284);
-  return {cv, text: `${nameOf(m.a)} ${m.ga}–${m.gb} ${nameOf(m.b)} · Signal13 League`};
+  return {cv, text: `${nameOf(m.a)} ${m.ga}–${m.gb} ${nameOf(m.b)} · Signal13 League`, assisted: o.assisted};
+}
+/* ศึกมือใหม่: มือใหม่เจอมือใหม่ แสดงทั้งคู่เท่ากัน */
+function drawRookieDuel(m, before, after, da, db){
+  const W = 1080, Ht = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = Ht;
+  const ctx = cv.getContext("2d");
+  backdrop(ctx, W, Ht, 760, "#2fd27f", "#9cf07a");
+  topTag(ctx, shortDate(m.at) + (m.g && GROUPS[m.g] ? " · " + GROUPS[m.g].n : ""));
+  const draw = m.ga === m.gb, aw = m.ga > m.gb;
+  const wid = draw ? null : aw ? m.a : m.b, wA = wid && after.by[wid];
+  const first = !!(wA && wA.rk.win && wA.rk.win.id === m.id);
+  kicker(ctx, first ? "ชัยชนะแรก! 🏅" : "ศึกมือใหม่ 🌱", 1020, 214);
+  const head = draw ? "สูสีกันทั้งคู่ 🤝" : first ? `${nameOf(wid)} ชนะครั้งแรก!` : "ดาวรุ่งปะทะดาวรุ่ง!";
+  ctx.fillStyle = C.ink; fit(ctx, head, `700 {s}px ${FD}`, 80, 900); fillR(ctx, head, 1020, 390);
+  const side = (id, t, r, g, d, x, won) => {
+    avatar(ctx, id, x - 130, 470, 260);
+    ctx.fillStyle = C.ink; fit(ctx, "🌱 " + nameOf(id), `700 {s}px ${FD}`, 60, 440); fillC(ctx, "🌱 " + nameOf(id), x, 820);
+    ctx.fillStyle = C.volt; fit(ctx, teamName(t || ""), `700 {s}px ${FD}`, 34, 420); fillC(ctx, teamName(t || ""), x, 872);
+    const lab = draw ? "🤝 เสมอ" : won ? "🏆 ชนะ" : "💪 เก็บประสบการณ์";
+    ctx.fillStyle = won ? C.gold : C.muted; ctx.font = `700 36px ${FB}`; fillC(ctx, lab, x, 940);
+    const dt = (d > 0 ? "+" : d < 0 ? "−" : "±") + Math.abs(d);
+    ctx.fillStyle = d >= 0 ? C.win : C.loss; ctx.font = `700 34px ${FD}`; fillC(ctx, "เรต " + dt, x, 992);
+  };
+  side(m.a, m.ta, m.ra, m.ga, da, 270, aw);
+  side(m.b, m.tb, m.rb, m.gb, db, 810, !draw && !aw);
+  ctx.fillStyle = C.ink; ctx.fillRect(420, 1060, 240, 130);
+  ctx.fillStyle = C.night; ctx.font = `700 96px ${FD}`; fillC(ctx, `${m.ga}–${m.gb}`, 540, 1160);
+  ctx.fillStyle = C.muted; fit(ctx, linkText(), `400 {s}px ${FD}`, 28, 900); ctx.fillText(linkText(), 60, 1290);
+  return {cv, text: `ศึกมือใหม่ ${nameOf(m.a)} ${m.ga}–${m.gb} ${nameOf(m.b)} · Signal13 League`, assisted: false};
 }
 
 function sortedMatches(){ return [...S.matches].sort((x,y) => x.at - y.at || String(x.id).localeCompare(String(y.id))); }
@@ -1307,12 +1404,12 @@ function recentInfo(){
   const sorted = sortedMatches(), recent = sorted.slice(-10), older = sorted.slice(0, -10);
   const all = S.res || statsOf(S.matches);
   const gain = {};
-  recent.forEach(x => { const d = all.delta[x.id] || 0; gain[x.a] = (gain[x.a]||0) + d; gain[x.b] = (gain[x.b]||0) - d; });
+  recent.forEach(x => { const d = all.delta[x.id] || 0, d2 = all.deltaB && all.deltaB[x.id] !== undefined ? all.deltaB[x.id] : -d; gain[x.a] = (gain[x.a]||0) + d; gain[x.b] = (gain[x.b]||0) + d2; });
   const mvp = Object.entries(gain).sort((a,b) => b[1] - a[1])[0];
   return {recent, older, gain, mvp: mvp && mvp[1] > 0 ? {id: mvp[0], g: mvp[1]} : null, all};
 }
 function emojiLine(id, st){
-  let s = ttlOf(id).map(k => TITLES[k].e).join("");
+  let s = (isRookie(id) ? "🌱" : "") + ttlOf(id).map(k => TITLES[k].e).join("");
   if (st && st.n >= 3) s += (st.t === "W" ? "🔥" : "🧊") + st.n;
   return s;
 }
@@ -1378,13 +1475,13 @@ function drawTable(){
 }
 
 function summaryInfo(){
-  const info = recentInfo(), d = info.all.delta;
+  const info = recentInfo(), d = info.all.delta, dB = info.all.deltaB || {};
   const recent = [...info.recent].reverse();
   let shock = null, thrash = null, goals = 0;
   recent.forEach(x => {
     goals += x.ga + x.gb;
     if (x.ga === x.gb) return;
-    const wa = x.ga > x.gb, g = wa ? (d[x.id] || 0) : -(d[x.id] || 0), mg = Math.abs(x.ga - x.gb);
+    const wa = x.ga > x.gb, g = wa ? (d[x.id] || 0) : (dB[x.id] !== undefined ? dB[x.id] : -(d[x.id] || 0)), mg = Math.abs(x.ga - x.gb);
     if (!shock || g > shock.g) shock = {x, g, w: wa ? x.a : x.b};
     if (!thrash || mg > thrash.mg || (mg === thrash.mg && x.ga + x.gb > thrash.x.ga + thrash.x.gb)) thrash = {x, mg};
   });
@@ -1540,7 +1637,7 @@ function renderProfile(id){
         : `<div class="nm" id="pfName">${esc(nameOf(id))} ${stHtml(row.st)}<button class="edit" id="pfEdit" aria-label="แก้ชื่อ">✏️</button></div>`}
       <div class="sub num">${rank ? `อันดับ <b>${rank}</b> · ` : ""}เรต <b>${Math.round(r.elo)}</b> · ${r.w}-${r.d}-${r.l}${gp && gp < SETTLED ? " · ยังไม่นิ่ง" : ""}</div>
       <button class="mebtn ${meId() === id ? "set" : ""}" id="pfMe">${meId() === id ? "✓ นี่คือคุณ · กดถ้าไม่ใช่แล้ว" : "👤 นี่คือฉัน"}</button>
-      ${t.length ? `<div class="tchips">${t.map(k => `<span class="tchip">${TITLES[k].e} ${esc(TITLES[k].n)}</span>`).join("")}</div>` : ""}
+      ${t.length || r.rookie || r.grad ? `<div class="tchips">${r.rookie ? `<span class="tchip rk">🌱 มือใหม่ · ชนะอีก ${Math.max(1, 3 - r.w)} นัดจบหลักสูตร</span>` : r.grad ? '<span class="tchip rk">🎓 จบหลักสูตรมือใหม่</span>' : ""}${t.map(k => `<span class="tchip">${TITLES[k].e} ${esc(TITLES[k].n)}</span>`).join("")}</div>` : ""}
     </div>
     <p class="pfnote" id="pfNote" role="status">${esc(S.pfNote || "")}</p>
     <button class="colbtn" id="pfCards"><span class="ic">🃏</span><span><b>การ์ดสะสม</b><small>แตะเพื่อดูและแชร์การ์ด</small></span><span class="ct num">${haveN}<span>/${cards.length}</span></span><span class="ar">›</span></button>
@@ -1615,7 +1712,14 @@ const CARDS = {
   shock:     {e:"⚡", n:"ช็อกโลก",          kind:"p", c:"#7fe3ff", c2:"#4fd2ff", how:"ใช้ทีมระดับ 3 ชนะทีมระดับ 1"},
   cs:        {e:"🧤", n:"คลีนชีท",         kind:"p", c:"#5fe0a8", c2:"#36c98a", how:"ชนะโดยไม่เสียประตู (ไม่นับ 0–0)"},
   late:      {e:"⏱️", n:"นาทีบาป",         kind:"p", c:"#ff8fc7", c2:"#ff6fb5", how:"ยิงประตูชนะหรือตีเสมอในนาทีบาป (ทดเจ็บ)"},
-  vet:       {e:"🎖️", n:"ทหารผ่านศึก",     kind:"p", c:"#a7c27a", c2:"#8fae5c", how:"ลงเล่นครบ 50 นัด"}
+  vet:       {e:"🎖️", n:"ทหารผ่านศึก",     kind:"p", c:"#a7c27a", c2:"#8fae5c", how:"ลงเล่นครบ 50 นัด"},
+  mentor:    {e:"🧑‍🏫", n:"พี่เลี้ยง",        kind:"p", c:"#5fe0a8", c2:"#36c98a", how:"เตะกับมือใหม่ครบ 5 นัด (แพ้หรือชนะก็นับ)"},
+  boost:     {e:"🌟", n:"ปั้นดาวรุ่ง",       kind:"p", c:"#c9a6ff", c2:"#b48cff", how:"เคยเตะกับมือใหม่ที่จบหลักสูตรแล้ว"},
+  rkGoal:    {e:"⚽", n:"ประตูแรก",         kind:"r", c:"#7fe3ff", c2:"#4fd2ff", how:"ตอนเป็นมือใหม่ ยิงประตูได้"},
+  rkDraw:    {e:"🤝", n:"เสมอครั้งแรก",      kind:"r", c:"#ffe08a", c2:"#ffd15c", how:"ตอนเป็นมือใหม่ เสมอได้"},
+  rkLess:    {e:"📉", n:"แพ้น้อยลง",        kind:"r", c:"#9fd0ff", c2:"#7fb8ff", how:"ตอนเป็นมือใหม่ แพ้ห่างน้อยกว่านัดก่อน"},
+  rkWin:     {e:"🏅", n:"ชนะครั้งแรก",       kind:"r", c:"#ffc94a", c2:"#ffb020", how:"ตอนเป็นมือใหม่ ชนะได้"},
+  grad:      {e:"🎓", n:"จบหลักสูตร",       kind:"r", c:"#ffd36b", c2:"#e8b53a", how:"มือใหม่ชนะครบ 3 นัด"}
 };
 function cardsOf(id){
   const res = S.res || statsOf(S.matches), r = res.by[id]; if (!r) return [];
@@ -1645,13 +1749,25 @@ function cardsOf(id){
   p("late", !!lt, lt ? (() => { const x = lt.x, me = x.a === id, f = me ? x.ga : x.gb, g = me ? x.gb : x.ga;
     return `${f > g ? "เชือด" : "ตีเสมอ"} ${nameOf(me ? x.b : x.a)} นาทีบาป ${f}–${g}`; })() : "", r.late[0] && r.late[0].x.at, r.late.length);
   p("vet", r.gp >= 50, `ลงสนามแล้ว ${r.gp} นัด`, r.gp50At);
+  p("mentor", r.mentorN >= 5, `เตะกับมือใหม่มาแล้ว ${r.mentorN} นัด`, r.mentorAt, Math.floor(r.mentorN / 5));
+  const bz = [...new Set(r.boosted.map(b => b.id))];
+  p("boost", bz.length > 0, `ช่วยปั้น ${bz.map(nameOf).join(", ")} จนจบหลักสูตร`, r.boosted[0] && r.boosted[0].at, bz.length);
+  if (r.everRookie){
+    const op = x => nameOf(x.a === id ? x.b : x.a), sc = x => x.a === id ? `${x.ga}–${x.gb}` : `${x.gb}–${x.ga}`;
+    p("rkGoal", !!r.rk.goal, r.rk.goal ? `ยิงประตูแรกใส่ ${op(r.rk.goal)}` : "", r.rk.goal && r.rk.goal.at);
+    p("rkDraw", !!r.rk.draw, r.rk.draw ? `เสมอ ${op(r.rk.draw)} ${sc(r.rk.draw)}` : "", r.rk.draw && r.rk.draw.at);
+    const ls = r.rk.less[r.rk.less.length - 1];
+    p("rkLess", !!ls, ls ? `แพ้แค่ ${sc(ls)} เก่งขึ้นแล้ว!` : "", r.rk.less[0] && r.rk.less[0].at, r.rk.less.length);
+    p("rkWin", !!r.rk.win, r.rk.win ? `ชนะ ${op(r.rk.win)} ${sc(r.rk.win)}` : "", r.rk.win && r.rk.win.at);
+    p("grad", !!r.grad, r.grad ? `จบหลักสูตรมือใหม่ ชนะครบ 3 นัด` : "", r.grad && r.grad.at);
+  }
   return out.sort((a,b) => b.have - a.have);
 }
 function cardHtml(c){
   const d = CARDS[c.k];
   return `<button type="button" class="pc ${c.have ? "" : "lock"}" data-card="${c.k}" style="--ac:${d.c}" aria-label="การ์ด${esc(d.n)}${c.have ? "" : " (ยังไม่ได้)"}">
     <span class="slab"></span><span class="wm">${d.e}</span>
-    <span class="ptop">${d.kind === "t" ? "ฉายา" : "ถาวร"}${c.count > 1 ? " ×" + c.count : ""}</span>
+    <span class="ptop">${d.kind === "t" ? "ฉายา" : d.kind === "r" ? "มือใหม่" : "ถาวร"}${c.count > 1 ? " ×" + c.count : ""}</span>
     <span class="pt">${d.e} ${esc(d.n)}</span>
     <span class="pcap">${c.have ? esc(c.cap || "") : "🔒 " + esc(c.how || "")}</span>
   </button>`;
@@ -1664,7 +1780,7 @@ function drawCard(id, c){
   ctx.save(); ctx.translate(810, 360); ctx.rotate(-0.17); ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 16;
   ctx.font = "300px sans-serif"; ctx.textBaseline = "middle"; fillC(ctx, d.e, 0, 0); ctx.restore();
   ctx.textBaseline = "alphabetic";
-  topTag(ctx, d.kind === "t" ? "การ์ดฉายา" : "การ์ดถาวร");
+  topTag(ctx, d.kind === "t" ? "การ์ดฉายา" : d.kind === "r" ? "การ์ดมือใหม่" : "การ์ดถาวร");
   if (c.count > 1){
     ctx.font = `700 34px ${FD}`; const t = "×" + c.count, w = ctx.measureText(t).width + 36;
     ctx.fillStyle = "#111"; roundRect(ctx, 1020 - w, 52, w, 56, 8); ctx.fill();
@@ -1757,6 +1873,23 @@ function difficultyOf(id, k){
     p = Math.max(.02, L.lt) * .5;
     why = L.lt ? `ทั้งลีกมีประตูนาทีบาป ${Math.round(L.lt*100)}% ของนัด · ต้องเป็นคนยิงเอง ลุ้นต่อนัด${pct(p)}` : "ยังไม่มีใครเคยได้เลย เป็นคนแรกสิ! ต้องยิงชนะหรือตีเสมอตอนทดเจ็บ";
   }
+  else if (k === "mentor"){
+    const rk = played.filter(x => x.rookie && x.id !== id);
+    if (!rk.length && r.mentorN === 0) return {st: 0, why: "ตอนนี้ยังไม่มีมือใหม่ในลีก ถ้ามีเมื่อไร ชวนมาเตะเลย"};
+    const left = Math.max(1, 5 - r.mentorN);
+    return {st: left <= 1 ? 1 : left <= 3 ? 2 : 3, why: `เตะกับมือใหม่อีก ${left} นัด แพ้หรือชนะก็นับ${rk.length ? " · มือใหม่ตอนนี้: " + rk.map(x => x.name).join(", ") : ""}`};
+  }
+  else if (k === "boost"){
+    const rk = played.filter(x => x.rookie && x.id !== id);
+    if (!rk.length) return {st: 0, why: "ตอนนี้ยังไม่มีมือใหม่ในลีก"};
+    return {st: 3, why: `เตะกับมือใหม่ (${rk.map(x => x.name).join(", ")}) แล้วรอให้เขาชนะครบ 3 นัดจบหลักสูตร`};
+  }
+  else if (k === "rkGoal" || k === "rkDraw" || k === "rkLess" || k === "rkWin" || k === "grad"){
+    if (!r.rookie) return {st: 0, why: "การ์ดนี้ได้ตอนเป็นมือใหม่เท่านั้น"};
+    const t = {rkGoal: [1, "ยิงให้ได้สักลูก ทีมดีกว่าช่วยอยู่ 💪"], rkDraw: [2, "เสมอให้ได้สักนัด"], rkLess: [1, "แพ้ห่างให้น้อยกว่านัดที่แล้ว"],
+      rkWin: [3, "ชนะให้ได้สักนัด ตัวช่วยทีมดีกว่าเปิดอยู่"], grad: [4, `ชนะอีก ${Math.max(1, 3 - r.w)} นัด ก็จบหลักสูตร`]}[k];
+    return {st: t[0], why: t[1]};
+  }
   else if (k === "vet"){
     const left = Math.max(0, 50 - r.gp);
     const st = left <= 5 ? 1 : left <= 15 ? 2 : left <= 30 ? 3 : left <= 45 ? 4 : 5;
@@ -1773,7 +1906,7 @@ function openCardInfo(id, k){
   $("ciBody").innerHTML = `
     <div class="cihead ${c.have ? "" : "lock"}" style="--ac:${d.c}">
       <span class="wm">${d.e}</span>
-      <span class="k">${d.kind === "t" ? "การ์ดฉายา · หายเมื่อเสียฉายา" : "การ์ดถาวร · เก็บตลอดไป"}${c.count > 1 ? " · ×" + c.count : ""}</span>
+      <span class="k">${d.kind === "t" ? "การ์ดฉายา · หายเมื่อเสียฉายา" : d.kind === "r" ? "การ์ดมือใหม่ · เก็บตลอดไป" : "การ์ดถาวร · เก็บตลอดไป"}${c.count > 1 ? " · ×" + c.count : ""}</span>
       <span class="t" id="ciName">${d.e} ${esc(d.n)}</span>
       <span class="c">${c.have ? esc(c.cap || "") : "🔒 ยังไม่ได้"}</span>
     </div>
@@ -1811,7 +1944,8 @@ async function openShareCanvas(cv, filename, title, text, withUndo){
   $("shUndo").hidden = !(withUndo && S.undo);
   $("shareModal").hidden = false;
 }
-async function openResultShare(m){ await prepShare([m.a, m.b]); const r = drawResult(m); await openShareCanvas(r.cv, "signal13-result.png", "แชร์ผลแมตช์", r.text, true); }
+async function openResultShare(m){ await prepShare([m.a, m.b]); const r = drawResult(m); await openShareCanvas(r.cv, "signal13-result.png", "แชร์ผลแมตช์", r.text, true);
+  if (r.assisted) $("shNote").textContent = "🛟 นัดนี้มีตัวช่วยมือใหม่ จึงไม่นับการ์ด ⚡ ช็อกโลก · " + $("shNote").textContent; }
 $("shareTable").addEventListener("click", async () => {
   try{ await prepShare(S.players.map(p => p.id)); const r = drawTable(); await openShareCanvas(r.cv, "signal13-table.png", "แชร์ตารางคะแนน", r.text, false); }
   catch(e){ setMsg("สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง"); }
@@ -2046,13 +2180,12 @@ function localDB(){
 /* ===== แจ้งอัปเดต (v4.1) ===== */
 const SEEN_KEY = "signal13-seen";
 const CHANGES = [
-  "▲▼ ลูกศรอันดับขึ้นลงในตารางและโพเดียม (เทียบก่อน 10 นัดล่าสุด)",
-  "รูปบนโพเดียมใหญ่ขึ้น · แตะอิโมจิเพื่อดูความหมาย",
-  "เลือกกลุ่มทีมก่อนสุ่ม: 🌍 ลีกยุโรป ⚽ พรีเมียร์ลีก 🚩 ทีมชาติ ⭐ UCL พร้อมธีมสีของแต่ละกลุ่ม",
-  "การ์ดใหม่ 🧤 คลีนชีท และ ⏱️ นาทีบาป (เลือกตอนยืนยันผล)",
-  "แตะการ์ดเพื่อดูความยาก ★ เฉพาะตัว · อิโมจิบนการ์ดชัดขึ้น",
-  "🥲 ชนะบ้างนะ ได้พร้อมกันหลายคน (ไม่ชนะ 5 นัดขึ้นไป)",
-  "รูปแชร์ตารางมีจำนวนนัดที่เล่น · แจ้งเตือนเมื่อมีเวอร์ชันใหม่"
+  "🌟 โหมดใหม่ \"ทีมดัง\" รวมสโมสรดังทั่วโลกไว้ให้สุ่ม เช่น Al-Nassr, Flamengo, Inter Miami",
+  "🌱 ตัวช่วยมือใหม่: ใครเพิ่งหัดเล่น แอปติดป้าย 🌱 ให้เอง ได้ทีมดีกว่าตอนสุ่ม และแพ้แล้วเสียเรตน้อยลง",
+  "🏅 การ์ดสำหรับมือใหม่: ประตูแรก, เสมอครั้งแรก, แพ้น้อยลง, ชนะครั้งแรก และ 🎓 จบหลักสูตร (ชนะครบ 3 นัด)",
+  "🧑‍🏫 รุ่นพี่ที่เตะกับมือใหม่ ได้การ์ดพี่เลี้ยง และการ์ดปั้นดาวรุ่ง",
+  "🌱 มือใหม่เจอมือใหม่ ได้รูปแชร์แบบพิเศษ \"ศึกมือใหม่\"",
+  "AC Milan เปลี่ยนชื่อเป็น Milano FC ให้ตรงกับในเกม"
 ];
 function verCmp(a, b){ const x = String(a).split(".").map(Number), y = String(b).split(".").map(Number);
   for (let i = 0; i < Math.max(x.length, y.length); i++){ const d = (x[i] || 0) - (y[i] || 0); if (d) return d; } return 0; }
